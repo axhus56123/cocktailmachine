@@ -24,8 +24,14 @@ public class ConnectActivity extends AppCompatActivity {
     private String name, address;
 
     private Button buttonConnect, buttonDisconnect, buttonSend;
-    private EditText textInput;
+    private EditText textInput1;
+    private EditText textInput2;
+    private EditText textInput3;
     private TextView textContent;
+
+    private TextView textInput1TextView;
+    private TextView textInput2TextView;
+    private TextView textInput3TextView;
 
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothSocket socket;
@@ -65,7 +71,12 @@ public class ConnectActivity extends AppCompatActivity {
         buttonConnect = findViewById(R.id.buttonConnect);
         buttonDisconnect = findViewById(R.id.buttonDisconnect);
         buttonSend = findViewById(R.id.buttonSend);
-        textInput = findViewById(R.id.textInput);
+        textInput1 = findViewById(R.id.textInput1);
+        textInput2 = findViewById(R.id.textInput2);
+        textInput3 = findViewById(R.id.textInput3);
+        textInput1TextView = findViewById(R.id.textInput1TextView);
+        textInput2TextView = findViewById(R.id.textInput2TextView);
+        textInput3TextView = findViewById(R.id.textInput3TextView);
         textContent = findViewById(R.id.textContent);
 
         buttonConnect.setOnClickListener(new View.OnClickListener() {
@@ -89,14 +100,27 @@ public class ConnectActivity extends AppCompatActivity {
             }
         });
 
-        textInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        textInput1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
                 send();
                 return false;
             }
         });
-
+        textInput2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+                send();
+                return false;
+            }
+        });
+        textInput3.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+                send();
+                return false;
+            }
+        });
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
@@ -112,7 +136,7 @@ public class ConnectActivity extends AppCompatActivity {
         reader.start();
     }
 
-    private void connect() {
+    private void connect() { //連接
         final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
 
         try {
@@ -125,7 +149,7 @@ public class ConnectActivity extends AppCompatActivity {
         }
     }
 
-    private void disconnect() {
+    private void disconnect() { //段開連接
         if (socket == null) return;
 
         try {
@@ -138,14 +162,28 @@ public class ConnectActivity extends AppCompatActivity {
         }
     }
 
-    private void send() {
+    private void send() { //傳送資料
         if (outputStream == null) return;
 
         try {
-            outputStream.write(textInput.getText().toString().getBytes());
+            outputStream.write(textInput1.getText().toString().getBytes());
+            //outputStream.flush();
+            outputStream.write('.');
+            outputStream.write(textInput2.getText().toString().getBytes());
+            //outputStream.flush();
+            outputStream.write('.');
+            outputStream.write(textInput3.getText().toString().getBytes());
+            outputStream.write('.');
             outputStream.flush();
 
-            textInput.setText("");
+            textInput1TextView.setText("飲料1設定為 "+textInput1.getText()+" ml");
+            textInput2TextView.setText("飲料2設定為 "+textInput2.getText()+" ml");
+            textInput3TextView.setText("飲料3設定為 "+textInput3.getText()+" ml");
+
+            textInput1.setText("");
+            textInput2.setText("");
+            textInput3.setText("");
+
         } catch (IOException e) {
             e.printStackTrace();
         }

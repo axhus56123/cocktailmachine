@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) { //發現遠程設備，接收每台發現的設備的相關信息。
                 final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (device == null) return;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
                 discoveredDevices.add(device);
                 updateList();
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) { //本地藍牙適配器已完成設備發現過程
                 stopDiscovery();
             }
         }
@@ -67,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
         final DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
 
 
-        recyclerViewAdapter = new RecyclerViewAdapter();
+        recyclerViewAdapter = new RecyclerViewAdapter(); //建立藍芽動態清單
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter(); //查詢裝置是否支援藍芽
         if (bluetoothAdapter == null) {
             new AlertDialog.Builder(this)
                     .setTitle("本裝置不支援藍芽功能")
@@ -132,14 +132,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void startDiscovery() {
         bluetoothAdapter.startDiscovery();
-        buttonDiscovery.setText("正在搜尋藍芽裝置…");
+        buttonDiscovery.setText("正在更新…");
     }
 
     private void stopDiscovery() {
         if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
         }
-        buttonDiscovery.setText("搜尋附近的藍芽裝置");
+        buttonDiscovery.setText("更新已儲存的藍芽裝置");
     }
 
     private void discoverDevices() {
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateList() {
         recyclerViewAdapter.notifyDataSetChanged();
-    }
+    } //更新藍芽清單
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        void loadDevice(@NonNull BluetoothDevice device, boolean isPaired) {
+        void loadDevice(@NonNull BluetoothDevice device, boolean isPaired) { //載入已儲存到的藍芽裝置
             this.device = device;
             this.isPaired = isPaired;
 
