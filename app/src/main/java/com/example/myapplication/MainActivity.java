@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /**取得定位權限(搜尋Wifi要記得開定位喔)*/
+        /**取得定位權限*/
         getPermission();
         /**取得WifiManager*/
         wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         /**跳出畫面則停止掃描*/
         handler.removeCallbacks(searchWifi);
-        /**斷開現在正連線著的Wifi(Wifi下篇新增內容)*/
+        /**斷開現在正連線著的Wifi*/
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 /**若為Android10的手機，則在此執行斷線*/
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
     }
 
-    /**點擊指定的Wifi後執行連線(Wifi下篇新增內容)*/
+    /**點擊指定的Wifi後執行連線*/
     private RecyclerViewAdapter.OnItemClick onItemClick = scanResult -> {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         connectivityManager.requestNetwork(request, mNetwork);
     }
 
-    /**Android10↓的連線(Wifi下篇)*/
+
     private void connectWifi(String tagSsid, String tagPassword) {
         String ssid = "\"" + tagSsid + "\"";
         String password = "\"" + tagPassword + "\"";
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    /**廣播Wifi的所有狀態(Wifi下篇新增內容)*/
+    /**廣播Wifi的所有狀態*/
     private class WifiBroadcastReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -315,8 +315,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonOnClick(View view) {
-        Toast toast = Toast.makeText(this, "按鈕已經被點擊", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, "進行調飲", Toast.LENGTH_SHORT);
         toast.show();
+        Intent main2ActivityIntent = new Intent(MainActivity.this, drink.class);
+        startActivity(main2ActivityIntent);
     }
+
 
 }
