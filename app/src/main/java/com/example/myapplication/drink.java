@@ -69,14 +69,32 @@ public class drink extends AppCompatActivity {
             // TODO Auto-generated method stub
             try{
                 // IP為Server端
-                InetAddress serverIp = InetAddress.getByName("192.168.2.187");
+                InetAddress serverIp = InetAddress.getByName("192.168.0.1");
                 int serverPort = 5050;
                 clientSocket = new Socket(serverIp, serverPort);
                 inputStream = clientSocket.getInputStream();
                 outputStream = clientSocket.getOutputStream();
-
+                //取得網路輸出串流
+                bw = new BufferedWriter( new OutputStreamWriter(clientSocket.getOutputStream()));
+                // 取得網路輸入串流
+                br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                // 當連線後
+                while (clientSocket.isConnected()) {
+                    // 取得網路訊息
+                    tmp = br.readLine();    //宣告一個緩衝,從br串流讀取值
+                    // 如果不是空訊息
+                    if(tmp!=null){
+                        //將取到的String抓取{}範圍資料
+                        tmp=tmp.substring(tmp.indexOf("{"), tmp.lastIndexOf("}") + 1);
+                        json_read=new JSONObject(tmp);
+                        //從java伺服器取得值後做拆解,可使用switch做不同動作的處理
+                    }
+                }
             }catch(Exception e){
+                //當斷線時會跳到catch,可以在這裡寫上斷開連線後的處理
                 e.printStackTrace();
+                Log.e("text","Socket連線="+e.toString());
+                finish();    //當斷線時自動關閉房間
             }
         }
     };
