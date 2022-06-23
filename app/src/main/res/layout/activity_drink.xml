@@ -11,19 +11,21 @@
         android:id="@+id/drinkinput1"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginStart="4dp"
         android:ems="5"
         android:hint="請輸入飲料1(毫升)"
         android:inputType="number"
         android:maxLength="3"
         app:layout_constraintBottom_toTopOf="@+id/drinkinput2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.881" />
 
     <EditText
         android:id="@+id/drinkinput2"
         android:layout_width="200dp"
         android:layout_height="50dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="277dp"
         android:ems="5"
         android:hint="請輸入飲料2(毫升)"
@@ -32,14 +34,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.193" />
+        app:layout_constraintVertical_bias="0.522" />
 
     <EditText
         android:id="@+id/drinkinput3"
         android:layout_width="200dp"
         android:layout_height="50dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="31dp"
-        android:layout_marginBottom="522dp"
+        android:layout_marginBottom="402dp"
         android:ems="5"
         android:hint="請輸入飲料3(毫升)"
         android:inputType="number"
@@ -47,28 +50,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/drinkinput2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.846" />
 
     <Button
-        android:id="@+id/output"
+        android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
         android:layout_marginEnd="317dp"
-        android:layout_marginBottom="452dp"
+        android:layout_marginBottom="352dp"
         android:text="送出"
-        android:onClick="outputml"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drinkinput3" />
+        app:layout_constraintTop_toBottomOf="@+id/drinkinput3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/input1textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="48dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -77,8 +81,8 @@
         android:id="@+id/input2textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="600dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="500dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -87,11 +91,40 @@
         android:id="@+id/input3textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="520dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="428dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="256dp"
+        android:layout_marginTop="36dp"
+        android:text="連線"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="55dp"
+        android:hint="輸入ip"
+        android:ems="10"
+        android:inputType="text"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/drinkinput1"
+        app:layout_constraintEnd_toStartOf="@+id/connect"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

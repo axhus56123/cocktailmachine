@@ -2,11 +2,15 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -19,13 +23,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class drink extends AppCompatActivity {
 
 
+    private Button send ,connect;
     private EditText drinkinput1;
     private EditText drinkinput2;
     private EditText drinkinput3;
+    private EditText ip;
     private TextView input1textView;
     private TextView input2textView;
     private TextView input3textView;
@@ -33,7 +40,7 @@ public class drink extends AppCompatActivity {
     private OutputStream outputStream;
 
     private Thread thread;                //執行緒
-    private Socket clientSocket;        //客戶端的socket
+    private Socket socket = null;
     private BufferedWriter bw;            //取得網路輸出串流
     private BufferedReader br;            //取得網路輸入串流
     private String tmp;                    //做為接收時的緩存
@@ -48,22 +55,107 @@ public class drink extends AppCompatActivity {
         setContentView(R.layout.activity_drink);
 
 
-        thread=new Thread(Connection);                //賦予執行緒工作
-        thread.start();                    //讓執行緒開始執行
+        /*thread=new Thread(Connection);                //賦予執行緒工作
+        thread.start();*/                    //讓執行緒開始執行
 
-
+        send = findViewById(R.id.send);
+        connect = findViewById(R.id.connect);
         drinkinput1 = findViewById(R.id.drinkinput1);
         drinkinput2 = findViewById(R.id.drinkinput2);
         drinkinput3 = findViewById(R.id.drinkinput3);
+        ip = findViewById(R.id.ip);
         input1textView = findViewById(R.id.input1textView);
         input2textView = findViewById(R.id.input2textView);
         input3textView = findViewById(R.id.input3textView);
 
+        findViewById(R.id.connect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connect();
+            }
+        });
+        findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+
     }
 
 
+    public void connect()  {
+        AsyncTask <Void ,String ,Void> read = new AsyncTask<Void, String, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    socket = new Socket(ip.getText().toString(),1234);
+                    bw = new BufferedWriter( new OutputStreamWriter(socket.getOutputStream()));
+                    br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                } catch(UnknownHostException e){
+                    Toast.makeText(drink.this,"無法連接",Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    Toast.makeText(drink.this,"無法連接",Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+
+                try{
+                    String line;
+                    while((line = br.readLine())!=null){
+                        publishProgress(line);
+                    }
+
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onProgressUpdate(String... values) {
+                Toast.makeText(drink.this,"連接成功",Toast.LENGTH_SHORT).show();
+
+                super.onProgressUpdate(values);
+            }
+
+        };
+        read.execute();
+
+
+    }
+    public void send() {
+            try{
+                bw.write(drinkinput1.getText().toString()+"\n");
+                bw.flush();
+                bw.write(drinkinput2.getText().toString());
+                bw.flush();
+                bw.write(drinkinput3.getText().toString());
+                bw.flush();
+
+
+                input1textView.setText("飲料1設定為 "+drinkinput1.getText()+" ml");
+                input2textView.setText("飲料2設定為 "+drinkinput2.getText()+" ml");
+                input3textView.setText("飲料3設定為 "+drinkinput3.getText()+" ml");
+
+                drinkinput1.setText("");
+                drinkinput2.setText("");
+                drinkinput3.setText("");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+
+
+
+    }
+
+
+
     //連結socket伺服器做傳送與接收
-    private Runnable Connection=new Runnable(){
+    /*private Runnable Connection=new Runnable(){
         @Override
         public void run() {
             // TODO Auto-generated method stub
@@ -97,11 +189,11 @@ public class drink extends AppCompatActivity {
                 finish();    //當斷線時自動關閉房間
             }
         }
-    };
+    };*/
 
 
 
-    public void outputml(View view){
+    /*public void send(){
 
 
         try{
@@ -126,7 +218,7 @@ public class drink extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 
 
 }

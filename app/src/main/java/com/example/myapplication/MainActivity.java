@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
-    /**Android10↑的連線(Wifi下篇新增內容)*/
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void connectWifiQ(String ssid, String password) {
         /**Android10以上的手機必須調用WifiNetworkSpecifier*/
