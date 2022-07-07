@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "980982779470",
+    "project_id": "test-b0b69",
+    "storage_bucket": "test-b0b69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980982779470:android:8268551fdb932cd0437d1f",
+        "android_client_info": {
+          "package_name": "com.example.wifitest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980982779470-3rbb4e3uhchugdj6hguchumnhud4lvkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDluJtssy73myPtnlukEZkBJhqPNKdBEhw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980982779470-3rbb4e3uhchugdj6hguchumnhud4lvkh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
