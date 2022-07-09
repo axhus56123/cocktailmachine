@@ -41,6 +41,7 @@ public class Login extends AppCompatActivity {
         loacc = findViewById(R.id.logacc);
         lopass = findViewById(R.id.logpass);
 
+
         tv4 = findViewById(R.id.tv4);
         tv8 = findViewById(R.id.tv8);
 
@@ -73,6 +74,24 @@ public class Login extends AppCompatActivity {
             }
         });
 
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signInWithEmailAndPassword(loacc.getText().toString(),lopass.getText().toString()).addOnCompleteListener(context, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            FirebaseUser user= mAuth.getCurrentUser();
+                            tv8.setText(user.getEmail()+"登入成功");
+                            email = user.getEmail();
+                        }else{
+                            tv8.setText("登入失敗"+task.getException());
+                        }
+                    }
+                });
+            }
+        });
 
     }
 }
