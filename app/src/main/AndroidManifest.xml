@@ -20,6 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wifitest">
         <activity
+            android:name=".favorite"
+            android:exported="false"
+            android:label="@string/title_activity_favorite"
+            android:theme="@style/Theme.Wifitest.NoActionBar" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity

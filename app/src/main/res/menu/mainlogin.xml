@@ -5,9 +5,10 @@
     <item android:id="@+id/login"
         android:title="登入"
         app:showAsAction="never"/>
-    <item android:id="@+id/history"
-        android:title="歷史紀錄"
-        app:showAsAction="never"/>
+    <item
+        android:id="@+id/history"
+        android:title="最愛配方"
+        app:showAsAction="never" />
 
 
 

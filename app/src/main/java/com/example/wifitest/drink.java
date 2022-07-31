@@ -107,15 +107,21 @@ public class drink extends AppCompatActivity {
     } ;
 
     private  void actsend() {
+        if (outputStream == null) return;
         Thread mThread = new Thread(trans);
         mThread.start();
 
     }
 
-    private Runnable trans = new Runnable ()
-    {
+    private Runnable trans = new Runnable (){
+
+
+
+
         public void run (){
             try {
+
+
                 bw.write(drinkinput1.getText().toString());
                 bw.flush();
                 bw.write(drinkinput2.getText().toString());

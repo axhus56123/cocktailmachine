@@ -118,7 +118,6 @@
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/drinkinput1"
-        app:layout_constraintEnd_toStartOf="@+id/connect"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

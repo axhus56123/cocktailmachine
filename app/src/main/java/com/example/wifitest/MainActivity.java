@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    //右上選單
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.mainlogin,menu);
         return super.onCreateOptionsMenu(menu);
@@ -36,14 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(main2ActivityIntent);
                 break;
             case R.id.history:
-                Toast.makeText(this, "按下設定", Toast.LENGTH_SHORT).show();
+                Intent main3ActivityIntent = new Intent(MainActivity.this, favorite.class);
+                startActivity(main3ActivityIntent);
                 break;
             default:
 
         }
         return true;
     }
-
+//操控調飲
     public void buttonOnClick(View view) {
         Toast toast = Toast.makeText(this, "進行調飲", Toast.LENGTH_SHORT);
         toast.show();
