@@ -86,8 +86,11 @@ public class Login extends AppCompatActivity {
                             FirebaseUser user= mAuth.getCurrentUser();
                             tv8.setText(user.getEmail()+"登入成功");
                             email = user.getEmail();
-                            Intent main2ActivityIntent = new Intent(Login.this, MainActivity.class);
-                            startActivity(main2ActivityIntent);
+                            Intent intent = new Intent();
+                            intent.setClass(Login.this,MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            intent.putExtra("email",email);
+                            startActivity(intent);
                         }else{
                             tv8.setText("登入失敗"+task.getException());
                         }

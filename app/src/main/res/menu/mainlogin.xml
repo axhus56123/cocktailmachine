@@ -6,9 +6,15 @@
         android:title="登入"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/history"
+        android:id="@+id/favorite"
         android:title="最愛配方"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/historydrink"
+        android:title="調飲紀錄"
+        app:showAsAction="never" />
+
+
 
 
 

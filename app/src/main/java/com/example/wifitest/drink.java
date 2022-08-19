@@ -1,14 +1,30 @@
 package com.example.wifitest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.json.JSONObject;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -17,31 +33,36 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class drink extends AppCompatActivity {
 
 
 
-
+    private Context context = this;
+    private ListView lv;
     private Button send ,btnconnect;
-    private EditText drinkinput1;
-    private EditText drinkinput2;
-    private EditText drinkinput3;
+    private SeekBar drinkinput1,drinkinput2,drinkinput3;
+    private TextView ml1,ml2,ml3;
     private EditText ip;
-    private TextView input1textView;
-    private TextView input2textView;
-    private TextView input3textView;
     private InputStream inputStream;
     private OutputStream outputStream;
     public Socket socket;
+    private FirebaseFirestore db;
+    private String x_last="0";
+    private String x_select="0";
     private Thread thread;                //執行緒
 
     private BufferedWriter bw;            //取得網路輸出串流
     private BufferedReader br;            //取得網路輸入串流
-    private String tmp;                    //做為接收時的緩存
+    private String tmp;   //做為接收時的緩存
 
-
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser currentuser = auth.getCurrentUser();
 
 
 
@@ -55,12 +76,64 @@ public class drink extends AppCompatActivity {
         drinkinput1 = findViewById(R.id.drinkinput1);
         drinkinput2 = findViewById(R.id.drinkinput2);
         drinkinput3 = findViewById(R.id.drinkinput3);
+        ml1 = findViewById(R.id.drinkml1);
+        ml2 = findViewById(R.id.drinkml2);
+        ml3 = findViewById(R.id.drinkml3);
         ip = findViewById(R.id.ip);
-        input1textView = findViewById(R.id.input1textView);
-        input2textView = findViewById(R.id.input2textView);
-        input3textView = findViewById(R.id.input3textView);
 
 
+        db=FirebaseFirestore.getInstance();
+
+        drinkinput1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ml1.setText("飲料1:"+String.valueOf(progress)+"ml");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        drinkinput2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ml2.setText("飲料2:"+String.valueOf(progress)+"ml");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        drinkinput3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ml3.setText("飲料3:"+String.valueOf(progress)+"ml");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 
 
@@ -76,6 +149,7 @@ public class drink extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 actsend();
+                actsend2();
             }
         });
 
@@ -107,19 +181,78 @@ public class drink extends AppCompatActivity {
     } ;
 
     private  void actsend() {
-        if (outputStream == null) return;
+
+
+        Map<String,Object> order_data= new HashMap<>();
+        order_data.put("Userid",currentuser.getEmail());
+        order_data.put("fin","0");
+        order_data.put("t1",drinkinput1.getProgress());
+        order_data.put("t2",drinkinput2.getProgress());
+        order_data.put("t3",drinkinput3.getProgress());
+
+
+
+
+
+        db.collection("Order").document(currentuser.getEmail()).set(order_data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("結果: ","新增成功");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("結果: ","新增失敗");
+                    }
+                });
+
+
+
+
+
+
+
+        /*if (outputStream == null) return;
         Thread mThread = new Thread(trans);
-        mThread.start();
+        mThread.start();*/
 
     }
+    private  void actsend2(){
+        Map<String,Object> history_data= new HashMap<>();
+        history_data.put("t1",drinkinput1.getProgress());
+        history_data.put("t2",drinkinput2.getProgress());
+        history_data.put("t3",drinkinput3.getProgress());
 
-    private Runnable trans = new Runnable (){
+        Integer x_id=Integer.valueOf(x_last)+1;
+
+        if(x_id>5){
+            x_id=1;
+        }
+
+        db.collection("history:"+currentuser.getEmail()).document(String.valueOf(x_id)).set(history_data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("結果: ","新增成功");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("結果: ","新增失敗");
+                    }
+                });
+        x_last=x_id.toString();
+    }
 
 
 
+   /* private Runnable trans = new Runnable (){
 
         public void run (){
             try {
+
+
 
 
                 bw.write(drinkinput1.getText().toString());
@@ -145,7 +278,7 @@ public class drink extends AppCompatActivity {
 
 
 
-    } ;
+    } ;*/
 
 
 

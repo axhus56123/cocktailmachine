@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -37,6 +39,8 @@ public class favorite extends AppCompatActivity {
     private FirebaseFirestore db;
     private String x_last="0";
     private String x_select="0";
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser currentuser = auth.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,7 @@ public class favorite extends AppCompatActivity {
         add = (Button)findViewById(R.id.btnadd);
         fix = (Button)findViewById(R.id.btnfix);
         del = (Button)findViewById(R.id.btndel);
-        lv = (ListView)findViewById(R.id.LV);
+        lv = (ListView)findViewById(R.id.lv);
         t1 = (EditText)findViewById(R.id.fadrinkinput1);
         t2 = (EditText)findViewById(R.id.fadrinkinput2);
         t3 = (EditText)findViewById(R.id.fadrinkinput3);
