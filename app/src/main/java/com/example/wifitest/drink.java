@@ -213,9 +213,9 @@ public class drink extends AppCompatActivity {
 
 
 
-        /*if (outputStream == null) return;
+        if (outputStream == null) return;
         Thread mThread = new Thread(trans);
-        mThread.start();*/
+        mThread.start();
 
     }
     private  void actsend2(){
@@ -247,7 +247,7 @@ public class drink extends AppCompatActivity {
 
 
 
-   /* private Runnable trans = new Runnable (){
+    private Runnable trans = new Runnable (){
 
         public void run (){
             try {
@@ -255,21 +255,17 @@ public class drink extends AppCompatActivity {
 
 
 
-                bw.write(drinkinput1.getText().toString());
+                bw.write(drinkinput1.getProgress());
                 bw.flush();
-                bw.write(drinkinput2.getText().toString());
+                bw.write(drinkinput2.getProgress());
                 bw.flush();
-                bw.write(drinkinput3.getText().toString());
+                bw.write(drinkinput3.getProgress());
                 bw.flush();
 
 
-                input1textView.setText("飲料1設定為 "+drinkinput1.getText()+" ml");
-                input2textView.setText("飲料2設定為 "+drinkinput2.getText()+" ml");
-                input3textView.setText("飲料3設定為 "+drinkinput3.getText()+" ml");
 
-                drinkinput1.setText("");
-                drinkinput2.setText("");
-                drinkinput3.setText("");
+
+
 
             }catch (IOException e){
                 e.printStackTrace();
@@ -278,7 +274,7 @@ public class drink extends AppCompatActivity {
 
 
 
-    } ;*/
+    } ;
 
 
 
