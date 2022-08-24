@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -162,23 +163,26 @@ public class drink extends AppCompatActivity {
         mThread.start();
     }
 
-    private Runnable connect = new Runnable ()
-    {
+    private Runnable connect = new Runnable () {
 
-        public void run (){
+        public void run() {
             try {
-                socket = new Socket("192.168.2.187" ,1234);
+                socket = new Socket("192.1168.2.187", 1234);
                 bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
 
 
 
-    } ;
+    };
+
+
+
 
     private  void actsend() {
 
@@ -244,7 +248,10 @@ public class drink extends AppCompatActivity {
                 });
         x_last=x_id.toString();
     }
-
+    private  void notfound(){
+        Toast toast = Toast.makeText(this, "Not device found", Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
 
     private Runnable trans = new Runnable (){

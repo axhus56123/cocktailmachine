@@ -65,7 +65,7 @@ public class favorite extends AppCompatActivity {
                 text_data.put("t3",t3.getText().toString());
 
                 Integer x_id=Integer.valueOf(x_last)+1;
-                db.collection("users").document(String.valueOf(x_id)).set(text_data)
+                db.collection("favorite:"+currentuser.getEmail()).document(String.valueOf(x_id)).set(text_data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -89,7 +89,7 @@ public class favorite extends AppCompatActivity {
                 text_data.put("t2",t2.getText().toString());
                 text_data.put("t3",t3.getText().toString());
 
-                db.collection("users").document(x_select).update(text_data)
+                db.collection("favorite:"+currentuser.getEmail()).document(x_select).update(text_data)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -109,7 +109,7 @@ public class favorite extends AppCompatActivity {
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("users").document(x_select).delete();
+                db.collection("favorite:"+currentuser.getEmail()).document(x_select).delete();
                 data_select();
             }
         });
@@ -133,7 +133,7 @@ public class favorite extends AppCompatActivity {
 
     }
     private void data_select(){
-        CollectionReference CR = db.collection("users");
+        CollectionReference CR = db.collection("favorite:"+currentuser.getEmail());
         final List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
         CR.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
