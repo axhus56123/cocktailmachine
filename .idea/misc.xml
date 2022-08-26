@@ -7,11 +7,16 @@
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_favorite.xml" value="0.3515625" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_history.xml" value="0.36614583333333334" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
+        <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_lovedrink.xml" value="0.36614583333333334" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_newlove.xml" value="0.36614583333333334" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/favorite.xml" value="0.23460508701472557" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/favoritelist.xml" value="0.358695652173913" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/historylist.xml" value="0.3651041666666667" />
+        <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/item.xml" value="0.3651041666666667" />
+        <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/love_item.xml" value="0.3651041666666667" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/menu/mainlogin.xml" value="0.36614583333333334" />
+        <entry key="..\:/pccu app/wifitest/app/src/main/res/menu/new_love_menu.xml" value="0.3651041666666667" />
         <entry key="..\:/wifitest/app/src/main/res/layout/activity_drink.xml" value="0.358695652173913" />
         <entry key="..\:/wifitest/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
         <entry key="..\:/wifitest/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />

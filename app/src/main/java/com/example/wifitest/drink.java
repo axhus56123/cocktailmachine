@@ -224,9 +224,9 @@ public class drink extends AppCompatActivity {
     }
     private  void actsend2(){
         Map<String,Object> history_data= new HashMap<>();
-        history_data.put("t1",drinkinput1.getProgress());
-        history_data.put("t2",drinkinput2.getProgress());
-        history_data.put("t3",drinkinput3.getProgress());
+        history_data.put("hisdrink1",drinkinput1.getProgress());
+        history_data.put("hisdrink2",drinkinput2.getProgress());
+        history_data.put("hisdrink3",drinkinput3.getProgress());
 
         Integer x_id=Integer.valueOf(x_last)+1;
 

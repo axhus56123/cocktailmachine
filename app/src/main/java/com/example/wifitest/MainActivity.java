@@ -125,7 +125,7 @@ public class MainActivity<override> extends AppCompatActivity {
                     return true;
                 }
                 else{
-                    Intent main3ActivityIntent = new Intent(MainActivity.this, favorite.class);
+                    Intent main3ActivityIntent = new Intent(MainActivity.this, lovedrink.class);
                     startActivity(main3ActivityIntent);
                     return true;
 

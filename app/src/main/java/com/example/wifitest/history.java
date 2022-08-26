@@ -1,19 +1,35 @@
 package com.example.wifitest;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -24,38 +40,74 @@ import java.util.Map;
 
 public class history extends AppCompatActivity {
 
-    private Context context = this;
-    private ListView lv;
-    private FirebaseFirestore db;
+    private RecyclerView hrecyclerView;
+
+
+
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
+    ProgressDialog progressDialog;
+    private FirebaseFirestore db;
+
+    private FirestoreRecyclerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        lv = (ListView)findViewById(R.id.historylv);
-        db=FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
+        hrecyclerView = findViewById(R.id.hisrecycle);
 
-        CollectionReference CR = db.collection("history:"+currentuser.getEmail());
-        final List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
-        CR.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Query query = db.collection("history:"+currentuser.getEmail());
+        FirestoreRecyclerOptions<hisuser> options = new FirestoreRecyclerOptions.Builder<hisuser>()
+                .setQuery(query, hisuser.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<hisuser, ProductsViewHolder>(options) {
+            @NonNull
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(QueryDocumentSnapshot document: task.getResult()){
-                    Map<String,Object> item=new HashMap<String,Object>();
-                    item.put("id",document.getId());
-                    item.put("t1",document.get("t1"));
-                    item.put("t2",document.get("t2"));
-                    item.put("t3",document.get("t3"));
-                    items.add(item);
-
-
-                }
-                SimpleAdapter SA=new SimpleAdapter(context, items,R.layout.historylist,new String[]{"id","t1","t2","t3"},new int[]{R.id.hisNo,R.id.hislist1,R.id.hislist2,R.id.hislist3});
-                lv.setAdapter(SA);
+            public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item,parent,false);
+                return new ProductsViewHolder(view);
             }
-        });
+
+            @Override
+            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull hisuser model) {
+                holder.hisdrink1.setText(model.getHisdrink1()+"");
+                holder.hisdrink2.setText(model.getHisdrink2()+"");
+                holder.hisdrink3.setText(model.getHisdrink3()+"");
+            }
+        };
+
+        hrecyclerView.setHasFixedSize(true);
+        hrecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        hrecyclerView.setAdapter(adapter);
+
 
     }
+    static class ProductsViewHolder extends  RecyclerView.ViewHolder{
+
+        private TextView hisdrink1,hisdrink2,hisdrink3;
+
+        public ProductsViewHolder(@NonNull View itemView){
+            super(itemView);
+            hisdrink1 = itemView.findViewById(R.id.hisdrink1);
+            hisdrink2 = itemView.findViewById(R.id.hisdrink2);
+            hisdrink3 = itemView.findViewById(R.id.hisdrink3);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
 }
