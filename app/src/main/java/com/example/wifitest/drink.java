@@ -5,26 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,9 +29,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -46,7 +39,7 @@ public class drink extends AppCompatActivity {
 
     private Context context = this;
     private ListView lv;
-    private Button send ,btnconnect;
+    private Button send ,btnconnect,disconnect;
     private SeekBar drinkinput1,drinkinput2,drinkinput3;
     private TextView ml1,ml2,ml3;
     private EditText ip;
@@ -74,6 +67,7 @@ public class drink extends AppCompatActivity {
 
         send = findViewById(R.id.send);
         btnconnect = findViewById(R.id.btnconnect);
+        disconnect = findViewById(R.id.btndisconnect);
         drinkinput1 = findViewById(R.id.drinkinput1);
         drinkinput2 = findViewById(R.id.drinkinput2);
         drinkinput3 = findViewById(R.id.drinkinput3);
@@ -154,6 +148,26 @@ public class drink extends AppCompatActivity {
             }
         });
 
+        disconnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                disConnect();
+            }
+        });
+
+
+    }
+
+    private void disConnect()  {
+        if (socket == null) return;
+        try{
+            socket.close();
+            socket = null;
+            bw = null;
+            br = null;
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -172,7 +186,9 @@ public class drink extends AppCompatActivity {
                 br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Looper.prepare();
+                Toast.makeText(getApplicationContext(),"not found",Toast.LENGTH_SHORT).show();
+                Looper.loop();
 
             }
         }
@@ -217,7 +233,7 @@ public class drink extends AppCompatActivity {
 
 
 
-        if (outputStream == null) return;
+
         Thread mThread = new Thread(trans);
         mThread.start();
 
@@ -257,7 +273,9 @@ public class drink extends AppCompatActivity {
     private Runnable trans = new Runnable (){
 
         public void run (){
+            if (bw == null) return;
             try {
+
 
 
 
@@ -275,13 +293,16 @@ public class drink extends AppCompatActivity {
 
 
             }catch (IOException e){
-                e.printStackTrace();
+                Looper.prepare();
+                Toast.makeText(getApplicationContext(),"not connect",Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
         }
 
 
 
     } ;
+
 
 
 
