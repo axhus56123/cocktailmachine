@@ -6,15 +6,15 @@ const int LOADCELL_DOUT_PIN = 12;
 const int LOADCELL_SCK_PIN = 13;
 
 HX711 scale;
-#define clk 34
-#define dt 4
-#define sw 35
-#define in1 20
-#define in2 18
-#define in3 17
-#define in4 16
-#define in5 15
-#define in6 14
+#define clk 2
+#define dt 3
+#define sw 4
+#define in1 5
+#define in2 6
+#define in3 7
+#define in4 8
+#define in5 9
+#define in6 10
 
 volatile boolean TurnDetected;
 volatile boolean up;
@@ -36,6 +36,8 @@ void setup() {
   Serial.begin(9600);
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
   lcd.begin(16, 2);
+  lcd.init();
+  lcd.backlight();
   pinMode(sw, INPUT_PULLUP);
   pinMode(clk, INPUT);
   pinMode(dt, INPUT);
@@ -159,43 +161,62 @@ void loop() {
       delay(100);
       lcd.clear();
       lcd.print("Pump 1 ON");
-      digitalWrite(in1, HIGH);
-      while (scale.read() - weight < 3000) {
-
+      
+      if(pump1ml > 0){
+        digitalWrite(in1, HIGH);
+        while (scale.read() - weight < 3000) {}
+        delay((pump1ml/10)*2800);
+        digitalWrite(in1, LOW);
       }
+      else{
+        delay(500);
+      }
+      
       lcd.clear();
       lcd.print(pump1ml);
       lcd.print("ml");
-      delay((pump1ml/11)*1000);
-      digitalWrite(in1, LOW);
+      
       delay(2000);
       weight = scale.read();
       delay(100);
       lcd.clear();
       lcd.print("Pump 2 ON");
-      digitalWrite(in3, HIGH);
-      while (scale.read() - weight < 3000) {
 
+      if(pump2ml > 0){
+        digitalWrite(in3, HIGH);
+        while (scale.read() - weight < 3000) {}
+      
+        delay((pump2ml/10)*2800);
+        digitalWrite(in3, LOW);
       }
+      else{
+        delay(500);
+      }
+      
       lcd.clear();
       lcd.print(pump2ml);
       lcd.print("ml");
-      delay((pump2ml/12)*1000);
-      digitalWrite(in3, LOW);
+      
       delay(2000);
       weight = scale.read();
       delay(100);
       lcd.clear();
       lcd.print("Pump 3 ON");
-      digitalWrite(in5, HIGH);
-      while (scale.read() - weight < 3000) {
 
+      if(pump3ml > 0){
+        digitalWrite(in5, HIGH);
+        while (scale.read() - weight < 3000) {}
+        delay((pump3ml/10)*2800);
+        digitalWrite(in5, LOW);
       }
+      else{
+        delay(500);
+      }
+
       lcd.clear();
       lcd.print(pump3ml);
       lcd.print("ml");
-      delay((pump3ml/12)*1000);
-      digitalWrite(in5, LOW);
+      
       delay(2000);
       changestate = 0;
     }

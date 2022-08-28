@@ -11,15 +11,15 @@
 //Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
 
-// Insert your network credentials
-#define WIFI_SSID "REPLACE_WITH_YOUR_SSID"
-#define WIFI_PASSWORD "REPLACE_WITH_YOUR_PASSWORD"
+//連線的WIFI id&密碼
+#define WIFI_SSID "haha"
+#define WIFI_PASSWORD "0804320324"
 
-// Insert Firebase project API Key
-#define API_KEY "REPLACE_WITH_YOUR_FIREBASE_PROJECT_API_KEY"
+// firebase API 密鑰
+#define API_KEY "AIzaSyDluJtssy73myPtnlukEZkBJhqPNKdBEhw"
 
 // Insert RTDB URLefine the RTDB URL */
-#define DATABASE_URL "REPLACE_WITH_YOUR_FIREBASE_DATABASE_URL" 
+#define DATABASE_URL "https://test-b0b69-default-rtdb.firebaseio.com/" 
 
 //Define Firebase Data object
 FirebaseData fbdo;

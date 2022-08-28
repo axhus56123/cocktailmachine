@@ -1,5 +1,7 @@
 #define RXp2 17
 #define TXp2 16
+#include <HardwareSerial.h>
+
 int val1;
 int val2;
 int val3;
@@ -11,7 +13,8 @@ void setup() {
 }
 void loop() {
   char data[100]={0};
-  
+  size_t setRxBufferSize(size_t);
+
    /*
    if(Serial2.read()){
      Serial2.readBytesUntil('\n',data,100);
@@ -43,6 +46,4 @@ void loop() {
   Serial.println(val1);
   Serial.println(val2);
   Serial.println(val3);
-  goto bailout;
-  bailout:
 }
