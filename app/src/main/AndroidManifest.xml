@@ -25,21 +25,20 @@
             android:parentActivityName=".lovedrink"/>
         <activity
             android:name=".lovedrink"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".history"
-            android:exported="false" />
-        <activity
-            android:name=".favorite"
             android:exported="false"
-            android:label="@string/title_activity_favorite"
-            android:theme="@style/Theme.Wifitest.NoActionBar" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".Login"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".drink"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

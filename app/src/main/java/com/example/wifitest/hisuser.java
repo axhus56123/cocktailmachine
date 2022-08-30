@@ -2,13 +2,19 @@ package com.example.wifitest;
 
 public class hisuser {
 
+    private  String time;
     private long hisdrink1,hisdrink2,hisdrink3;
 
     private hisuser(){}
-    private hisuser(long hisdrink1,long hisdrink2,long hisdrink3){
+    private hisuser(String time,long hisdrink1,long hisdrink2,long hisdrink3){
+        this.time = time;
         this.hisdrink1 = hisdrink1;
         this.hisdrink2 = hisdrink2;
         this.hisdrink3 = hisdrink3;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public long getHisdrink1() {

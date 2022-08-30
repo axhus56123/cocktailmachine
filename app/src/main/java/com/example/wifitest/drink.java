@@ -29,6 +29,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,6 +66,8 @@ public class drink extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
+
+        setTitle("調飲");
 
         send = findViewById(R.id.send);
         btnconnect = findViewById(R.id.btnconnect);
@@ -132,19 +136,19 @@ public class drink extends AppCompatActivity {
 
 
 
-       btnconnect.setOnClickListener(new View.OnClickListener() {
+        btnconnect.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                actconnect();
+                actConnect();
             }
-       });
+        });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actsend();
-                actsend2();
+                actSendOrderToFirebse();
+                actSendHistryToFirebse();
             }
         });
 
@@ -154,8 +158,6 @@ public class drink extends AppCompatActivity {
                 disConnect();
             }
         });
-
-
     }
 
     private void disConnect()  {
@@ -171,8 +173,7 @@ public class drink extends AppCompatActivity {
 
     }
 
-    private void actconnect() {
-
+    private void actConnect() {
         Thread mThread = new Thread(connect);
         mThread.start();
     }
@@ -192,29 +193,20 @@ public class drink extends AppCompatActivity {
 
             }
         }
-
-
-
     };
 
-
-
-
-    private  void actsend() {
-
+    private  void actSendOrderToFirebse() {
+        String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
         Map<String,Object> order_data= new HashMap<>();
         order_data.put("Userid",currentuser.getEmail());
-        order_data.put("fin","0");
-        order_data.put("t1",drinkinput1.getProgress());
-        order_data.put("t2",drinkinput2.getProgress());
-        order_data.put("t3",drinkinput3.getProgress());
+        order_data.put("state","0");
+        order_data.put("drink1",drinkinput1.getProgress());
+        order_data.put("drink2",drinkinput2.getProgress());
+        order_data.put("drink3",drinkinput3.getProgress());
+        order_data.put("time",nowDate);
 
-
-
-
-
-        db.collection("Order").document(currentuser.getEmail()).set(order_data)
+        db.collection("Order:"+currentuser.getEmail()).document().set(order_data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -228,21 +220,20 @@ public class drink extends AppCompatActivity {
                 });
 
 
-
-
-
-
-
-
         Thread mThread = new Thread(trans);
         mThread.start();
 
     }
-    private  void actsend2(){
+
+    private  void actSendHistryToFirebse(){
+
+        String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
         Map<String,Object> history_data= new HashMap<>();
         history_data.put("hisdrink1",drinkinput1.getProgress());
         history_data.put("hisdrink2",drinkinput2.getProgress());
         history_data.put("hisdrink3",drinkinput3.getProgress());
+        history_data.put("time",nowDate);
 
         Integer x_id=Integer.valueOf(x_last)+1;
 
@@ -264,21 +255,16 @@ public class drink extends AppCompatActivity {
                 });
         x_last=x_id.toString();
     }
-    private  void notfound(){
+    private  void notFound(){
         Toast toast = Toast.makeText(this, "Not device found", Toast.LENGTH_SHORT);
         toast.show();
     }
-
 
     private Runnable trans = new Runnable (){
 
         public void run (){
             if (bw == null) return;
             try {
-
-
-
-
 
                 bw.write(drinkinput1.getProgress());
                 bw.flush();
@@ -287,19 +273,12 @@ public class drink extends AppCompatActivity {
                 bw.write(drinkinput3.getProgress());
                 bw.flush();
 
-
-
-
-
-
             }catch (IOException e){
                 Looper.prepare();
                 Toast.makeText(getApplicationContext(),"not connect",Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
         }
-
-
 
     } ;
 

@@ -55,6 +55,7 @@ public class history extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        setTitle("歷史紀錄");
 
         db = FirebaseFirestore.getInstance();
         hrecyclerView = findViewById(R.id.hisrecycle);
@@ -77,6 +78,7 @@ public class history extends AppCompatActivity {
                 holder.hisdrink1.setText(model.getHisdrink1()+"");
                 holder.hisdrink2.setText(model.getHisdrink2()+"");
                 holder.hisdrink3.setText(model.getHisdrink3()+"");
+                holder.time.setText(model.getTime()+"");
             }
         };
 
@@ -88,13 +90,14 @@ public class history extends AppCompatActivity {
     }
     static class ProductsViewHolder extends  RecyclerView.ViewHolder{
 
-        private TextView hisdrink1,hisdrink2,hisdrink3;
+        private TextView hisdrink1,hisdrink2,hisdrink3,time;
 
         public ProductsViewHolder(@NonNull View itemView){
             super(itemView);
             hisdrink1 = itemView.findViewById(R.id.hisdrink1);
             hisdrink2 = itemView.findViewById(R.id.hisdrink2);
             hisdrink3 = itemView.findViewById(R.id.hisdrink3);
+            time = itemView.findViewById(R.id.histime);
         }
     }
 
