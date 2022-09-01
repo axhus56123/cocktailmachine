@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,19 +39,21 @@ import java.util.Map;
 public class drink extends AppCompatActivity {
 
 
-
+    Thread Thread1 = null;
     private Context context = this;
     private ListView lv;
     private Button send ,btnconnect,disconnect;
     private SeekBar drinkinput1,drinkinput2,drinkinput3;
-    private TextView ml1,ml2,ml3;
-    private EditText ip;
+    private TextView ml1,ml2,ml3,tvMessages;
+    private EditText etip,etport;
     private InputStream inputStream;
     private OutputStream outputStream;
     public Socket socket;
     private FirebaseFirestore db;
     private String x_last="0";
     private String x_select="0";
+    String SERVER_IP;
+    int SERVER_PORT;
     private Thread thread;                //執行緒
 
     private BufferedWriter bw;            //取得網路輸出串流
@@ -70,15 +73,18 @@ public class drink extends AppCompatActivity {
         setTitle("調飲");
 
         send = findViewById(R.id.send);
+
         btnconnect = findViewById(R.id.btnconnect);
         disconnect = findViewById(R.id.btndisconnect);
         drinkinput1 = findViewById(R.id.drinkinput1);
         drinkinput2 = findViewById(R.id.drinkinput2);
         drinkinput3 = findViewById(R.id.drinkinput3);
+        tvMessages = findViewById(R.id.tvMessages);
         ml1 = findViewById(R.id.drinkml1);
         ml2 = findViewById(R.id.drinkml2);
         ml3 = findViewById(R.id.drinkml3);
-        ip = findViewById(R.id.ip);
+        etip = findViewById(R.id.ip);
+        etport = findViewById(R.id.port);
 
 
         db=FirebaseFirestore.getInstance();
@@ -140,13 +146,24 @@ public class drink extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                actConnect();
-            }
+                    tvMessages.setText("");
+                    SERVER_IP = etip.getText().toString().trim();
+                    SERVER_PORT = Integer.parseInt(etport.getText().toString().trim());
+                    Thread1 = new Thread(new Thread1());
+                    Thread1.start();
+                }
+
         });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String ml1 = String.valueOf(drinkinput1.getProgress());
+                String ml2 = String.valueOf(drinkinput2.getProgress());
+                String ml3 = String.valueOf(drinkinput3.getProgress());
+                if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()) {
+                    new Thread(new Thread3(ml1,ml2,ml3)).start();
+                }
                 actSendOrderToFirebse();
                 actSendHistryToFirebse();
             }
@@ -182,6 +199,7 @@ public class drink extends AppCompatActivity {
 
         public void run() {
             try {
+                tvMessages.setText("");
                 socket = new Socket("192.1168.2.187", 1234);
                 bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -281,48 +299,82 @@ public class drink extends AppCompatActivity {
         }
 
     } ;
-
-
-
-
-
-//Toast.makeText(drink.this,"連接成功",Toast.LENGTH_SHORT).show();
-
-
-
-
-
-
-
-
-   /* public void send() {
-        try{
-
-
-            bw.write(drinkinput1.getText().toString()+"\n");
-            bw.flush();
-            bw.write(drinkinput2.getText().toString());
-            bw.flush();
-            bw.write(drinkinput3.getText().toString());
-            bw.flush();
-
-
-            input1textView.setText("飲料1設定為 "+drinkinput1.getText()+" ml");
-            input2textView.setText("飲料2設定為 "+drinkinput2.getText()+" ml");
-            input3textView.setText("飲料3設定為 "+drinkinput3.getText()+" ml");
-
-            drinkinput1.setText("");
-            drinkinput2.setText("");
-            drinkinput3.setText("");
-        }catch (IOException e){
-            Toast.makeText(drink.this,"傳送失敗",Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+    private PrintWriter output;
+    private BufferedReader input;
+    class Thread1 implements Runnable {
+        public void run() {
+            Socket socket;
+            try {
+                socket = new Socket(SERVER_IP, SERVER_PORT);
+                output = new PrintWriter(socket.getOutputStream());
+                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvMessages.setText("Connected\n");
+                    }
+                });
+                new Thread(new Thread2()).start();
+            } catch (IOException e) {
+                Looper.prepare();
+                Toast.makeText(getApplicationContext(),"not found",Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
         }
+    }
+    class Thread2 implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    final String message = input.readLine();
+                    if (message != null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tvMessages.append("server: " + message + "\n");
+                            }
+                        });
+                    } else {
+                        Thread1 = new Thread(new Thread1());
+                        Thread1.start();
+                        return;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    class Thread3 implements Runnable {
+        private String ml1,ml2,ml3;
+
+        Thread3(String ml1,String ml2,String ml3) {
+            this.ml1 = ml1;
+            this.ml2 = ml2;
+            this.ml3 = ml3;
+        }
+        @Override
+        public void run() {
+            output.write(ml1);
+            output.write('\n');
+            output.write(ml2);
+            output.write('\n');
+            output.write(ml3);
+
+            output.flush();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    tvMessages.append("client: " + ml1 + "\n");
+                    tvMessages.append("client: " + ml2 + "\n");
+                    tvMessages.append("client: " + ml3 + "\n");
+                }
+            });
+        }
+    }
 
 
-
-
-    }*/
 
 
 
