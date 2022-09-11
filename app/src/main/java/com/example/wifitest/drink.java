@@ -162,7 +162,7 @@ public class drink extends AppCompatActivity {
                 String ml2 = String.valueOf(drinkinput2.getProgress());
                 String ml3 = String.valueOf(drinkinput3.getProgress());
                 if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()) {
-                    new Thread(new Thread3(ml1,ml2,ml3)).start();
+                    new Thread(new Thread3("1")).start();
                 }
                 actSendOrderToFirebse();
                 actSendHistryToFirebse();
@@ -190,7 +190,7 @@ public class drink extends AppCompatActivity {
 
     }
 
-    private void actConnect() {
+    /*private void actConnect() {
         Thread mThread = new Thread(connect);
         mThread.start();
     }
@@ -211,7 +211,7 @@ public class drink extends AppCompatActivity {
 
             }
         }
-    };
+    };*/
 
     private  void actSendOrderToFirebse() {
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -349,7 +349,7 @@ public class drink extends AppCompatActivity {
     class Thread3 implements Runnable {
         private String ml1,ml2,ml3;
 
-        Thread3(String ml1,String ml2,String ml3) {
+        Thread3(String ml1) {
             this.ml1 = ml1;
             this.ml2 = ml2;
             this.ml3 = ml3;
@@ -358,17 +358,17 @@ public class drink extends AppCompatActivity {
         public void run() {
             output.write(ml1);
             output.write('\n');
-            output.write(ml2);
-            output.write('\n');
-            output.write(ml3);
+           // output.write(ml2);
+            //output.write('\n');
+            //output.write(ml3);
 
             output.flush();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     tvMessages.append("client: " + ml1 + "\n");
-                    tvMessages.append("client: " + ml2 + "\n");
-                    tvMessages.append("client: " + ml3 + "\n");
+                    //tvMessages.append("client: " + ml2 + "\n");
+                    //tvMessages.append("client: " + ml3 + "\n");
                 }
             });
         }
