@@ -46,8 +46,8 @@ public class drink extends AppCompatActivity {
     private SeekBar drinkinput1,drinkinput2,drinkinput3;
     private TextView ml1,ml2,ml3,tvMessages;
     private EditText etip,etport;
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private PrintWriter output;
+    private BufferedReader input;
     public Socket socket;
     private FirebaseFirestore db;
     private String x_last="0";
@@ -158,14 +158,20 @@ public class drink extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(output==null) {
+                    notFound();
+                    return;
+                }
+
+                actSendOrderToFirebse();
+                actSendHistryToFirebse();
                 String ml1 = String.valueOf(drinkinput1.getProgress());
                 String ml2 = String.valueOf(drinkinput2.getProgress());
                 String ml3 = String.valueOf(drinkinput3.getProgress());
                 if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()) {
                     new Thread(new Thread3("1")).start();
                 }
-                actSendOrderToFirebse();
-                actSendHistryToFirebse();
+
             }
         });
 
@@ -238,8 +244,8 @@ public class drink extends AppCompatActivity {
                 });
 
 
-        Thread mThread = new Thread(trans);
-        mThread.start();
+        //Thread mThread = new Thread(trans);
+        //mThread.start();
 
     }
 
@@ -278,7 +284,7 @@ public class drink extends AppCompatActivity {
         toast.show();
     }
 
-    private Runnable trans = new Runnable (){
+    /*private Runnable trans = new Runnable (){
 
         public void run (){
             if (bw == null) return;
@@ -298,9 +304,8 @@ public class drink extends AppCompatActivity {
             }
         }
 
-    } ;
-    private PrintWriter output;
-    private BufferedReader input;
+    } ;*/
+
     class Thread1 implements Runnable {
         public void run() {
             Socket socket;
@@ -316,9 +321,7 @@ public class drink extends AppCompatActivity {
                 });
                 new Thread(new Thread2()).start();
             } catch (IOException e) {
-                Looper.prepare();
-                Toast.makeText(getApplicationContext(),"not found",Toast.LENGTH_SHORT).show();
-                Looper.loop();
+                e.printStackTrace();
             }
         }
     }
@@ -373,6 +376,8 @@ public class drink extends AppCompatActivity {
             });
         }
     }
+
+
 
 
 
