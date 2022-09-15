@@ -40,7 +40,7 @@ public class MainActivity<override> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button01 = findViewById(R.id.button01);
-        layout = findViewById(R.id.layout);
+
         userid = findViewById(R.id.userid);
 
         Intent intent = getIntent();
@@ -56,17 +56,7 @@ public class MainActivity<override> extends AppCompatActivity {
 
 
 
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentuser != null){
-                    logoutuser();
-                }
-                else{
-                    notlogin();
-                }
-            }
-        });
+
 
         button01.setOnClickListener(new View.OnClickListener() {
             @Override

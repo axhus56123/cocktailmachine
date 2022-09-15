@@ -1,9 +1,11 @@
 package com.example.wifitest;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -162,15 +164,8 @@ public class drink extends AppCompatActivity {
                     notFound();
                     return;
                 }
+                Sure();
 
-                actSendOrderToFirebse();
-                actSendHistryToFirebse();
-                String ml1 = String.valueOf(drinkinput1.getProgress());
-                String ml2 = String.valueOf(drinkinput2.getProgress());
-                String ml3 = String.valueOf(drinkinput3.getProgress());
-                if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()) {
-                    new Thread(new Thread3("1")).start();
-                }
 
             }
         });
@@ -376,6 +371,38 @@ public class drink extends AppCompatActivity {
             });
         }
     }
+
+        private void Sure() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("進行調飲?");  //設置標題
+        builder.setIcon(R.mipmap.ic_launcher_round); //標題前面那個小圖示
+        builder.setMessage("飲料1: "+drinkinput1.getProgress()+"\n"+"飲料2: "+drinkinput2.getProgress()+"\n"+"飲料3: "+drinkinput3.getProgress());
+
+
+        //確定 取消
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                actSendOrderToFirebse();
+                actSendHistryToFirebse();
+
+                String ml1 = String.valueOf(drinkinput1.getProgress());
+                String ml2 = String.valueOf(drinkinput2.getProgress());
+                String ml3 = String.valueOf(drinkinput3.getProgress());
+                if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()) {
+                    new Thread(new Thread3("1")).start();
+                }
+            }
+        });
+        builder.create().show();
+    }
+
 
 
 
