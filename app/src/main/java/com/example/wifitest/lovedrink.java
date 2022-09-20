@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -26,7 +27,7 @@ import com.google.firebase.firestore.Query;
 public class lovedrink extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
-
+    private ImageButton back;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference loveref = db.collection("love:"+currentuser.getEmail());
     private loveadapter adapter;
@@ -35,6 +36,18 @@ public class lovedrink extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lovedrink);
+
+        back = findViewById(R.id.loveDrinkBack);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(lovedrink.this,bottomOption.class);
+                startActivity(intent);
+            }
+        });
+
         FloatingActionButton btnadd = findViewById(R.id.buttonaddlove);
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override

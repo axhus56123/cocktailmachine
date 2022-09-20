@@ -20,29 +20,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wifitest">
         <activity
+            android:name=".Account"
+            android:exported="false"
+            android:parentActivityName=".bottomOption"/>
+        <activity
+            android:name=".Register"
+            android:exported="false" />
+        <activity
+            android:name=".bottomOption"
+            android:exported="false" />
+        <activity
             android:name=".newlove"
             android:exported="false"
-            android:parentActivityName=".lovedrink"/>
+            android:parentActivityName=".lovedrink" />
         <activity
             android:name=".lovedrink"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".bottomOption" />
         <activity
             android:name=".history"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".bottomOption" />
         <activity
             android:name=".Login"
-            android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:exported="false" />
         <activity
             android:name=".drink"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

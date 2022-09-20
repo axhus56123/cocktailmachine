@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -21,6 +23,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedReader;
@@ -40,9 +44,10 @@ import java.util.Map;
 
 public class drink extends AppCompatActivity {
 
-
+    String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     Thread Thread1 = null;
     private Context context = this;
+    private ImageButton back;
     private ListView lv;
     private Button send ,btnconnect,disconnect;
     private SeekBar drinkinput1,drinkinput2,drinkinput3;
@@ -57,14 +62,13 @@ public class drink extends AppCompatActivity {
     String SERVER_IP;
     int SERVER_PORT;
     private Thread thread;                //執行緒
-
     private BufferedWriter bw;            //取得網路輸出串流
     private BufferedReader br;            //取得網路輸入串流
     private String tmp;   //做為接收時的緩存
-
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
-
+    private FirebaseDatabase Db = FirebaseDatabase.getInstance();
+    private DatabaseReference root = Db.getReference("Order:"+currentuser.getUid());
 
 
     @Override
@@ -87,6 +91,8 @@ public class drink extends AppCompatActivity {
         ml3 = findViewById(R.id.drinkml3);
         etip = findViewById(R.id.ip);
         etport = findViewById(R.id.port);
+        back = findViewById(R.id.drinkBack);
+
 
 
         db=FirebaseFirestore.getInstance();
@@ -94,6 +100,8 @@ public class drink extends AppCompatActivity {
         drinkinput1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress / 10;
+                progress = progress * 10;
                 ml1.setText("飲料1:"+String.valueOf(progress)+"ml");
             }
 
@@ -111,6 +119,8 @@ public class drink extends AppCompatActivity {
         drinkinput2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress / 10;
+                progress = progress * 10;
                 ml2.setText("飲料2:"+String.valueOf(progress)+"ml");
             }
 
@@ -128,6 +138,8 @@ public class drink extends AppCompatActivity {
         drinkinput3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress / 10;
+                progress = progress * 10;
                 ml3.setText("飲料3:"+String.valueOf(progress)+"ml");
             }
 
@@ -176,6 +188,15 @@ public class drink extends AppCompatActivity {
                 disConnect();
             }
         });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(drink.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void disConnect()  {
@@ -216,31 +237,21 @@ public class drink extends AppCompatActivity {
 
     private  void actSendOrderToFirebse() {
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        String Userid = currentuser.getEmail();
+        String state = "0";
+        String drink1 = String.valueOf(drinkinput1.getProgress());
+        String drink2 = String.valueOf(drinkinput1.getProgress());
+        String drink3 = String.valueOf(drinkinput1.getProgress());
+        String time = nowDate;
 
-        Map<String,Object> order_data= new HashMap<>();
-        order_data.put("Userid",currentuser.getEmail());
-        order_data.put("state","0");
-        order_data.put("drink1",drinkinput1.getProgress());
-        order_data.put("drink2",drinkinput2.getProgress());
-        order_data.put("drink3",drinkinput3.getProgress());
-        order_data.put("time",nowDate);
-
-        db.collection("Order:"+currentuser.getEmail()).document().set(order_data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("結果: ","新增成功");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("結果: ","新增失敗");
-                    }
-                });
-
-
-        //Thread mThread = new Thread(trans);
-        //mThread.start();
+        HashMap<String,String> order = new HashMap<>();
+        order.put("Userid",Userid);
+        order.put("state",state);
+        order.put("drink1",drink1);
+        order.put("drink2",drink2);
+        order.put("drink3",drink3);
+        order.put("time",time);
+        root.push().setValue(order);
 
     }
 

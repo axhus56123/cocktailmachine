@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -41,7 +43,7 @@ import java.util.Map;
 public class history extends AppCompatActivity {
 
     private RecyclerView hrecyclerView;
-
+    private ImageButton back;
 
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -55,10 +57,20 @@ public class history extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        setTitle("歷史紀錄");
+
 
         db = FirebaseFirestore.getInstance();
         hrecyclerView = findViewById(R.id.hisrecycle);
+        back = findViewById(R.id.hisBack);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(history.this,bottomOption.class);
+                startActivity(intent);
+            }
+        });
 
         Query query = db.collection("history:"+currentuser.getEmail());
         FirestoreRecyclerOptions<hisuser> options = new FirestoreRecyclerOptions.Builder<hisuser>()

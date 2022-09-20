@@ -3,10 +3,10 @@
     <item
         android:id="@+id/bottomHome"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="主頁" />
     <item
         android:id="@+id/bottomOptions"
         android:icon="@drawable/ic_baseline_density_medium_24"
-        android:title="Options"/>
+        android:title="選項"/>
 
 </menu>
