@@ -238,13 +238,13 @@ public class drink extends AppCompatActivity {
     private  void actSendOrderToFirebse() {
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String Userid = currentuser.getEmail();
-        String state = "0";
-        String drink1 = String.valueOf(drinkinput1.getProgress());
-        String drink2 = String.valueOf(drinkinput1.getProgress());
-        String drink3 = String.valueOf(drinkinput1.getProgress());
+        Boolean state = false;
+        int drink1 = drinkinput1.getProgress()/10*10;
+        int drink2 = drinkinput2.getProgress()/10*10;
+        int drink3 = drinkinput3.getProgress()/10*10;
         String time = nowDate;
 
-        HashMap<String,String> order = new HashMap<>();
+        HashMap<String,Object> order = new HashMap<>();
         order.put("Userid",Userid);
         order.put("state",state);
         order.put("drink1",drink1);
@@ -258,11 +258,14 @@ public class drink extends AppCompatActivity {
     private  void actSendHistryToFirebse(){
 
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        int ml1 =(drinkinput1.getProgress()/10*10);
+        int ml2 =(drinkinput2.getProgress()/10*10);
+        int ml3 =(drinkinput3.getProgress()/10*10);
 
         Map<String,Object> history_data= new HashMap<>();
-        history_data.put("hisdrink1",drinkinput1.getProgress());
-        history_data.put("hisdrink2",drinkinput2.getProgress());
-        history_data.put("hisdrink3",drinkinput3.getProgress());
+        history_data.put("hisdrink1",ml1);
+        history_data.put("hisdrink2",ml2);
+        history_data.put("hisdrink3",ml3);
         history_data.put("time",nowDate);
 
         Integer x_id=Integer.valueOf(x_last)+1;
@@ -384,10 +387,13 @@ public class drink extends AppCompatActivity {
     }
 
         private void Sure() {
+        int sml1 =(drinkinput1.getProgress()/10*10);
+        int sml2 =(drinkinput2.getProgress()/10*10);
+        int sml3 =(drinkinput3.getProgress()/10*10);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("進行調飲?");  //設置標題
         builder.setIcon(R.mipmap.ic_launcher_round); //標題前面那個小圖示
-        builder.setMessage("飲料1: "+drinkinput1.getProgress()+"\n"+"飲料2: "+drinkinput2.getProgress()+"\n"+"飲料3: "+drinkinput3.getProgress());
+        builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3);
 
 
         //確定 取消
@@ -403,9 +409,13 @@ public class drink extends AppCompatActivity {
                 actSendOrderToFirebse();
                 actSendHistryToFirebse();
 
-                String ml1 = String.valueOf(drinkinput1.getProgress());
-                String ml2 = String.valueOf(drinkinput2.getProgress());
-                String ml3 = String.valueOf(drinkinput3.getProgress());
+                int dml1 =(drinkinput1.getProgress()/10*10);
+                int dml2 =(drinkinput2.getProgress()/10*10);
+                int dml3 =(drinkinput3.getProgress()/10*10);
+
+                String ml1 = String.valueOf(dml1);
+                String ml2 = String.valueOf(dml2);
+                String ml3 = String.valueOf(dml3);
                 if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()) {
                     new Thread(new Thread3("1")).start();
                 }
