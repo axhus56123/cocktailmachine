@@ -60,7 +60,7 @@ public class drink extends AppCompatActivity {
     private String x_last="0";
     private String x_select="0";
     String SERVER_IP;
-    int SERVER_PORT;
+    int SERVER_PORT,databasecount=1;
     private Thread thread;                //執行緒
     private BufferedWriter bw;            //取得網路輸出串流
     private BufferedReader br;            //取得網路輸入串流
@@ -68,7 +68,7 @@ public class drink extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
-    private DatabaseReference root = Db.getReference("Order:"+currentuser.getUid());
+    private DatabaseReference root = Db.getReference("schdule_:"+databasecount);
 
 
     @Override
