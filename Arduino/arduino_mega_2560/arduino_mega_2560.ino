@@ -22,9 +22,9 @@ bool doonce = 0;
 char screen = 0;
 boolean changestate = 0;
 long weight;
-int pump1ml = 20;
-int pump2ml = 20;
-int pump3ml = 20;
+long pump1ml = 20;
+long pump2ml = 20;
+long pump3ml = 20;
 
 
 void isr0 ()  {
@@ -87,11 +87,20 @@ void loop() {
       }
       else {
         switch (screen) {
-          case 0: pump1ml = pump1ml - 10;
+          case 0:
+            pump1ml = pump1ml - 10;
+            if(pump1ml <= 0)
+              pump1ml = 0;
+            break;
+          case 1:
+            pump2ml = pump2ml - 10;
+            if(pump2ml <= 0)
+              pump2ml = 0;
           break;
-          case 1: pump2ml = pump2ml - 10;
-          break;
-          case 2: pump3ml = pump3ml - 10;
+          case 2:
+            pump3ml = pump3ml - 10;
+            if(pump3ml <= 0)
+              pump3ml = 0;
           break;
         }
       }
@@ -161,11 +170,20 @@ void loop() {
       delay(100);
       lcd.clear();
       lcd.print("Pump 1 ON");
-      
+      Serial.print("weight1: ");
+      Serial.println(weight);
+      Serial.print("pump1ml: ");
+      Serial.println(pump1ml);
       if(pump1ml > 0){
         digitalWrite(in1, HIGH);
-        while (scale.read() - weight < 3000) {}
-        delay((pump1ml/10)*2800);
+        long x = pump1ml*1030L;
+        Serial.print("x: ");
+        Serial.println(x);
+        while (scale.read() - weight <= x) {
+          Serial.println("1111111111111");
+          Serial.println(scale.read());  
+        }
+//        delay((pump1ml/10)*1500);
         digitalWrite(in1, LOW);
       }
       else{
@@ -181,12 +199,21 @@ void loop() {
       delay(100);
       lcd.clear();
       lcd.print("Pump 2 ON");
-
+      Serial.print("weight2: ");
+      Serial.println(weight);
+      Serial.print("pump2ml: ");
+      Serial.println(pump2ml);
       if(pump2ml > 0){
         digitalWrite(in3, HIGH);
-        while (scale.read() - weight < 3000) {}
+        long y = pump2ml*1030L;
+        Serial.print("y: ");
+        Serial.println(y);
+        while (scale.read() - weight <= y) {
+          Serial.println("222222222222");
+          Serial.println(scale.read());  
+        }
       
-        delay((pump2ml/10)*2800);
+//        delay((pump2ml/10)*1500);
         digitalWrite(in3, LOW);
       }
       else{
@@ -202,11 +229,20 @@ void loop() {
       delay(100);
       lcd.clear();
       lcd.print("Pump 3 ON");
-
+      Serial.print("weight3: ");
+      Serial.println(weight);
+      Serial.print("pump3ml: ");
+      Serial.println(pump3ml);
       if(pump3ml > 0){
         digitalWrite(in5, HIGH);
-        while (scale.read() - weight < 3000) {}
-        delay((pump3ml/10)*2800);
+        long z = pump3ml*1030L;
+        Serial.print("z: ");
+        Serial.println(z);
+        while (scale.read() - weight <= z) {
+          Serial.println("33333333333");
+          Serial.println(scale.read());
+        }
+//        delay((pump3ml/10)*1500);
         digitalWrite(in5, LOW);
       }
       else{
@@ -219,6 +255,7 @@ void loop() {
       
       delay(2000);
       changestate = 0;
+      screen = 0;
     }
   }
 }
