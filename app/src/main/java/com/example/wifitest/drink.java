@@ -44,7 +44,6 @@ import java.util.Map;
 
 public class drink extends AppCompatActivity {
 
-    String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     Thread Thread1 = null;
     private Context context = this;
     private ImageButton back;
@@ -60,7 +59,7 @@ public class drink extends AppCompatActivity {
     private String x_last="0";
     private String x_select="0";
     String SERVER_IP;
-    int SERVER_PORT,databasecount=1;
+    int SERVER_PORT,fireBaseCounter;
     private Thread thread;                //執行緒
     private BufferedWriter bw;            //取得網路輸出串流
     private BufferedReader br;            //取得網路輸入串流
@@ -68,7 +67,7 @@ public class drink extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
-    private DatabaseReference root = Db.getReference("schdule_:"+databasecount);
+    private DatabaseReference root = Db.getReference("test").child("schedule_"+fireBaseCounter);
 
 
     @Override
@@ -93,7 +92,7 @@ public class drink extends AppCompatActivity {
         etport = findViewById(R.id.port);
         back = findViewById(R.id.drinkBack);
 
-
+        
 
         db=FirebaseFirestore.getInstance();
 
@@ -211,30 +210,6 @@ public class drink extends AppCompatActivity {
         }
 
     }
-
-    /*private void actConnect() {
-        Thread mThread = new Thread(connect);
-        mThread.start();
-    }
-
-    private Runnable connect = new Runnable () {
-
-        public void run() {
-            try {
-                tvMessages.setText("");
-                socket = new Socket("192.1168.2.187", 1234);
-                bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-                br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            } catch (IOException e) {
-                Looper.prepare();
-                Toast.makeText(getApplicationContext(),"not found",Toast.LENGTH_SHORT).show();
-                Looper.loop();
-
-            }
-        }
-    };*/
-
     private  void actSendOrderToFirebse() {
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String Userid = currentuser.getEmail();
@@ -251,7 +226,7 @@ public class drink extends AppCompatActivity {
         order.put("drink2",drink2);
         order.put("drink3",drink3);
         order.put("time",time);
-        root.push().setValue(order);
+        root.child("").setValue(order);
 
     }
 
@@ -292,28 +267,6 @@ public class drink extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Not device found", Toast.LENGTH_SHORT);
         toast.show();
     }
-
-    /*private Runnable trans = new Runnable (){
-
-        public void run (){
-            if (bw == null) return;
-            try {
-
-                bw.write(drinkinput1.getProgress());
-                bw.flush();
-                bw.write(drinkinput2.getProgress());
-                bw.flush();
-                bw.write(drinkinput3.getProgress());
-                bw.flush();
-
-            }catch (IOException e){
-                Looper.prepare();
-                Toast.makeText(getApplicationContext(),"not connect",Toast.LENGTH_SHORT).show();
-                Looper.loop();
-            }
-        }
-
-    } ;*/
 
     class Thread1 implements Runnable {
         public void run() {
