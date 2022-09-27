@@ -19,12 +19,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedReader;
@@ -37,8 +42,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -59,7 +66,8 @@ public class drink extends AppCompatActivity {
     private String x_last="0";
     private String x_select="0";
     String SERVER_IP;
-    int SERVER_PORT,fireBaseCounter;
+    int SERVER_PORT;
+    long fireBaseCounter=0,a;
     private Thread thread;                //執行緒
     private BufferedWriter bw;            //取得網路輸出串流
     private BufferedReader br;            //取得網路輸入串流
@@ -67,7 +75,10 @@ public class drink extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
-    private DatabaseReference root = Db.getReference("test").child("schedule_"+fireBaseCounter);
+    DatabaseReference root = Db.getReference("test");
+    DatabaseReference count = Db.getReference("count");
+
+
 
 
     @Override
@@ -92,9 +103,8 @@ public class drink extends AppCompatActivity {
         etport = findViewById(R.id.port);
         back = findViewById(R.id.drinkBack);
 
-        
-
         db=FirebaseFirestore.getInstance();
+
 
         drinkinput1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -211,6 +221,10 @@ public class drink extends AppCompatActivity {
 
     }
     private  void actSendOrderToFirebse() {
+
+
+
+
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String Userid = currentuser.getEmail();
         Boolean state = false;
@@ -219,6 +233,7 @@ public class drink extends AppCompatActivity {
         int drink3 = drinkinput3.getProgress()/10*10;
         String time = nowDate;
 
+
         HashMap<String,Object> order = new HashMap<>();
         order.put("Userid",Userid);
         order.put("state",state);
@@ -226,11 +241,27 @@ public class drink extends AppCompatActivity {
         order.put("drink2",drink2);
         order.put("drink3",drink3);
         order.put("time",time);
-        root.child("").setValue(order);
+        root.child("schedule_"+fireBaseCounter).setValue(order);
+
+
+        /*root.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                fireBaseCounter =snapshot.getChildrenCount();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
+
 
     }
 
     private  void actSendHistryToFirebse(){
+
 
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         int ml1 =(drinkinput1.getProgress()/10*10);
@@ -267,6 +298,7 @@ public class drink extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Not device found", Toast.LENGTH_SHORT);
         toast.show();
     }
+
 
     class Thread1 implements Runnable {
         public void run() {
@@ -376,6 +408,27 @@ public class drink extends AppCompatActivity {
         });
         builder.create().show();
     }
+
+    /*private void firebase_select(DatabaseReference db){
+        final List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int x_sum = (int) snapshot.getChildrenCount();
+
+                for(DataSnapshot ds:snapshot.getChildren()){
+                    TextString
+                    fireBaseCounter=Integer.parseInt(ds.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }*/
+
 
 
 
