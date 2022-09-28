@@ -12,38 +12,25 @@ void setup() {
   Serial2.begin(115200);
 }
 void loop() {
-  char data[100]={0};
+  char data1[250]={0};
+  char data2[250]={0};
+  char data3[250]={0};
   size_t setRxBufferSize(size_t);
 
-   /*
-   if(Serial2.read()){
-     Serial2.readBytesUntil('\n',data,100);
-     Serial.print("Received: ");
-     Serial.println(data);
-   }*/
-
   while(!Serial2.available()){}
+  Serial2.readBytesUntil('\n',data1,250);
+  Serial.print("drink1: ");
+  Serial.println(data1);
 
-  if (Serial2.available())
-  {
-    val1=Serial2.read();
-  }
+  Serial2.readBytesUntil('\n',data2,250);
+  Serial.print("drink2: ");
+  Serial.println(data2);
 
-   while(!Serial2.available()){}
-
-   if (Serial2.available())
-   {
-     val2=Serial2.read();
-   }
-
-  while(!Serial2.available()){}
-
-  if (Serial2.available())
-  {
-    val3=Serial2.read();
-  }
-
-  Serial.println(val1);
-  Serial.println(val2);
-  Serial.println(val3);
+  Serial2.readBytesUntil('\n',data3,250);
+  Serial.print("drink3: ");
+  Serial.println(data3);
+  delay(1000);
+  Serial.println("Next drink 2560");
+  delay(100);
+  Serial2.println(1);
 }
