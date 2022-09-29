@@ -67,7 +67,8 @@ public class drink extends AppCompatActivity {
     private String x_select="0";
     String SERVER_IP;
     int SERVER_PORT;
-    long fireBaseCounter=0,a;
+    long fireBaseCounter,endcounter;
+    String a;
     private Thread thread;                //執行緒
     private BufferedWriter bw;            //取得網路輸出串流
     private BufferedReader br;            //取得網路輸入串流
@@ -76,7 +77,9 @@ public class drink extends AppCompatActivity {
     FirebaseUser currentuser = auth.getCurrentUser();
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
     DatabaseReference root = Db.getReference("test");
-    DatabaseReference count = Db.getReference("count");
+    DatabaseReference count = Db.getReference("count/end");
+
+
 
 
 
@@ -108,6 +111,7 @@ public class drink extends AppCompatActivity {
         back = findViewById(R.id.drinkBack);
 
         db=FirebaseFirestore.getInstance();
+
 
 
         drinkinput1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -225,6 +229,8 @@ public class drink extends AppCompatActivity {
                     notFound();
                     return;
                 }
+                test1();
+                test2();
                 Sure();
 
 
@@ -264,7 +270,6 @@ public class drink extends AppCompatActivity {
 
 
 
-
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String Userid = currentuser.getEmail();
         Boolean state = false;
@@ -286,20 +291,8 @@ public class drink extends AppCompatActivity {
         order.put("drink5",drink5);
         order.put("time",time);
         root.child("schedule_"+fireBaseCounter).setValue(order);
+        //count.setValue(endcounter);
 
-
-        /*root.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                fireBaseCounter =snapshot.getChildrenCount();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
 
     }
@@ -443,12 +436,16 @@ public class drink extends AppCompatActivity {
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
                 dialogInterface.dismiss();
             }
         });
         builder.setNegativeButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
+                readEndcounter();
+                readData();
                 actSendOrderToFirebse();
                 actSendHistryToFirebse();
 
@@ -471,34 +468,35 @@ public class drink extends AppCompatActivity {
         builder.create().show();
     }
 
-    /*private void firebase_select(DatabaseReference db){
-        final List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void readData() {
+        count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int x_sum = (int) snapshot.getChildrenCount();
-
-                for(DataSnapshot ds:snapshot.getChildren()){
-                    TextString
-                    fireBaseCounter=Integer.parseInt(ds.getKey());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot dataSnapshot = task.getResult();
+                fireBaseCounter = (long) dataSnapshot.getValue();
             }
         });
-    }*/
 
+    }
 
+    private void readEndcounter() {
 
-
-
-
-
-
-
+        count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot dataSnapshot = task.getResult();
+                endcounter = (long) dataSnapshot.getValue();
+            }
+        });
+        endcounter+=1;
+        count.setValue(endcounter);
+    }
+    private void test1(){
+        readEndcounter();
+    }
+    private void test2(){
+        readData();
+    }
 
 
 }
