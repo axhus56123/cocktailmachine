@@ -76,8 +76,8 @@ public class drink extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
-    DatabaseReference root = Db.getReference("test");
-    DatabaseReference count = Db.getReference("count/end");
+
+
 
 
 
@@ -209,7 +209,7 @@ public class drink extends AppCompatActivity {
 
 
 
-        btnconnect.setOnClickListener(new View.OnClickListener() {
+        /*btnconnect.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -220,29 +220,28 @@ public class drink extends AppCompatActivity {
                     Thread1.start();
                 }
 
-        });
+        });*/
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(output==null) {
+                /*if(output==null) {
                     notFound();
                     return;
-                }
-                test1();
-                test2();
+                }*/
+
                 Sure();
 
 
             }
         });
 
-        disconnect.setOnClickListener(new View.OnClickListener() {
+        /*disconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 disConnect();
             }
-        });
+        });*/
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,7 +253,7 @@ public class drink extends AppCompatActivity {
         });
     }
 
-    private void disConnect()  {
+    /*private void disConnect()  {
         if (socket == null) return;
         try{
             socket.close();
@@ -265,11 +264,10 @@ public class drink extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
+    }*/
     private  void actSendOrderToFirebse() {
-
-
-
+        DatabaseReference count = Db.getReference("count/end");
+        DatabaseReference root = Db.getReference("test");
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String Userid = currentuser.getEmail();
         Boolean state = false;
@@ -290,7 +288,19 @@ public class drink extends AppCompatActivity {
         order.put("drink4",drink4);
         order.put("drink5",drink5);
         order.put("time",time);
-        root.child("schedule_"+fireBaseCounter).setValue(order);
+        count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot dataSnapshot = task.getResult();
+                long endcounter = (long) dataSnapshot.getValue();
+                endcounter+=1;
+                count.setValue(endcounter);
+                fireBaseCounter = (long) dataSnapshot.getValue()+1;
+                root.child("schedule_"+fireBaseCounter).setValue(order);
+            }
+
+        });
+
         //count.setValue(endcounter);
 
 
@@ -335,13 +345,13 @@ public class drink extends AppCompatActivity {
                 });
         x_last=x_id.toString();
     }
-    private  void notFound(){
+    /*private  void notFound(){
         Toast toast = Toast.makeText(this, "Not device found", Toast.LENGTH_SHORT);
         toast.show();
-    }
+    }*/
 
 
-    class Thread1 implements Runnable {
+    /*class Thread1 implements Runnable {
         public void run() {
             Socket socket;
             try {
@@ -359,8 +369,8 @@ public class drink extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-    class Thread2 implements Runnable {
+    }*/
+   /* class Thread2 implements Runnable {
         @Override
         public void run() {
             while (true) {
@@ -383,8 +393,8 @@ public class drink extends AppCompatActivity {
                 }
             }
         }
-    }
-    class Thread3 implements Runnable {
+    }*/
+    /*class Thread3 implements Runnable {
         private String ml1,ml2,ml3,ml4,ml5;
 
         Thread3(String ml1) {
@@ -418,7 +428,7 @@ public class drink extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 
         private void Sure() {
         int sml1 =(drinkinput1.getProgress()/10*10);
@@ -444,8 +454,7 @@ public class drink extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                readEndcounter();
-                readData();
+                //readData();
                 actSendOrderToFirebse();
                 actSendHistryToFirebse();
 
@@ -460,20 +469,21 @@ public class drink extends AppCompatActivity {
                 String ml3 = String.valueOf(dml3);
                 String ml4 = String.valueOf(dml4);
                 String ml5 = String.valueOf(dml5);
-                if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()||!ml4.isEmpty()||!ml5.isEmpty()) {
+                /*if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()||!ml4.isEmpty()||!ml5.isEmpty()) {
                     new Thread(new Thread3("1")).start();
-                }
+                }*/
             }
         });
         builder.create().show();
     }
 
     private void readData() {
+        DatabaseReference count = Db.getReference("count/end");
         count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 DataSnapshot dataSnapshot = task.getResult();
-                fireBaseCounter = (long) dataSnapshot.getValue();
+
             }
         });
 
@@ -481,15 +491,20 @@ public class drink extends AppCompatActivity {
 
     private void readEndcounter() {
 
+        DatabaseReference count = Db.getReference("count/end");
         count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 DataSnapshot dataSnapshot = task.getResult();
-                endcounter = (long) dataSnapshot.getValue();
+
+                long endcounter = (long) dataSnapshot.getValue();
+                endcounter+=1;
+                count.setValue(endcounter);
+                fireBaseCounter = (long) dataSnapshot.getValue();
             }
+
         });
-        endcounter+=1;
-        count.setValue(endcounter);
+
     }
     private void test1(){
         readEndcounter();
