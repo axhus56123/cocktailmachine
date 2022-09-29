@@ -1,9 +1,14 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
+#include <HardwareSerial.h>
 #include "HX711.h"
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 const int LOADCELL_DOUT_PIN = 12;
 const int LOADCELL_SCK_PIN = 13;
+
+int val1;
+int val2;
+int val3;
 
 HX711 scale;
 #define clk 2
@@ -15,6 +20,9 @@ HX711 scale;
 #define in4 8
 #define in5 9
 #define in6 10
+
+#define RXp2 17
+#define TXp2 16
 
 volatile boolean TurnDetected;
 volatile boolean up;
@@ -34,6 +42,7 @@ void isr0 ()  {
 
 void setup() {
   Serial.begin(9600);
+  Serial2.begin(115200);
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
   lcd.begin(16, 2);
   lcd.init();
@@ -57,6 +66,37 @@ void setup() {
 }
 
 void loop() {
+  char data1[250]={0};
+  char data2[250]={0};
+  char data3[250]={0};
+  int espStatus = 0;
+  size_t setRxBufferSize(size_t);
+
+  if(Serial2.available()){
+    Serial2.readBytesUntil('\n',data1,250);
+    Serial.print("drink1: ");
+//    Serial.println(data1);
+    pump1ml = atoi(data1);
+    Serial.println(pump1ml);
+    
+    Serial2.readBytesUntil('\n',data2,250);
+    Serial.print("drink2: ");
+//    Serial.println(data2);
+    pump2ml = atoi(data2);
+    Serial.println(pump2ml);
+    
+    Serial2.readBytesUntil('\n',data3,250);
+    Serial.print("drink3: ");
+//    Serial.println(data3);
+    pump3ml = atoi(data3);
+    Serial.println(pump3ml);
+    
+    espStatus = 1;
+    delay(100);
+
+    goto espData;
+  }
+  
   if (TurnDetected) {
     delay(200);
     doonce = 0;
@@ -164,6 +204,7 @@ void loop() {
       doonce = 1;
     }
     else {
+      espData:
       lcd.print("Wait!");
       delay(2000);
       weight = scale.read();
@@ -257,5 +298,10 @@ void loop() {
       changestate = 0;
       screen = 0;
     }
+  }
+  if(espStatus == 1){
+    Serial.println("Next drink 2560");
+    espStatus = 0;
+    Serial2.println(1);
   }
 }

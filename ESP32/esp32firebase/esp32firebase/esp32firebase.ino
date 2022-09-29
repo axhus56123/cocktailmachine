@@ -75,7 +75,7 @@ void setup() {
 }
 
 void loop() {
-  char retureDate[250]={0};
+  char retureData[250]={0};
   if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)) {
     sendDataPrevMillis = millis();
     
@@ -128,7 +128,7 @@ void loop() {
 //            Serial.print("drink3 = ");Serial.println(drink3);
               while(!Serial.available()){}
               delay(100);
-//              Serial.readBytesUntil('\n',retureDate,250);
+//              Serial.readBytesUntil('\n',retureData,250);
 //              Serial.println("Next drink ESP32");
           }
         }
