@@ -93,21 +93,21 @@ public class drink extends AppCompatActivity {
 
         send = findViewById(R.id.send);
 
-        btnconnect = findViewById(R.id.btnconnect);
-        disconnect = findViewById(R.id.btndisconnect);
+        //btnconnect = findViewById(R.id.btnconnect);
+        //disconnect = findViewById(R.id.btndisconnect);
         drinkinput1 = findViewById(R.id.drinkinput1);
         drinkinput2 = findViewById(R.id.drinkinput2);
         drinkinput3 = findViewById(R.id.drinkinput3);
-        drinkinput4 = findViewById(R.id.drinkinput4);
-        drinkinput5 = findViewById(R.id.drinkinput5);
+        //drinkinput4 = findViewById(R.id.drinkinput4);
+        //drinkinput5 = findViewById(R.id.drinkinput5);
         tvMessages = findViewById(R.id.tvMessages);
         ml1 = findViewById(R.id.drinkml1);
         ml2 = findViewById(R.id.drinkml2);
         ml3 = findViewById(R.id.drinkml3);
-        ml4 = findViewById(R.id.drinkml4);
-        ml5 = findViewById(R.id.drinkml5);
-        etip = findViewById(R.id.ip);
-        etport = findViewById(R.id.port);
+        //ml4 = findViewById(R.id.drinkml4);
+        //ml5 = findViewById(R.id.drinkml5);
+        //etip = findViewById(R.id.ip);
+        //etport = findViewById(R.id.port);
         back = findViewById(R.id.drinkBack);
 
         db=FirebaseFirestore.getInstance();
@@ -170,7 +170,7 @@ public class drink extends AppCompatActivity {
 
             }
         });
-        drinkinput4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        /*drinkinput4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -205,7 +205,7 @@ public class drink extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
+        });*/
 
 
 
@@ -274,8 +274,8 @@ public class drink extends AppCompatActivity {
         int drink1 = drinkinput1.getProgress()/10*10;
         int drink2 = drinkinput2.getProgress()/10*10;
         int drink3 = drinkinput3.getProgress()/10*10;
-        int drink4 = drinkinput4.getProgress()/10*10;
-        int drink5 = drinkinput5.getProgress()/10*10;
+        //int drink4 = drinkinput4.getProgress()/10*10;
+        //int drink5 = drinkinput5.getProgress()/10*10;
         String time = nowDate;
 
 
@@ -285,8 +285,8 @@ public class drink extends AppCompatActivity {
         order.put("drink1",drink1);
         order.put("drink2",drink2);
         order.put("drink3",drink3);
-        order.put("drink4",drink4);
-        order.put("drink5",drink5);
+        //order.put("drink4",drink4);
+        //order.put("drink5",drink5);
         order.put("time",time);
         count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -314,15 +314,15 @@ public class drink extends AppCompatActivity {
         int ml1 =(drinkinput1.getProgress()/10*10);
         int ml2 =(drinkinput2.getProgress()/10*10);
         int ml3 =(drinkinput3.getProgress()/10*10);
-        int ml4 =(drinkinput4.getProgress()/10*10);
-        int ml5 =(drinkinput5.getProgress()/10*10);
+        //int ml4 =(drinkinput4.getProgress()/10*10);
+        //int ml5 =(drinkinput5.getProgress()/10*10);
 
         Map<String,Object> history_data= new HashMap<>();
         history_data.put("hisdrink1",ml1);
         history_data.put("hisdrink2",ml2);
         history_data.put("hisdrink3",ml3);
-        history_data.put("hisdrink4",ml4);
-        history_data.put("hisdrink5",ml5);
+        //history_data.put("hisdrink4",ml4);
+        //history_data.put("hisdrink5",ml5);
         history_data.put("time",nowDate);
 
         Integer x_id=Integer.valueOf(x_last)+1;
@@ -434,12 +434,12 @@ public class drink extends AppCompatActivity {
         int sml1 =(drinkinput1.getProgress()/10*10);
         int sml2 =(drinkinput2.getProgress()/10*10);
         int sml3 =(drinkinput3.getProgress()/10*10);
-        int sml4 =(drinkinput4.getProgress()/10*10);
-        int sml5 =(drinkinput5.getProgress()/10*10);
+        //int sml4 =(drinkinput4.getProgress()/10*10);
+        //int sml5 =(drinkinput5.getProgress()/10*10);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("進行調飲?");  //設置標題
-        builder.setIcon(R.mipmap.ic_launcher_round); //標題前面那個小圖示
-        builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5);
+        builder.setIcon(R.drawable.icon); //標題前面那個小圖示
+        builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3/*+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5*/);
 
 
         //確定 取消
@@ -461,23 +461,47 @@ public class drink extends AppCompatActivity {
                 int dml1 =(drinkinput1.getProgress()/10*10);
                 int dml2 =(drinkinput2.getProgress()/10*10);
                 int dml3 =(drinkinput3.getProgress()/10*10);
-                int dml4 =(drinkinput4.getProgress()/10*10);
-                int dml5 =(drinkinput5.getProgress()/10*10);
+                //int dml4 =(drinkinput4.getProgress()/10*10);
+                //int dml5 =(drinkinput5.getProgress()/10*10);
 
                 String ml1 = String.valueOf(dml1);
                 String ml2 = String.valueOf(dml2);
                 String ml3 = String.valueOf(dml3);
-                String ml4 = String.valueOf(dml4);
-                String ml5 = String.valueOf(dml5);
+               //String ml4 = String.valueOf(dml4);
+                // String ml5 = String.valueOf(dml5);
                 /*if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()||!ml4.isEmpty()||!ml5.isEmpty()) {
                     new Thread(new Thread3("1")).start();
                 }*/
+                Sure2();
+            }
+        });
+        builder.create().show();
+
+    }
+    private void Sure2(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("上傳成功");  //設置標題
+        builder.setIcon(R.drawable.icon); //標題前面那個小圖示
+        builder.setMessage("是否前往首頁");
+        //確定 取消
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent();
+                intent.setClass(drink.this,MainActivity.class);
+                startActivity(intent);
             }
         });
         builder.create().show();
     }
-
-    private void readData() {
+    /*private void readData() {
         DatabaseReference count = Db.getReference("count/end");
         count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -505,13 +529,8 @@ public class drink extends AppCompatActivity {
 
         });
 
-    }
-    private void test1(){
-        readEndcounter();
-    }
-    private void test2(){
-        readData();
-    }
+    }*/
+
 
 
 }

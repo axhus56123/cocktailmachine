@@ -3,16 +3,16 @@ package com.example.wifitest;
 public class hisuser {
 
     private  String time;
-    private long hisdrink1,hisdrink2,hisdrink3,hisdrink4,hisdrink5;
+    private long hisdrink1,hisdrink2,hisdrink3/*hisdrink4,hisdrink5*/;
 
     private hisuser(){}
-    private hisuser(String time,long hisdrink1,long hisdrink2,long hisdrink3,long hisdrink4,long hisdrink5){
+    private hisuser(String time,long hisdrink1,long hisdrink2,long hisdrink3/*,long hisdrink4,long hisdrink5*/){
         this.time = time;
         this.hisdrink1 = hisdrink1;
         this.hisdrink2 = hisdrink2;
         this.hisdrink3 = hisdrink3;
-        this.hisdrink4 = hisdrink4;
-        this.hisdrink5 = hisdrink5;
+        //this.hisdrink4 = hisdrink4;
+        //this.hisdrink5 = hisdrink5;
     }
 
     public String getTime() {
@@ -31,11 +31,11 @@ public class hisuser {
         return hisdrink3;
     }
 
-    public long getHisdrink4() { return hisdrink4;  }
+    //public long getHisdrink4() { return hisdrink4;  }
 
-    public long getHisdrink5() {
+    /*public long getHisdrink5() {
         return hisdrink5;
-    }
+    }*/
 
     public void setHisdrink1(long hisdrink1) {
         this.hisdrink1 = hisdrink1;
@@ -49,12 +49,12 @@ public class hisuser {
         this.hisdrink3 = hisdrink3;
     }
 
-    public void setHisdrink4(long hisdrink4) {
+    /*public void setHisdrink4(long hisdrink4) {
         this.hisdrink4 = hisdrink4;
     }
 
     public void setHisdrink5(long hisdrink5) {
         this.hisdrink5 = hisdrink5;
-    }
+    }*/
 
 }
