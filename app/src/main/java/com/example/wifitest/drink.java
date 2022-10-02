@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -229,7 +230,10 @@ public class drink extends AppCompatActivity {
                     notFound();
                     return;
                 }*/
-
+                if(drinkinput1.getProgress()==0&&drinkinput2.getProgress()==0&&drinkinput3.getProgress()==0){
+                    notinput();
+                    return;
+                }
                 Sure();
 
 
@@ -325,13 +329,16 @@ public class drink extends AppCompatActivity {
         //history_data.put("hisdrink5",ml5);
         history_data.put("time",nowDate);
 
-        Integer x_id=Integer.valueOf(x_last)+1;
+        db.collection("history:"+currentuser.getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int hiscounter = task.getResult().size();
+                db.collection("history:"+currentuser.getEmail()).document(String.valueOf(hiscounter)).set(history_data);
+            }
+        });
 
-        if(x_id>5){
-            x_id=1;
-        }
 
-        db.collection("history:"+currentuser.getEmail()).document(String.valueOf(x_id)).set(history_data)
+        /*db.collection("history:"+currentuser.getEmail()).document(String.valueOf(x_id)).set(history_data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -342,8 +349,8 @@ public class drink extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.d("結果: ","新增失敗");
                     }
-                });
-        x_last=x_id.toString();
+                });*/
+
     }
     /*private  void notFound(){
         Toast toast = Toast.makeText(this, "Not device found", Toast.LENGTH_SHORT);
@@ -500,6 +507,12 @@ public class drink extends AppCompatActivity {
             }
         });
         builder.create().show();
+    }
+    private void notinput(){
+        Toast toast = Toast.makeText(this, "未輸入飲料ml", Toast.LENGTH_SHORT);
+
+        toast.show();
+
     }
     /*private void readData() {
         DatabaseReference count = Db.getReference("count/end");
