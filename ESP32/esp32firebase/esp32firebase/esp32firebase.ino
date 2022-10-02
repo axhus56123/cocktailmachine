@@ -14,8 +14,8 @@
 #include "addons/RTDBHelper.h"
 
 // Insert your network credentials
-#define WIFI_SSID "liu home"
-#define WIFI_PASSWORD "2doixxxi"
+#define WIFI_SSID "iPhone???"
+#define WIFI_PASSWORD "0804320324"
 
 // Insert Firebase project API Key
 #define API_KEY "AIzaSyDluJtssy73myPtnlukEZkBJhqPNKdBEhw"
@@ -126,7 +126,23 @@ void loop() {
 //            Serial.print("drink1 = ");Serial.println(drink1);
 //            Serial.print("drink2 = ");Serial.println(drink2);
 //            Serial.print("drink3 = ");Serial.println(drink3);
-              while(!Serial.available()){}
+              int statusSerial = 0;
+              delay(500);
+              int espStatus = 1;
+              if(drink1 == 0 && drink2 == 0 && drink3 == 0){
+                espStatus = 0;
+              }
+              while(espStatus){
+                if(Serial.available()){
+                  Serial.readBytesUntil('\n',retureData,250);
+                  statusSerial = atoi(retureData);
+//                  Serial.print("statusSerial: ");
+//                  Serial.println(statusSerial);
+                  if(statusSerial == 234){
+                    break;
+                  }
+                }
+              }
               delay(100);
 //              Serial.readBytesUntil('\n',retureData,250);
 //              Serial.println("Next drink ESP32");
