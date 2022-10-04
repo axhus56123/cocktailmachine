@@ -6,9 +6,9 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 const int LOADCELL_DOUT_PIN = 12;
 const int LOADCELL_SCK_PIN = 13;
 
-int val1;
-int val2;
-int val3;
+int val1 = 0;
+int val2 = 0;
+int val3 = 0;
 
 HX711 scale;
 #define clk 2
@@ -80,25 +80,29 @@ void loop() {
     Serial2.readBytesUntil('\n',data1,250);
 //    Serial.print("drink1: ");
 //    Serial.println(data1);
-    pump1ml = atoi(data1);
+    val1 = atoi(data1);
 //    Serial.println(pump1ml);
     
     Serial2.readBytesUntil('\n',data2,250);
 //    Serial.print("drink2: ");
 //    Serial.println(data2);
-    pump2ml = atoi(data2);
+    val2 = atoi(data2);
 //    Serial.println(pump2ml);
     
     Serial2.readBytesUntil('\n',data3,250);
 //    Serial.print("drink3: ");
 //    Serial.println(data3);
-    pump3ml = atoi(data3);
+    val3 = atoi(data3);
 //    Serial.println(pump3ml);
     
     
     delay(100);
 
-    if(pump1ml != 0 || pump2ml != 0 || pump3ml != 0){
+    if(val1 != 0 || val2 != 0 || val3 != 0){
+      pump1ml = val1;
+      pump2ml = val2;
+      pump3ml = val3;
+      
       espStatus = 1;
       goto espData;
     }
