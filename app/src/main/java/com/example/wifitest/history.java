@@ -92,6 +92,7 @@ public class history extends AppCompatActivity {
                 holder.hisdrink3.setText(model.getHisdrink3()+"");
                 holder.hisdrink4.setText(model.getHisdrink4()+"");
                 holder.hisdrink5.setText(model.getHisdrink5()+"");
+                holder.hisdrink6.setText(model.getHisdrink6()+"");
                 holder.time.setText(model.getTime()+"");
             }
         };
@@ -104,7 +105,7 @@ public class history extends AppCompatActivity {
     }
     static class ProductsViewHolder extends  RecyclerView.ViewHolder{
 
-        private TextView hisdrink1,hisdrink2,hisdrink3,hisdrink4,hisdrink5,time;
+        private TextView hisdrink1,hisdrink2,hisdrink3,hisdrink4,hisdrink5,hisdrink6,time;
 
         public ProductsViewHolder(@NonNull View itemView){
             super(itemView);
@@ -113,6 +114,7 @@ public class history extends AppCompatActivity {
             hisdrink3 = itemView.findViewById(R.id.hisdrink3);
             hisdrink4 = itemView.findViewById(R.id.hisdrink4);
             hisdrink5 = itemView.findViewById(R.id.hisdrink5);
+            hisdrink6 = itemView.findViewById(R.id.hisdrink6);
             time = itemView.findViewById(R.id.histime);
         }
     }

@@ -31,11 +31,13 @@ public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.l
         holder.lovedrink3.setText(model.getLovedrink3()+":");
         holder.lovedrink4.setText(model.getLovedrink4()+":");
         holder.lovedrink5.setText(model.getLovedrink5()+":");
+        holder.lovedrink6.setText(model.getLovedrink6()+":");
         holder.lovedrink1ml.setText(model.getLovedrink1ml()+"ml");
         holder.lovedrink2ml.setText(model.getLovedrink2ml()+"ml");
         holder.lovedrink3ml.setText(model.getLovedrink3ml()+"ml");
         holder.lovedrink4ml.setText(model.getLovedrink4ml()+"ml");
         holder.lovedrink5ml.setText(model.getLovedrink5ml()+"ml");
+        holder.lovedrink6ml.setText(model.getLovedrink6ml()+"ml");
     }
 
     @NonNull
@@ -50,7 +52,7 @@ public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.l
 
     class loveholder extends  RecyclerView.ViewHolder{
 
-        TextView lovename,lovedrink1,lovedrink2,lovedrink3,lovedrink4,lovedrink5,lovedrink1ml,lovedrink2ml,lovedrink3ml,lovedrink4ml,lovedrink5ml;
+        TextView lovename,lovedrink1,lovedrink2,lovedrink3,lovedrink4,lovedrink5,lovedrink6,lovedrink1ml,lovedrink2ml,lovedrink3ml,lovedrink4ml,lovedrink5ml,lovedrink6ml;
 
         public loveholder(@NonNull View itemView) {
             super(itemView);
@@ -60,11 +62,13 @@ public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.l
             lovedrink3ml = itemView.findViewById(R.id.lovedrink3ml);
             lovedrink4ml = itemView.findViewById(R.id.lovedrink4ml);
             lovedrink5ml = itemView.findViewById(R.id.lovedrink5ml);
+            lovedrink6ml = itemView.findViewById(R.id.lovedrink6ml);
             lovedrink1 = itemView.findViewById(R.id.lovedrink1);
             lovedrink2 = itemView.findViewById(R.id.lovedrink2);
             lovedrink3 = itemView.findViewById(R.id.lovedrink3);
             lovedrink4 = itemView.findViewById(R.id.lovedrink4);
             lovedrink5 = itemView.findViewById(R.id.lovedrink5);
+            lovedrink6 = itemView.findViewById(R.id.lovedrink6);
         }
     }
 }

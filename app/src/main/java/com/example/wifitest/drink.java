@@ -57,8 +57,8 @@ public class drink extends AppCompatActivity {
     private ImageButton back;
     private ListView lv;
     private Button send ,btnconnect,disconnect;
-    private SeekBar drinkinput1,drinkinput2,drinkinput3,drinkinput4,drinkinput5;
-    private TextView ml1,ml2,ml3,tvMessages,ml4,ml5;
+    private SeekBar drinkinput1,drinkinput2,drinkinput3,drinkinput4,drinkinput5,drinkinput6;
+    private TextView ml1,ml2,ml3,tvMessages,ml4,ml5,ml6;
     private EditText etip,etport;
     private PrintWriter output;
     private BufferedReader input;
@@ -101,12 +101,14 @@ public class drink extends AppCompatActivity {
         drinkinput3 = findViewById(R.id.drinkinput3);
         drinkinput4 = findViewById(R.id.drinkinput4);
         drinkinput5 = findViewById(R.id.drinkinput5);
-        tvMessages = findViewById(R.id.tvMessages);
+        drinkinput6 = findViewById(R.id.drinkinput6);
+        //tvMessages = findViewById(R.id.tvMessages);
         ml1 = findViewById(R.id.drinkml1);
         ml2 = findViewById(R.id.drinkml2);
         ml3 = findViewById(R.id.drinkml3);
         ml4 = findViewById(R.id.drinkml4);
         ml5 = findViewById(R.id.drinkml5);
+        ml6 = findViewById(R.id.drinkml6);
         //etip = findViewById(R.id.ip);
         //etport = findViewById(R.id.port);
         back = findViewById(R.id.drinkBack);
@@ -207,6 +209,24 @@ public class drink extends AppCompatActivity {
 
             }
         });
+        drinkinput6.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress / 10;
+                progress = progress * 10;
+                ml6.setText("飲料6:"+String.valueOf(progress)+"ml");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 
 
@@ -230,7 +250,7 @@ public class drink extends AppCompatActivity {
                     notFound();
                     return;
                 }*/
-                if(drinkinput1.getProgress()==0&&drinkinput2.getProgress()==0&&drinkinput3.getProgress()==0){
+                if(drinkinput1.getProgress()==0&&drinkinput2.getProgress()==0&&drinkinput3.getProgress()==0&&drinkinput4.getProgress()==0&&drinkinput5.getProgress()==0&&drinkinput6.getProgress()==0){
                     notinput();
                     return;
                 }
@@ -280,6 +300,7 @@ public class drink extends AppCompatActivity {
         int drink3 = drinkinput3.getProgress()/10*10;
         int drink4 = drinkinput4.getProgress()/10*10;
         int drink5 = drinkinput5.getProgress()/10*10;
+        int drink6 = drinkinput6.getProgress()/10*10;
         String time = nowDate;
 
 
@@ -291,6 +312,7 @@ public class drink extends AppCompatActivity {
         order.put("drink3",drink3);
         order.put("drink4",drink4);
         order.put("drink5",drink5);
+        order.put("drink6",drink6);
         order.put("time",time);
         count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -320,6 +342,7 @@ public class drink extends AppCompatActivity {
         int ml3 =(drinkinput3.getProgress()/10*10);
         int ml4 =(drinkinput4.getProgress()/10*10);
         int ml5 =(drinkinput5.getProgress()/10*10);
+        int ml6 =(drinkinput6.getProgress()/10*10);
 
         Map<String,Object> history_data= new HashMap<>();
         history_data.put("hisdrink1",ml1);
@@ -327,6 +350,7 @@ public class drink extends AppCompatActivity {
         history_data.put("hisdrink3",ml3);
         history_data.put("hisdrink4",ml4);
         history_data.put("hisdrink5",ml5);
+        history_data.put("hisdrink6",ml6);
         history_data.put("time",nowDate);
 
         db.collection("history:"+currentuser.getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -443,10 +467,11 @@ public class drink extends AppCompatActivity {
         int sml3 =(drinkinput3.getProgress()/10*10);
         int sml4 =(drinkinput4.getProgress()/10*10);
         int sml5 =(drinkinput5.getProgress()/10*10);
+        int sml6 =(drinkinput6.getProgress()/10*10);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("進行調飲?");  //設置標題
         builder.setIcon(R.drawable.icon); //標題前面那個小圖示
-        builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5);
+        builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5+"\n"+"飲料6: "+sml6);
 
 
         //確定 取消
@@ -470,12 +495,14 @@ public class drink extends AppCompatActivity {
                 int dml3 =(drinkinput3.getProgress()/10*10);
                 int dml4 =(drinkinput4.getProgress()/10*10);
                 int dml5 =(drinkinput5.getProgress()/10*10);
+                int dml6 =(drinkinput6.getProgress()/10*10);
 
                 String ml1 = String.valueOf(dml1);
                 String ml2 = String.valueOf(dml2);
                 String ml3 = String.valueOf(dml3);
                 String ml4 = String.valueOf(dml4);
                 String ml5 = String.valueOf(dml5);
+                String ml6 = String.valueOf(dml6);
                 /*if (!ml1.isEmpty()||!ml2.isEmpty()||!ml3.isEmpty()||!ml4.isEmpty()||!ml5.isEmpty()) {
                     new Thread(new Thread3("1")).start();
                 }*/

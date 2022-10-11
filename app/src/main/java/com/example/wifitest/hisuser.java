@@ -3,16 +3,17 @@ package com.example.wifitest;
 public class hisuser {
 
     private  String time;
-    private long hisdrink1,hisdrink2,hisdrink3,hisdrink4,hisdrink5;
+    private long hisdrink1,hisdrink2,hisdrink3,hisdrink4,hisdrink5,hisdrink6;
 
     private hisuser(){}
-    private hisuser(String time,long hisdrink1,long hisdrink2,long hisdrink3/*,long hisdrink4,long hisdrink5*/){
+    private hisuser(String time,long hisdrink1,long hisdrink2,long hisdrink3,long hisdrink4,long hisdrink5,long hisdrink6){
         this.time = time;
         this.hisdrink1 = hisdrink1;
         this.hisdrink2 = hisdrink2;
         this.hisdrink3 = hisdrink3;
         this.hisdrink4 = hisdrink4;
         this.hisdrink5 = hisdrink5;
+        this.hisdrink6 = hisdrink6;
     }
 
     public String getTime() {
@@ -36,6 +37,9 @@ public class hisuser {
     public long getHisdrink5() {
         return hisdrink5;
     }
+    public long getHisdrink6() {
+        return hisdrink6;
+    }
 
     public void setHisdrink1(long hisdrink1) {
         this.hisdrink1 = hisdrink1;
@@ -55,6 +59,9 @@ public class hisuser {
 
     public void setHisdrink5(long hisdrink5) {
         this.hisdrink5 = hisdrink5;
+    }
+    public void setHisdrink6(long hisdrink6) {
+        this.hisdrink6 = hisdrink6;
     }
 
 }

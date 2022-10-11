@@ -1,22 +1,24 @@
 package com.example.wifitest;
 
 public class loveuser {
-    private String lovename,lovedrink1,lovedrink2,lovedrink3,lovedrink4,lovedrink5;
-    private String lovedrink1ml,lovedrink2ml,lovedrink3ml,lovedrink4ml,lovedrink5ml;
+    private String lovename,lovedrink1,lovedrink2,lovedrink3,lovedrink4,lovedrink5,lovedrink6;
+    private String lovedrink1ml,lovedrink2ml,lovedrink3ml,lovedrink4ml,lovedrink5ml,lovedrink6ml;
 
     public loveuser(){}
-    public loveuser(String lovename, String lovedrink1, String lovedrink2, String lovedrink3,String lovedrink4,String lovedrink5, String lovedrink1ml, String lovedrink2ml, String lovedrink3ml,String lovedrink4ml,String lovedrink5ml){
+    public loveuser(String lovename, String lovedrink1, String lovedrink2, String lovedrink3,String lovedrink4,String lovedrink5,String lovedrink6, String lovedrink1ml, String lovedrink2ml, String lovedrink3ml,String lovedrink4ml,String lovedrink5ml,String lovedrink6ml){
         this.lovename = lovename;
         this.lovedrink1 = lovedrink1;
         this.lovedrink2 = lovedrink2;
         this.lovedrink3 = lovedrink3;
         this.lovedrink4 = lovedrink4;
         this.lovedrink5 = lovedrink5;
+        this.lovedrink6 = lovedrink6;
         this.lovedrink1ml = lovedrink1ml;
         this.lovedrink2ml = lovedrink2ml;
         this.lovedrink3ml = lovedrink3ml;
         this.lovedrink4ml = lovedrink4ml;
         this.lovedrink5ml = lovedrink5ml;
+        this.lovedrink6ml = lovedrink6ml;
     }
 
     public String getLovename() {
@@ -42,6 +44,9 @@ public class loveuser {
     public String getLovedrink5() {
         return lovedrink5;
     }
+    public String getLovedrink6() {
+        return lovedrink6;
+    }
 
     public String getLovedrink1ml() {
         return lovedrink1ml;
@@ -61,6 +66,11 @@ public class loveuser {
 
     public String getLovedrink5ml() {
         return lovedrink5ml;
+
+    }
+    public String getLovedrink6ml() {
+        return lovedrink6ml;
+
     }
 
     public void setLovename(String lovename) {
@@ -87,6 +97,10 @@ public class loveuser {
         this.lovedrink5 = lovedrink5;
     }
 
+    public void setLovedrink6(String lovedrink6) {
+        this.lovedrink6 = lovedrink6;
+    }
+
     public void setLovedrink1ml(String lovedrink1ml) {
         this.lovedrink1ml = lovedrink1ml;
     }
@@ -105,5 +119,9 @@ public class loveuser {
 
     public void setLovedrink5ml(String lovedrink5ml) {
         this.lovedrink5ml = lovedrink5ml;
+    }
+
+    public void setLovedrink6ml(String lovedrink6ml) {
+        this.lovedrink6ml = lovedrink6ml;
     }
 }
