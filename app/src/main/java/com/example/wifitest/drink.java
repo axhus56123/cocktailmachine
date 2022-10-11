@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,33 +18,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -58,7 +45,7 @@ public class drink extends AppCompatActivity {
     private ListView lv;
     private Button send ,btnconnect,disconnect;
     private SeekBar drinkinput1,drinkinput2,drinkinput3,drinkinput4,drinkinput5,drinkinput6;
-    private TextView ml1,ml2,ml3,tvMessages,ml4,ml5,ml6;
+    private TextView ml1,ml2,ml3,tvMessages,ml4,ml5,ml6,ML1,ML2,ML3,ML4,ML5,ML6;
     private EditText etip,etport;
     private PrintWriter output;
     private BufferedReader input;
@@ -77,6 +64,7 @@ public class drink extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
+    private FirebaseDatabase ESP32 = FirebaseDatabase.getInstance();
 
 
 
@@ -88,10 +76,9 @@ public class drink extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_drink);
-
         setTitle("調飲");
-
         send = findViewById(R.id.send);
 
         //btnconnect = findViewById(R.id.btnconnect);
@@ -109,12 +96,18 @@ public class drink extends AppCompatActivity {
         ml4 = findViewById(R.id.drinkml4);
         ml5 = findViewById(R.id.drinkml5);
         ml6 = findViewById(R.id.drinkml6);
+        ML1 = findViewById(R.id.ML1);
+        ML2 = findViewById(R.id.ML2);
+        ML3 = findViewById(R.id.ML3);
+        ML4 = findViewById(R.id.ML4);
+        ML5 = findViewById(R.id.ML5);
+        ML6 = findViewById(R.id.ML6);
         //etip = findViewById(R.id.ip);
         //etport = findViewById(R.id.port);
         back = findViewById(R.id.drinkBack);
 
         db=FirebaseFirestore.getInstance();
-
+        Manager();
 
 
         drinkinput1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -122,7 +115,7 @@ public class drink extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
                 progress = progress * 10;
-                ml1.setText("飲料1:"+String.valueOf(progress)+"ml");
+                ML1.setText(String.valueOf(progress)+"ml");
             }
 
             @Override
@@ -141,7 +134,7 @@ public class drink extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
                 progress = progress * 10;
-                ml2.setText("飲料2:"+String.valueOf(progress)+"ml");
+                ML2.setText(String.valueOf(progress)+"ml");
             }
 
             @Override
@@ -160,7 +153,7 @@ public class drink extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
                 progress = progress * 10;
-                ml3.setText("飲料3:"+String.valueOf(progress)+"ml");
+                ML3.setText(String.valueOf(progress)+"ml");
             }
 
             @Override
@@ -178,7 +171,7 @@ public class drink extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
                 progress = progress * 10;
-                ml4.setText("飲料4:"+String.valueOf(progress)+"ml");
+                ML4.setText(String.valueOf(progress)+"ml");
             }
 
             @Override
@@ -196,7 +189,7 @@ public class drink extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
                 progress = progress * 10;
-                ml5.setText("飲料5:"+String.valueOf(progress)+"ml");
+                ML5.setText(String.valueOf(progress)+"ml");
             }
 
             @Override
@@ -214,7 +207,7 @@ public class drink extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
                 progress = progress * 10;
-                ml6.setText("飲料6:"+String.valueOf(progress)+"ml");
+                ML6.setText(String.valueOf(progress)+"ml");
             }
 
             @Override
@@ -541,35 +534,161 @@ public class drink extends AppCompatActivity {
         toast.show();
 
     }
-    /*private void readData() {
-        DatabaseReference count = Db.getReference("count/end");
-        count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+    private void Manager(){
+        DatabaseReference ESP32 = Db.getReference("ESP32");
+
+        ESP32.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 DataSnapshot dataSnapshot = task.getResult();
+                int drinkcounter = (int) dataSnapshot.getChildrenCount();
 
+                switch (drinkcounter){
+                    case 1:
+                        drinkinput1.setVisibility(View.VISIBLE);
+                        drinkinput2.setVisibility(View.GONE);
+                        drinkinput3.setVisibility(View.GONE);
+                        drinkinput4.setVisibility(View.GONE);
+                        drinkinput5.setVisibility(View.GONE);
+                        drinkinput6.setVisibility(View.GONE);
+                        ml1.setVisibility(View.VISIBLE);
+                        ml2.setVisibility(View.GONE);
+                        ml3.setVisibility(View.GONE);
+                        ml4.setVisibility(View.GONE);
+                        ml5.setVisibility(View.GONE);
+                        ml6.setVisibility(View.GONE);
+                        ML1.setVisibility(View.VISIBLE);
+                        ML2.setVisibility(View.GONE);
+                        ML3.setVisibility(View.GONE);
+                        ML4.setVisibility(View.GONE);
+                        ML5.setVisibility(View.GONE);
+                        ML6.setVisibility(View.GONE);
+                        ml1.setText((String) dataSnapshot.child("drink_1").getValue());
+                        break;
+                    case 2:
+                        drinkinput1.setVisibility(View.VISIBLE);
+                        drinkinput2.setVisibility(View.VISIBLE);
+                        drinkinput3.setVisibility(View.GONE);
+                        drinkinput4.setVisibility(View.GONE);
+                        drinkinput5.setVisibility(View.GONE);
+                        drinkinput6.setVisibility(View.GONE);
+                        ml1.setVisibility(View.VISIBLE);
+                        ml2.setVisibility(View.VISIBLE);
+                        ml3.setVisibility(View.GONE);
+                        ml4.setVisibility(View.GONE);
+                        ml5.setVisibility(View.GONE);
+                        ml6.setVisibility(View.GONE);
+                        ML1.setVisibility(View.VISIBLE);
+                        ML2.setVisibility(View.VISIBLE);
+                        ML3.setVisibility(View.GONE);
+                        ML4.setVisibility(View.GONE);
+                        ML5.setVisibility(View.GONE);
+                        ML6.setVisibility(View.GONE);
+                        ml1.setText((String) dataSnapshot.child("drink_1").getValue());
+                        ml2.setText((String) dataSnapshot.child("drink_2").getValue());
+                        break;
+                    case 3:
+                        drinkinput1.setVisibility(View.VISIBLE);
+                        drinkinput2.setVisibility(View.VISIBLE);
+                        drinkinput3.setVisibility(View.VISIBLE);
+                        drinkinput4.setVisibility(View.GONE);
+                        drinkinput5.setVisibility(View.GONE);
+                        drinkinput6.setVisibility(View.GONE);
+                        ml1.setVisibility(View.VISIBLE);
+                        ml2.setVisibility(View.VISIBLE);
+                        ml3.setVisibility(View.VISIBLE);
+                        ml4.setVisibility(View.GONE);
+                        ml5.setVisibility(View.GONE);
+                        ml6.setVisibility(View.GONE);
+                        ML1.setVisibility(View.VISIBLE);
+                        ML2.setVisibility(View.VISIBLE);
+                        ML3.setVisibility(View.VISIBLE);
+                        ML4.setVisibility(View.GONE);
+                        ML5.setVisibility(View.GONE);
+                        ML6.setVisibility(View.GONE);
+                        ml1.setText((String) dataSnapshot.child("drink_1").getValue());
+                        ml2.setText((String) dataSnapshot.child("drink_2").getValue());
+                        ml3.setText((String) dataSnapshot.child("drink_3").getValue());
+                        break;
+                    case 4:
+                        drinkinput1.setVisibility(View.VISIBLE);
+                        drinkinput2.setVisibility(View.VISIBLE);
+                        drinkinput3.setVisibility(View.VISIBLE);
+                        drinkinput4.setVisibility(View.VISIBLE);
+                        drinkinput5.setVisibility(View.GONE);
+                        drinkinput6.setVisibility(View.GONE);
+                        ml1.setVisibility(View.VISIBLE);
+                        ml2.setVisibility(View.VISIBLE);
+                        ml3.setVisibility(View.VISIBLE);
+                        ml4.setVisibility(View.VISIBLE);
+                        ml5.setVisibility(View.GONE);
+                        ml6.setVisibility(View.GONE);
+                        ML1.setVisibility(View.VISIBLE);
+                        ML2.setVisibility(View.VISIBLE);
+                        ML3.setVisibility(View.VISIBLE);
+                        ML4.setVisibility(View.VISIBLE);
+                        ML5.setVisibility(View.GONE);
+                        ML6.setVisibility(View.GONE);
+                        ml1.setText((String) dataSnapshot.child("drink_1").getValue());
+                        ml2.setText((String) dataSnapshot.child("drink_2").getValue());
+                        ml3.setText((String) dataSnapshot.child("drink_3").getValue());
+                        ml4.setText((String) dataSnapshot.child("drink_4").getValue());
+                        break;
+                    case 5:
+                        drinkinput1.setVisibility(View.VISIBLE);
+                        drinkinput2.setVisibility(View.VISIBLE);
+                        drinkinput3.setVisibility(View.VISIBLE);
+                        drinkinput4.setVisibility(View.VISIBLE);
+                        drinkinput5.setVisibility(View.VISIBLE);
+                        drinkinput6.setVisibility(View.GONE);
+                        ml1.setVisibility(View.VISIBLE);
+                        ml2.setVisibility(View.VISIBLE);
+                        ml3.setVisibility(View.VISIBLE);
+                        ml4.setVisibility(View.VISIBLE);
+                        ml5.setVisibility(View.VISIBLE);
+                        ml6.setVisibility(View.GONE);
+                        ML1.setVisibility(View.VISIBLE);
+                        ML2.setVisibility(View.VISIBLE);
+                        ML3.setVisibility(View.VISIBLE);
+                        ML4.setVisibility(View.VISIBLE);
+                        ML5.setVisibility(View.VISIBLE);
+                        ML6.setVisibility(View.GONE);
+                        ml1.setText((String) dataSnapshot.child("drink_1").getValue());
+                        ml2.setText((String) dataSnapshot.child("drink_2").getValue());
+                        ml3.setText((String) dataSnapshot.child("drink_3").getValue());
+                        ml4.setText((String) dataSnapshot.child("drink_4").getValue());
+                        ml5.setText((String) dataSnapshot.child("drink_5").getValue());
+                        break;
+                    case 6:
+                        drinkinput1.setVisibility(View.VISIBLE);
+                        drinkinput2.setVisibility(View.VISIBLE);
+                        drinkinput3.setVisibility(View.VISIBLE);
+                        drinkinput4.setVisibility(View.VISIBLE);
+                        drinkinput5.setVisibility(View.VISIBLE);
+                        drinkinput6.setVisibility(View.VISIBLE);
+                        ml1.setVisibility(View.VISIBLE);
+                        ml2.setVisibility(View.VISIBLE);
+                        ml3.setVisibility(View.VISIBLE);
+                        ml4.setVisibility(View.VISIBLE);
+                        ml5.setVisibility(View.VISIBLE);
+                        ml6.setVisibility(View.VISIBLE);
+                        ML1.setVisibility(View.VISIBLE);
+                        ML2.setVisibility(View.VISIBLE);
+                        ML3.setVisibility(View.VISIBLE);
+                        ML4.setVisibility(View.VISIBLE);
+                        ML5.setVisibility(View.VISIBLE);
+                        ML6.setVisibility(View.VISIBLE);
+                        ml1.setText((String) dataSnapshot.child("drink_1").getValue());
+                        ml2.setText((String) dataSnapshot.child("drink_2").getValue());
+                        ml3.setText((String) dataSnapshot.child("drink_3").getValue());
+                        ml4.setText((String) dataSnapshot.child("drink_4").getValue());
+                        ml5.setText((String) dataSnapshot.child("drink_5").getValue());
+                        ml6.setText((String) dataSnapshot.child("drink_6").getValue());
+                        break;
+                }
             }
         });
-
     }
-
-    private void readEndcounter() {
-
-        DatabaseReference count = Db.getReference("count/end");
-        count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                DataSnapshot dataSnapshot = task.getResult();
-
-                long endcounter = (long) dataSnapshot.getValue();
-                endcounter+=1;
-                count.setValue(endcounter);
-                fireBaseCounter = (long) dataSnapshot.getValue();
-            }
-
-        });
-
-    }*/
 
 
 

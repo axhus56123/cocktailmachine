@@ -113,33 +113,46 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.945" />
 
-   <TextView
-       android:id="@+id/drinkml1"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="飲料1:0ml"
-       android:textSize="24sp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="0.226" />
+    <TextView
+        android:id="@+id/ML1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0ml"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.226" />
 
-   <TextView
-       android:id="@+id/drinkml2"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="飲料2:0ml"
-       android:textSize="24sp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="0.323" />
+    <TextView
+      android:id="@+id/drinkml1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="飲料1:"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.226" />
 
-   "<!--"<TextView
+    <TextView
+        android:id="@+id/drinkml2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="飲料2:"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.323" />
+
+    "<!--"<TextView
         android:id="@+id/tvMessages"
         android:layout_width="406dp"
         android:layout_height="125dp"
@@ -150,20 +163,46 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.288" />"-->"
 
-   <TextView
-       android:id="@+id/drinkml3"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="飲料3:0ml"
-       android:textSize="24sp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="0.42" />
+    <TextView
+        android:id="@+id/ML2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0ml"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.323" />
 
-   <ImageButton
+    <TextView
+        android:id="@+id/drinkml3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="飲料3:"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42" />
+
+    <TextView
+        android:id="@+id/ML3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0ml"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42" />
+
+    <ImageButton
         android:id="@+id/drinkBack"
         android:layout_width="38dp"
         android:layout_height="41dp"
@@ -204,20 +243,33 @@
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintVertical_bias="0.482" />
 
-   <TextView
-       android:id="@+id/drinkml4"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="飲料4:0ml"
-       android:textSize="24sp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="0.517" />
+    <TextView
+        android:id="@+id/drinkml4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="飲料4:"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.517" />
 
-   <SeekBar
+    <TextView
+        android:id="@+id/ML4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0ml"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.517" />
+
+    <SeekBar
        android:id="@+id/drinkinput5"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
@@ -229,20 +281,33 @@
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintVertical_bias="0.577" />
 
-   <TextView
-       android:id="@+id/drinkml5"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="飲料5:0ml"
-       android:textSize="24sp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="0.615" />
+    <TextView
+        android:id="@+id/drinkml5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="飲料5:"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.615" />
 
-   <SeekBar
+    <TextView
+        android:id="@+id/ML5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0ml"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <SeekBar
        android:id="@+id/drinkinput6"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
@@ -254,17 +319,30 @@
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintVertical_bias="0.673" />
 
-   <TextView
-       android:id="@+id/drinkml6"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="飲料6:0ml"
-       android:textSize="24sp"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.0"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintVertical_bias="0.712" />
+    <TextView
+        android:id="@+id/drinkml6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="飲料6:"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.712" />
+
+    <TextView
+        android:id="@+id/ML6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0ml"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.712" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
