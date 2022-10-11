@@ -94,7 +94,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.51" />
 
-    "<!--"<EditText
+    <EditText
         android:id="@+id/newlove4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.851" />"-->"
+        app:layout_constraintVertical_bias="0.851" />
 
     <SeekBar
         android:id="@+id/newlove1ml"
@@ -170,7 +170,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.559" />
 
-    "<!--"<SeekBar
+   <SeekBar
         android:id="@+id/newlove4ml"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89" />"-->"
+        app:layout_constraintVertical_bias="0.89" />
 
     <TextView
         android:id="@+id/newText2"
@@ -220,7 +220,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.599" />
 
-    "<!--"<TextView
+    <TextView
         android:id="@+id/newText4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -244,6 +244,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.941" />"-->"
+        app:layout_constraintVertical_bias="0.941" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

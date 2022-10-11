@@ -39,18 +39,18 @@ public class newlove extends AppCompatActivity {
         newlove1 = findViewById(R.id.newlove1);
         newlove2 = findViewById(R.id.newlove2);
         newlove3 = findViewById(R.id.newlove3);
-        //newlove4 = findViewById(R.id.newlove4);
-        //newlove5 = findViewById(R.id.newlove5);
+        newlove4 = findViewById(R.id.newlove4);
+        newlove5 = findViewById(R.id.newlove5);
         newlove1ml = findViewById(R.id.newlove1ml);
         newlove2ml = findViewById(R.id.newlove2ml);
         newlove3ml = findViewById(R.id.newlove3ml);
-        //newlove4ml = findViewById(R.id.newlove4ml);
-        //newlove5ml = findViewById(R.id.newlove5ml);
+        newlove4ml = findViewById(R.id.newlove4ml);
+        newlove5ml = findViewById(R.id.newlove5ml);
         newml1 = findViewById(R.id.newText1);
         newml2 = findViewById(R.id.newText2);
         newml3 = findViewById(R.id.newText3);
-        //newml4 = findViewById(R.id.newText4);
-        //newml5 = findViewById(R.id.newText5);
+        newml4 = findViewById(R.id.newText4);
+        newml5 = findViewById(R.id.newText5);
 
         newlove1ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -108,7 +108,7 @@ public class newlove extends AppCompatActivity {
 
             }
         });
-        /*newlove4ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        newlove4ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -143,7 +143,7 @@ public class newlove extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });*/
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,17 +167,17 @@ public class newlove extends AppCompatActivity {
         String lovedrink1 = newlove1.getText().toString();
         String lovedrink2 = newlove2.getText().toString();
         String lovedrink3 = newlove3.getText().toString();
-        //String lovedrink4 = newlove4.getText().toString();
-        //String lovedrink5 = newlove5.getText().toString();
+        String lovedrink4 = newlove4.getText().toString();
+        String lovedrink5 = newlove5.getText().toString();
         String lovedrink1ml = String.valueOf(newlove1ml.getProgress()/10*10);
         String lovedrink2ml = String.valueOf(newlove2ml.getProgress()/10*10);
         String lovedrink3ml = String.valueOf(newlove3ml.getProgress()/10*10);
-        //String lovedrink4ml = String.valueOf(newlove4ml.getProgress()/10*10);
-        //String lovedrink5ml = String.valueOf(newlove5ml.getProgress()/10*10);
+        String lovedrink4ml = String.valueOf(newlove4ml.getProgress()/10*10);
+        String lovedrink5ml = String.valueOf(newlove5ml.getProgress()/10*10);
 
         CollectionReference love = FirebaseFirestore.getInstance()
                 .collection("love:" + currentuser.getEmail());
-        love.add(new loveuser(lovename, lovedrink1, lovedrink2, lovedrink3,/*lovedrink4 ,lovedrink5,*/ lovedrink1ml, lovedrink2ml, lovedrink3ml/*,lovedrink4ml,lovedrink5ml*/));
+        love.add(new loveuser(lovename, lovedrink1, lovedrink2, lovedrink3,lovedrink4 ,lovedrink5, lovedrink1ml, lovedrink2ml, lovedrink3ml,lovedrink4ml,lovedrink5ml));
 
         startActivity(new Intent(newlove.this,lovedrink.class));
     }

@@ -20,9 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wifitest">
         <activity
+            android:name=".Manager"
+            android:exported="false" />
+        <activity
             android:name=".Account"
             android:exported="false"
-            android:parentActivityName=".bottomOption"/>
+            android:parentActivityName=".bottomOption" />
         <activity
             android:name=".Register"
             android:exported="false" />

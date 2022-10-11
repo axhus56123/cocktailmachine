@@ -29,13 +29,13 @@ public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.l
         holder.lovedrink1.setText(model.getLovedrink1()+":");
         holder.lovedrink2.setText(model.getLovedrink2()+":");
         holder.lovedrink3.setText(model.getLovedrink3()+":");
-        //holder.lovedrink4.setText(model.getLovedrink4()+":");
-        //holder.lovedrink5.setText(model.getLovedrink5()+":");
+        holder.lovedrink4.setText(model.getLovedrink4()+":");
+        holder.lovedrink5.setText(model.getLovedrink5()+":");
         holder.lovedrink1ml.setText(model.getLovedrink1ml()+"ml");
         holder.lovedrink2ml.setText(model.getLovedrink2ml()+"ml");
         holder.lovedrink3ml.setText(model.getLovedrink3ml()+"ml");
-        //holder.lovedrink4ml.setText(model.getLovedrink4ml()+"ml");
-        //holder.lovedrink5ml.setText(model.getLovedrink5ml()+"ml");
+        holder.lovedrink4ml.setText(model.getLovedrink4ml()+"ml");
+        holder.lovedrink5ml.setText(model.getLovedrink5ml()+"ml");
     }
 
     @NonNull
@@ -58,13 +58,13 @@ public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.l
             lovedrink1ml = itemView.findViewById(R.id.lovedrink1ml);
             lovedrink2ml = itemView.findViewById(R.id.lovedrink2ml);
             lovedrink3ml = itemView.findViewById(R.id.lovedrink3ml);
-            //lovedrink4ml = itemView.findViewById(R.id.lovedrink4ml);
-            //lovedrink5ml = itemView.findViewById(R.id.lovedrink5ml);
+            lovedrink4ml = itemView.findViewById(R.id.lovedrink4ml);
+            lovedrink5ml = itemView.findViewById(R.id.lovedrink5ml);
             lovedrink1 = itemView.findViewById(R.id.lovedrink1);
             lovedrink2 = itemView.findViewById(R.id.lovedrink2);
             lovedrink3 = itemView.findViewById(R.id.lovedrink3);
-            //lovedrink4 = itemView.findViewById(R.id.lovedrink4);
-            //lovedrink5 = itemView.findViewById(R.id.lovedrink5);
+            lovedrink4 = itemView.findViewById(R.id.lovedrink4);
+            lovedrink5 = itemView.findViewById(R.id.lovedrink5);
         }
     }
 }

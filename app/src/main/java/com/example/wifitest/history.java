@@ -90,8 +90,8 @@ public class history extends AppCompatActivity {
                 holder.hisdrink1.setText(model.getHisdrink1()+"");
                 holder.hisdrink2.setText(model.getHisdrink2()+"");
                 holder.hisdrink3.setText(model.getHisdrink3()+"");
-                //holder.hisdrink4.setText(model.getHisdrink4()+"");
-                //holder.hisdrink5.setText(model.getHisdrink5()+"");
+                holder.hisdrink4.setText(model.getHisdrink4()+"");
+                holder.hisdrink5.setText(model.getHisdrink5()+"");
                 holder.time.setText(model.getTime()+"");
             }
         };
@@ -111,8 +111,8 @@ public class history extends AppCompatActivity {
             hisdrink1 = itemView.findViewById(R.id.hisdrink1);
             hisdrink2 = itemView.findViewById(R.id.hisdrink2);
             hisdrink3 = itemView.findViewById(R.id.hisdrink3);
-            //hisdrink4 = itemView.findViewById(R.id.hisdrink4);
-            //hisdrink5 = itemView.findViewById(R.id.hisdrink5);
+            hisdrink4 = itemView.findViewById(R.id.hisdrink4);
+            hisdrink5 = itemView.findViewById(R.id.hisdrink5);
             time = itemView.findViewById(R.id.histime);
         }
     }
