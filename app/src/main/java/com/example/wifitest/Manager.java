@@ -2,6 +2,7 @@ package com.example.wifitest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -111,6 +112,9 @@ public class Manager extends AppCompatActivity {
                         firebaseManager.removeValue();
                         HashMap<String,Object> manager1 = new HashMap<>();
                         manager1.put("drink_1",drinkname1.getText().toString());
+                        Intent intent1 = new Intent();
+                        intent1.setClass(Manager.this,MainActivity.class);
+                        startActivity(intent1);
 
                         firebaseManager.setValue(manager1);
                         break;
@@ -119,6 +123,9 @@ public class Manager extends AppCompatActivity {
                         HashMap<String,Object> manager2 = new HashMap<>();
                         manager2.put("drink_1",drinkname1.getText().toString());
                         manager2.put("drink_2",drinkname2.getText().toString());
+                        Intent intent2 = new Intent();
+                        intent2.setClass(Manager.this,MainActivity.class);
+                        startActivity(intent2);
 
                         firebaseManager.setValue(manager2);
                         break;
@@ -128,6 +135,9 @@ public class Manager extends AppCompatActivity {
                         manager3.put("drink_1",drinkname1.getText().toString());
                         manager3.put("drink_2",drinkname2.getText().toString());
                         manager3.put("drink_3",drinkname3.getText().toString());
+                        Intent intent3 = new Intent();
+                        intent3.setClass(Manager.this,MainActivity.class);
+                        startActivity(intent3);
 
                         firebaseManager.setValue(manager3);
                         break;
@@ -138,6 +148,9 @@ public class Manager extends AppCompatActivity {
                         manager4.put("drink_2",drinkname2.getText().toString());
                         manager4.put("drink_3",drinkname3.getText().toString());
                         manager4.put("drink_4",drinkname4.getText().toString());
+                        Intent intent4 = new Intent();
+                        intent4.setClass(Manager.this,MainActivity.class);
+                        startActivity(intent4);
 
                         firebaseManager.setValue(manager4);
                         break;
@@ -149,6 +162,9 @@ public class Manager extends AppCompatActivity {
                         manager5.put("drink_3",drinkname3.getText().toString());
                         manager5.put("drink_4",drinkname4.getText().toString());
                         manager5.put("drink_5",drinkname5.getText().toString());
+                        Intent intent5 = new Intent();
+                        intent5.setClass(Manager.this,MainActivity.class);
+                        startActivity(intent5);
 
                         firebaseManager.setValue(manager5);
                         break;
@@ -161,6 +177,9 @@ public class Manager extends AppCompatActivity {
                         manager6.put("drink_4",drinkname4.getText().toString());
                         manager6.put("drink_5",drinkname5.getText().toString());
                         manager6.put("drink_6",drinkname6.getText().toString());
+                        Intent intent6 = new Intent();
+                        intent6.setClass(Manager.this,MainActivity.class);
+                        startActivity(intent6);
 
                         firebaseManager.setValue(manager6);
                         break;
