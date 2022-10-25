@@ -68,6 +68,22 @@
             android:ems="10"
             android:inputType="textPassword"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/textViewname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="名子"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etRegistername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <Space
             android:layout_width="match_parent"
@@ -98,7 +114,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="64dp" />
 
 
     </LinearLayout>

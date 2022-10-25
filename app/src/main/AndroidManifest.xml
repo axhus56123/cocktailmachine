@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wifitest">
         <activity
+            android:name=".friendList"
+            android:exported="false" />
+        <activity
             android:name=".Manager"
             android:exported="false" />
         <activity

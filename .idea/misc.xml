@@ -21,6 +21,7 @@
         <entry key="..\:/pccutest/wifitest/app/src/main/res/drawable/btnpink.xml" value="0.337" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/drawable/button_rounde.xml" value="0.337" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/drawable/ic_account.xml" value="0.337" />
+        <entry key="..\:/pccutest/wifitest/app/src/main/res/drawable/ic_add.xml" value="0.337" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/drawable/ic_baseline_density_medium_24.xml" value="0.337" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/drawable/ic_favorite.xml" value="0.337" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/drawable/ic_history.xml" value="0.337" />
@@ -28,6 +29,7 @@
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_account.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_bottom_option.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_drink.xml" value="0.36614583333333334" />
+        <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_friend_list.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_history.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_login.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_lovedrink.xml" value="0.33" />
@@ -36,8 +38,10 @@
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_newlove.xml" value="0.33" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_register.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/activity_user.xml" value="0.36614583333333334" />
+        <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/content_friend_list.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/favoritelist.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/fragment_option.xml" value="0.36614583333333334" />
+        <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/fragment_second.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/historylist.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/item.xml" value="0.36614583333333334" />
         <entry key="..\:/pccutest/wifitest/app/src/main/res/layout/love_item.xml" value="0.33" />
