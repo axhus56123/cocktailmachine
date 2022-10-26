@@ -3,6 +3,7 @@ package com.example.wifitest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,8 +17,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class bottomOption extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    Button btnuser,btnHistory,btnFavorite,btnManager;
+    Button btnuser,btnHistory,btnFavorite,btnManager,btnFriend;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,7 @@ public class bottomOption extends AppCompatActivity {
         btnFavorite = findViewById(R.id.btnlove);
         btnHistory = findViewById(R.id.btnhistory);
         btnManager = findViewById(R.id.manager);
+        btnFriend = findViewById(R.id.btnfriend);
         btnManager.setVisibility(View.GONE);
         String email = currentUser.getEmail();
 
@@ -81,6 +85,13 @@ public class bottomOption extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(bottomOption.this, Manager.class);
+                startActivity(intent);
+            }
+        });
+        btnFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(bottomOption.this, friendList.class);
                 startActivity(intent);
             }
         });

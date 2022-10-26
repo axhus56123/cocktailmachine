@@ -64,6 +64,20 @@
         app:layout_constraintVertical_bias="0.424" />
 
     <Button
+        android:id="@+id/btnfriend"
+        android:layout_width="195dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_rounde"
+        android:text="好友"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <Button
         android:id="@+id/manager"
         android:layout_width="126dp"
         android:layout_height="50dp"
