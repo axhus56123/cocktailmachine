@@ -2,14 +2,24 @@ package com.example.wifitest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.wifitest.model.Friend;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +39,10 @@ public class friendList extends AppCompatActivity {
     FirebaseFirestore db;
     private FloatingActionButton add;
     private String uid;
+    private RecyclerView rvFriend;
+    private LinearLayoutManager mLayoutManger;
+    private FirestoreRecyclerAdapter<Friend, FriendViewHolder> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +52,38 @@ public class friendList extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         uid = currentUser.getUid();
         add = findViewById(R.id.fabadd);
+        rvFriend = findViewById(R.id.rvFriend);
+
+        mLayoutManger = new LinearLayoutManager(this);
+        mLayoutManger.setReverseLayout(true);
+        mLayoutManger.setStackFromEnd(true);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvFriend.getContext(), mLayoutManger.getOrientation());
+        rvFriend.addItemDecoration(dividerItemDecoration);
+        rvFriend.setHasFixedSize(true);
+        rvFriend.setLayoutManager(mLayoutManger);
+
+        FirestoreRecyclerOptions<Friend> options = new FirestoreRecyclerOptions.Builder<Friend>()
+                .setQuery(db.collection("user").document(uid).collection("friend"),Friend.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Friend, FriendViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull FriendViewHolder holder, int position, @NonNull Friend model) {
+                String uidFriend = getSnapshots().getSnapshot(position).getId();
+                holder.setList(uidFriend);
+            }
+
+            @NonNull
+            @Override
+            public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_friend, parent,false);
+                return new FriendViewHolder(view);
+            }
+        };
+
+        rvFriend.setAdapter(adapter);
+        adapter.startListening();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +125,32 @@ public class friendList extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public class FriendViewHolder extends RecyclerView.ViewHolder{
+        View mView;
+        ImageView imgProfile;
+        TextView txtName;
+        public FriendViewHolder(View itemView){
+            super(itemView);
+            mView = itemView;
+            imgProfile = mView.findViewById(R.id.imgProfile);
+            txtName = mView.findViewById(R.id.txtName);
+        }
+        public void setList(String uidFriend){
+            db.collection("user").document(uidFriend).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if(documentSnapshot.exists()){
+                            String name = documentSnapshot.get("name",String.class);
+                            txtName.setText(name);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void checkFriendExist(String uidFriend){
