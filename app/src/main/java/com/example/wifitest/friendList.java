@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -31,7 +32,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class friendList extends AppCompatActivity {
@@ -72,6 +72,13 @@ public class friendList extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull FriendViewHolder holder, int position, @NonNull Friend model) {
                 String uidFriend = getSnapshots().getSnapshot(position).getId();
                 holder.setList(uidFriend);
+
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goChatRoom(model.getIdChatRoom(),uidFriend);
+                    }
+                });
             }
 
             @NonNull
@@ -171,7 +178,10 @@ public class friendList extends AppCompatActivity {
     }
 
     private void  goChatRoom(String idChatroom,String uidFriend){
-
+        Intent intent = new Intent(friendList.this, ChatActivity.class);
+        intent.putExtra("idChatRoom",idChatroom);
+        intent.putExtra("uidFriend",uidFriend);
+        startActivity(intent);
     }
     private void  createChatRoom(String uidFriend){
         HashMap<String,Object> dataChatRoom = new HashMap<>();
