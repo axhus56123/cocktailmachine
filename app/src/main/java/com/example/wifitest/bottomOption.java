@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class bottomOption extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    Button btnuser,btnHistory,btnFavorite,btnManager,btnFriend;
+    Button btnuser,btnHistory,btnFavorite,btnManager,btnFriend,btnblog;
 
 
     @SuppressLint("MissingInflatedId")
@@ -36,6 +36,7 @@ public class bottomOption extends AppCompatActivity {
         btnManager = findViewById(R.id.manager);
         btnFriend = findViewById(R.id.btnfriend);
         btnManager.setVisibility(View.GONE);
+        btnblog = findViewById(R.id.btnBlog);
         String email = currentUser.getEmail();
 
         if(email.equals("system@gmail.com")){
@@ -92,6 +93,13 @@ public class bottomOption extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(bottomOption.this, friendList.class);
+                startActivity(intent);
+            }
+        });
+        btnblog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(bottomOption.this, Blog.class);
                 startActivity(intent);
             }
         });

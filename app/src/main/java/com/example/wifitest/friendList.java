@@ -87,6 +87,9 @@ public class friendList extends AppCompatActivity {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_friend, parent,false);
                 return new FriendViewHolder(view);
             }
+            public void deleteitem(int position){
+                getSnapshots().getSnapshot(position).getReference().delete();
+            }
         };
 
         rvFriend.setAdapter(adapter);
