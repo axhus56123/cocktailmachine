@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -41,14 +42,22 @@ public class Blog extends AppCompatActivity {
     private List<Post> list;
     private Query query;
     private ListenerRegistration listenerRegistration;
-
+    private ImageButton back;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog);
-
+        back = findViewById(R.id.blogBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(Blog.this,bottomOption.class);
+                startActivity(intent);
+            }
+        });
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
 
@@ -87,6 +96,7 @@ public class Blog extends AppCompatActivity {
                         if(doc.getType() == DocumentChange.Type.ADDED){
                             String postId = doc.getDocument().getId();
                             Post post = doc.getDocument().toObject(Post.class).withId(postId);
+                            String postUserId = doc.getDocument().getString("user");
                             list.add(post);
                             adpter.notifyDataSetChanged();
                         }else{

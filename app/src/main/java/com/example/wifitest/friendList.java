@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,11 +40,14 @@ public class friendList extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     private FloatingActionButton add;
+    private ImageView back;
     private String uid;
     private RecyclerView rvFriend;
     private LinearLayoutManager mLayoutManger;
     private FirestoreRecyclerAdapter<Friend, FriendViewHolder> adapter;
 
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +58,20 @@ public class friendList extends AppCompatActivity {
         uid = currentUser.getUid();
         add = findViewById(R.id.fabadd);
         rvFriend = findViewById(R.id.rvFriend);
+        back = findViewById(R.id.friendback);
 
         mLayoutManger = new LinearLayoutManager(this);
         mLayoutManger.setReverseLayout(true);
         mLayoutManger.setStackFromEnd(true);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(friendList.this,bottomOption.class);
+                startActivity(intent);
+            }
+        });
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvFriend.getContext(), mLayoutManger.getOrientation());
         rvFriend.addItemDecoration(dividerItemDecoration);

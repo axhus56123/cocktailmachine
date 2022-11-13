@@ -5,12 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ActivityNavigatorDestinationBuilderKt;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -41,12 +43,22 @@ public class AddPost extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
     private String currentUserId;
+    private ImageButton addback;
     //private Toolbar postToolbar;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
-
+        addback = findViewById(R.id.addblogBack);
+        addback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(AddPost.this,Blog.class);
+                startActivity(intent);
+            }
+        });
         mAddPostBtn = findViewById(R.id.save_post_btn);
         mCaptionText = findViewById(R.id.caption_text);
         mPostImage = findViewById(R.id.post_image);
@@ -101,7 +113,7 @@ public class AddPost extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     mProgressBar.setVisibility(View.INVISIBLE);
                                                     Toast.makeText(AddPost.this, "Post Added Successfully !!", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(AddPost.this, MainActivity.class));
+                                                    startActivity(new Intent(AddPost.this, Blog.class));
                                                     finish();
                                                 } else {
                                                     mProgressBar.setVisibility(View.INVISIBLE);
