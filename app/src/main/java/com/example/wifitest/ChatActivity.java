@@ -7,7 +7,9 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private RecyclerView rvChat;
+    private ImageButton back;
     private EditText edtMessage;
     private ImageButton imbSend;
     private LinearLayoutManager mLayoutManager;
@@ -41,11 +44,12 @@ public class ChatActivity extends AppCompatActivity {
     String uid, idChatRoom;
     String uidFriend;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        back = findViewById(R.id.chatBack);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -61,7 +65,14 @@ public class ChatActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(false);
         mLayoutManager.setStackFromEnd(true);
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(ChatActivity.this,friendList.class);
+                startActivity(intent);
+            }
+        });
         rvChat.setHasFixedSize(true);
         rvChat.setLayoutManager(mLayoutManager);
 //holder.setList(model.getUid(),model.getMessage(),getApplicationContext());

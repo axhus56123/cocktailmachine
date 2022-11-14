@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ public class drink extends AppCompatActivity {
 
     Thread Thread1 = null;
     private Context context = this;
-    private ImageButton back;
+    private ImageView back;
     private ListView lv;
     private Button send ,btnconnect,disconnect;
     private SeekBar drinkinput1,drinkinput2,drinkinput3,drinkinput4,drinkinput5,drinkinput6;
