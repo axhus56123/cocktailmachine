@@ -14,8 +14,8 @@
 #include "addons/RTDBHelper.h"
 
 // Insert your network credentials
-#define WIFI_SSID "iPhone???"
-#define WIFI_PASSWORD "0804320324"
+#define WIFI_SSID "liu home"
+#define WIFI_PASSWORD "2doixxxi"
 
 // Insert Firebase project API Key
 #define API_KEY "AIzaSyDluJtssy73myPtnlukEZkBJhqPNKdBEhw"
@@ -42,15 +42,15 @@ void setup() {
   //Serial.begin(9600);
   Serial.begin(115200, SERIAL_8N1, RXp2, TXp2);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  //Serial.print("Connecting to Wi-Fi");
+  Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
     //Serial.print(".");
     delay(300);
   }
-  //Serial.println();
-  //Serial.print("Connected with IP: ");
-  //Serial.println(WiFi.localIP());
-  //Serial.println();
+  Serial.println();
+  Serial.print("Connected with IP: ");
+  Serial.println(WiFi.localIP());
+  Serial.println();
 
   /* Assign the api key (required) */
   config.api_key = API_KEY;
@@ -108,44 +108,50 @@ void loop() {
         if (Firebase.RTDB.getJSON(&fbdo, "/test/" + nowValue)) {
           if (fbdo.dataType() == "json") {
             stringValue = fbdo.jsonString();
-            //Serial.println(stringValue);
-            const size_t capacity = JSON_OBJECT_SIZE(6) + 60;
+            const size_t capacity = JSON_OBJECT_SIZE(12) + 120;
             DynamicJsonDocument doc(capacity);
             deserializeJson(doc, stringValue);
             int drink1 = doc["drink1"].as<int>();
             int drink2 = doc["drink2"].as<int>();
             int drink3 = doc["drink3"].as<int>();
-//            Serial.print("drink1 = ");
-              Serial.println(drink1);
-              delay(100);
-//            Serial.print("drink2 = ");
-              Serial.println(drink2);
-              delay(100);
-//            Serial.print("drink3 = ");
-              Serial.println(drink3);
-//            Serial.print("drink1 = ");Serial.println(drink1);
-//            Serial.print("drink2 = ");Serial.println(drink2);
-//            Serial.print("drink3 = ");Serial.println(drink3);
-              int statusSerial = 0;
-              delay(500);
-              int espStatus = 1;
-              if(drink1 == 0 && drink2 == 0 && drink3 == 0){
-                espStatus = 0;
-              }
-              while(espStatus){
-                if(Serial.available()){
-                  Serial.readBytesUntil('\n',retureData,250);
-                  statusSerial = atoi(retureData);
-//                  Serial.print("statusSerial: ");
-//                  Serial.println(statusSerial);
-                  if(statusSerial == 234){
-                    break;
-                  }
+            int drink4 = doc["drink4"].as<int>();
+            int drink5 = doc["drink5"].as<int>();
+            int drink6 = doc["drink6"].as<int>();
+
+            delay(100);
+            Serial.println(drink1);
+            delay(100);
+            Serial.println(drink2);
+            delay(100);
+            Serial.println(drink3);
+            delay(100);
+            Serial.println(drink4);
+            delay(100);
+            Serial.println(drink5);
+            delay(100);
+            Serial.println(drink6);
+            delay(100);
+            
+            int statusSerial = 0;
+            delay(500);
+            int espStatus = 1;
+            if(drink1 == 0 && drink2 == 0 && drink3 == 0 && drink4 == 0 && drink5 == 0 && drink6 == 0){
+              espStatus = 0;
+            }
+            while(espStatus){
+              if(Serial.available()){
+                Serial.readBytesUntil('\n',retureData,250);
+                statusSerial = atoi(retureData);
+//              Serial.print("statusSerial: ");
+//              Serial.println(statusSerial);
+                if(statusSerial == 234){
+                  break;
                 }
               }
-              delay(100);
-//              Serial.readBytesUntil('\n',retureData,250);
-//              Serial.println("Next drink ESP32");
+            }
+            delay(100);
+//          Serial.readBytesUntil('\n',retureData,250);
+//          Serial.println("Next drink ESP32");
           }
         }
         else {

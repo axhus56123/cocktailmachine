@@ -13,9 +13,9 @@ HX711 scale;
 #define in1 6
 #define in2 10
 #define in3 9
-#define in4 7
+#define in4 5
 #define in5 8
-#define in6 5
+#define in6 7
 
 #define RXp2 17
 #define TXp2 16
