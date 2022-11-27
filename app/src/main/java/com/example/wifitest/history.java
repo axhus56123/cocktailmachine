@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -75,20 +76,27 @@ public class history extends AppCompatActivity {
                 holder.hisdrink5.setText(model.getHisdrink5()+"");
                 holder.hisdrink6.setText(model.getHisdrink6()+"");
                 holder.time.setText(model.getTime()+"");
+
             }
         };
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(hrecyclerView.VERTICAL);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        hrecyclerView.setLayoutManager(layoutManager);
         hrecyclerView.setHasFixedSize(true);
-        hrecyclerView.setLayoutManager(new LinearLayoutManager(this));
         hrecyclerView.setAdapter(adapter);
 
 
     }
+
     static class ProductsViewHolder extends  RecyclerView.ViewHolder{
 
         private TextView hisdrink1,hisdrink2,hisdrink3,hisdrink4,hisdrink5,hisdrink6,time;
 
+
         public ProductsViewHolder(@NonNull View itemView){
+
             super(itemView);
             hisdrink1 = itemView.findViewById(R.id.hisdrink1);
             hisdrink2 = itemView.findViewById(R.id.hisdrink2);

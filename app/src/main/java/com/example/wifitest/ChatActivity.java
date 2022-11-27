@@ -25,6 +25,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -43,6 +45,7 @@ public class ChatActivity extends AppCompatActivity {
     FirestoreRecyclerAdapter<Chat,ChatViewHolder> adapter;
     String uid, idChatRoom;
     String uidFriend;
+    Intent intent;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,6 +57,8 @@ public class ChatActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         uid = currentUser.getUid();
+        intent = getIntent();
+        final String userid = intent.getStringExtra("userid");
 
         rvChat = findViewById(R.id.rvChat);
         edtMessage = findViewById(R.id.edtMessage);
@@ -75,7 +80,7 @@ public class ChatActivity extends AppCompatActivity {
         });
         rvChat.setHasFixedSize(true);
         rvChat.setLayoutManager(mLayoutManager);
-//holder.setList(model.getUid(),model.getMessage(),getApplicationContext());
+        //holder.setList(model.getUid(),model.getMessage(),getApplicationContext());
         //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_message,parent,false);
         //return new ChatViewHolder(view);
         FirestoreRecyclerOptions<Chat> options = new FirestoreRecyclerOptions.Builder<Chat>()
@@ -124,7 +129,8 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-    public class ChatViewHolder extends RecyclerView.ViewHolder{
+
+        public class ChatViewHolder extends RecyclerView.ViewHolder{
         View mview;
         ConstraintLayout clMessage;
         TextView txtMessage;

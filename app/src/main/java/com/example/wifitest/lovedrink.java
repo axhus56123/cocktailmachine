@@ -55,8 +55,6 @@ public class lovedrink extends AppCompatActivity {
                 startActivity(new Intent(lovedrink.this,newlove.class));
             }
         });
-
-
         setuprecycleview();
     }
     private void setuprecycleview(){

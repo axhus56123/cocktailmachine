@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -25,11 +27,12 @@ import java.util.Random;
 public class Register extends AppCompatActivity {
 
     Activity context = this;
-    FirebaseAuth mAuth;
+    FirebaseAuth auth;
     FirebaseFirestore db;
     EditText etacc,etpass,etname;
     TextView tv8,login;
     Button sure;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +43,12 @@ public class Register extends AppCompatActivity {
         tv8 = findViewById(R.id.tv8);
         sure = findViewById(R.id.btnlogout);
         login = findViewById(R.id.textViewlogin);
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         etname = findViewById(R.id.etRegistername);
 
         db = FirebaseFirestore.getInstance();
+
+
 
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,12 +61,23 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
-                mAuth.createUserWithEmailAndPassword(etacc.getText().toString(),etpass.getText().toString()).addOnCompleteListener(context, new OnCompleteListener<AuthResult>() {
+                auth.createUserWithEmailAndPassword(etacc.getText().toString(),etpass.getText().toString()).addOnCompleteListener(context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            FirebaseUser user=mAuth.getCurrentUser();
+                            FirebaseUser user=auth.getCurrentUser();
                             String uid = user.getUid();
+                            reference = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+                            HashMap<String,String> hashMap = new HashMap<>();
+                            hashMap.put("id",uid);
+                            hashMap.put("username",name);
+                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                }
+                            });
+
                             HashMap<String,Object> datauser = new HashMap<>();
                             datauser.put("name",name);
                             datauser.put("id",getRandom(6));
@@ -93,6 +109,7 @@ public class Register extends AppCompatActivity {
         });
 
     }
+
     private void switchToLogin(){
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);

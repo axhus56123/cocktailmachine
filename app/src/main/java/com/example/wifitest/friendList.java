@@ -3,21 +3,26 @@ package com.example.wifitest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.example.wifitest.model.Friend;
@@ -32,25 +37,28 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 
 public class friendList extends AppCompatActivity {
     FirebaseAuth mAuth;
-    FirebaseFirestore db;
+    static FirebaseFirestore db;
     private FloatingActionButton add;
     private ImageView back;
     private String uid;
+    private EditText search;
     private RecyclerView rvFriend;
     private LinearLayoutManager mLayoutManger;
     private FirestoreRecyclerAdapter<Friend, FriendViewHolder> adapter;
 
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ProgressDialog pd = new ProgressDialog(friendList.this);
         setContentView(R.layout.activity_friend_list);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -59,6 +67,7 @@ public class friendList extends AppCompatActivity {
         add = findViewById(R.id.fabadd);
         rvFriend = findViewById(R.id.rvFriend);
         back = findViewById(R.id.friendback);
+        search = findViewById(R.id.search);
 
         mLayoutManger = new LinearLayoutManager(this);
         mLayoutManger.setReverseLayout(true);
@@ -72,6 +81,7 @@ public class friendList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvFriend.getContext(), mLayoutManger.getOrientation());
         rvFriend.addItemDecoration(dividerItemDecoration);
@@ -88,24 +98,41 @@ public class friendList extends AppCompatActivity {
                 String uidFriend = getSnapshots().getSnapshot(position).getId();
                 holder.setList(uidFriend);
 
+
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         goChatRoom(model.getIdChatRoom(),uidFriend);
                     }
                 });
-            }
 
+            }
+            
             @NonNull
             @Override
             public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_friend, parent,false);
                 return new FriendViewHolder(view);
+                
             }
             public void deleteitem(int position){
                 getSnapshots().getSnapshot(position).getReference().delete();
             }
+
+
         };
+
+        /*new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.deleteitem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(rvFriend);*/
 
         rvFriend.setAdapter(adapter);
         adapter.startListening();
@@ -152,7 +179,9 @@ public class friendList extends AppCompatActivity {
         });
     }
 
-    public class FriendViewHolder extends RecyclerView.ViewHolder{
+
+
+    public static class FriendViewHolder extends RecyclerView.ViewHolder{
         View mView;
         ImageView imgProfile;
         TextView txtName;
@@ -161,6 +190,7 @@ public class friendList extends AppCompatActivity {
             mView = itemView;
             imgProfile = mView.findViewById(R.id.imgProfile);
             txtName = mView.findViewById(R.id.txtName);
+
         }
         public void setList(String uidFriend){
             db.collection("user").document(uidFriend).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
