@@ -6,20 +6,16 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 const int LOADCELL_DOUT_PIN = 12;
 const int LOADCELL_SCK_PIN = 13;
 
-int val1 = 0;
-int val2 = 0;
-int val3 = 0;
-
 HX711 scale;
 #define clk 2
 #define dt 3
 #define sw 4
-#define in1 5
-#define in2 6
-#define in3 7
-#define in4 8
-#define in5 9
-#define in6 10
+#define in1 6
+#define in2 10
+#define in3 9
+#define in4 7
+#define in5 8
+#define in6 5
 
 #define RXp2 17
 #define TXp2 16
@@ -30,10 +26,20 @@ bool doonce = 0;
 char screen = 0;
 boolean changestate = 0;
 long weight;
-long pump1ml = 20;
-long pump2ml = 20;
-long pump3ml = 20;
 
+int pump1ml = 20;
+int pump2ml = 20;
+int pump3ml = 20;
+int pump4ml = 20;
+int pump5ml = 20;
+int pump6ml = 20;
+
+int val1 = 0;
+int val2 = 0;
+int val3 = 0;
+int val4 = 0;
+int val5 = 0;
+int val6 = 0;
 
 void isr0 ()  {
   TurnDetected = true;
@@ -73,35 +79,40 @@ void loop() {
   char data1[250]={0};
   char data2[250]={0};
   char data3[250]={0};
+  char data4[250]={0};
+  char data5[250]={0};
+  char data6[250]={0};
   int espStatus = 0;
   size_t setRxBufferSize(size_t);
 
   if(Serial2.available()){
     Serial2.readBytesUntil('\n',data1,250);
-//    Serial.print("drink1: ");
-//    Serial.println(data1);
     val1 = atoi(data1);
-//    Serial.println(pump1ml);
     
     Serial2.readBytesUntil('\n',data2,250);
-//    Serial.print("drink2: ");
-//    Serial.println(data2);
     val2 = atoi(data2);
-//    Serial.println(pump2ml);
     
     Serial2.readBytesUntil('\n',data3,250);
-//    Serial.print("drink3: ");
-//    Serial.println(data3);
     val3 = atoi(data3);
-//    Serial.println(pump3ml);
     
+    Serial2.readBytesUntil('\n',data4,250);
+    val4 = atoi(data4);
+
+    Serial2.readBytesUntil('\n',data5,250);
+    val5 = atoi(data5);
+
+    Serial2.readBytesUntil('\n',data6,250);
+    val6 = atoi(data6);
     
     delay(100);
 
-    if(val1 != 0 || val2 != 0 || val3 != 0){
+    if(val1 != 0 || val2 != 0 || val3 != 0 || val4 != 0 || val5 != 0 || val6 != 0){
       pump1ml = val1;
       pump2ml = val2;
       pump3ml = val3;
+      pump4ml = val4;
+      pump5ml = val5;
+      pump6ml = val6;
       
       espStatus = 1;
       goto espData;
@@ -114,8 +125,8 @@ void loop() {
     if (changestate == 0) {
       if (up) {
         screen++;
-        if (screen > 3) {
-          screen = 3;
+        if (screen > 6) {
+          screen = 6;
         }
       }
       else {
@@ -134,6 +145,12 @@ void loop() {
           break;
           case 2: pump3ml = pump3ml + 10;
           break;
+          case 3: pump4ml = pump4ml + 10;
+          break;
+          case 4: pump5ml = pump5ml + 10;
+          break;
+          case 5: pump6ml = pump6ml + 10;
+          break;
         }
       }
       else {
@@ -147,12 +164,27 @@ void loop() {
             pump2ml = pump2ml - 10;
             if(pump2ml <= 0)
               pump2ml = 0;
-          break;
+            break;
           case 2:
             pump3ml = pump3ml - 10;
             if(pump3ml <= 0)
               pump3ml = 0;
-          break;
+            break;
+          case 3:
+            pump4ml = pump4ml - 10;
+            if(pump4ml <= 0)
+              pump4ml = 0;
+            break;
+          case 4:
+            pump5ml = pump5ml - 10;
+            if(pump5ml <= 0)
+              pump5ml = 0;
+            break;
+          case 5:
+            pump6ml = pump6ml - 10;
+            if(pump6ml <= 0)
+              pump6ml = 0;
+            break;
         }
       }
     }
@@ -210,6 +242,48 @@ void loop() {
 
   if (screen == 3 && doonce == 0) {
     lcd.clear();
+    lcd.print("pump 4");
+    lcd.setCursor(0, 1);
+    lcd.print(pump4ml);
+    lcd.setCursor(3, 1);
+    lcd.print("ml");
+    if (changestate == 0) {
+      lcd.setCursor(9, 0 );
+      lcd.print("Change?");
+    }
+    doonce = 1;
+  }
+
+  if (screen == 4 && doonce == 0) {
+    lcd.clear();
+    lcd.print("pump 5");
+    lcd.setCursor(0, 1);
+    lcd.print(pump5ml);
+    lcd.setCursor(3, 1);
+    lcd.print("ml");
+    if (changestate == 0) {
+      lcd.setCursor(9, 0 );
+      lcd.print("Change?");
+    }
+    doonce = 1;
+  }
+
+  if (screen == 5 && doonce == 0) {
+    lcd.clear();
+    lcd.print("pump 6");
+    lcd.setCursor(0, 1);
+    lcd.print(pump6ml);
+    lcd.setCursor(3, 1);
+    lcd.print("ml");
+    if (changestate == 0) {
+      lcd.setCursor(9, 0 );
+      lcd.print("Change?");
+    }
+    doonce = 1;
+  }
+
+  if (screen == 6 && doonce == 0) {
+    lcd.clear();
     if (changestate == 0) {
       lcd.print("Start?");
       doonce = 1;
@@ -223,20 +297,11 @@ void loop() {
       delay(100);
       lcd.clear();
       lcd.print("Pump 1 ON");
-//      Serial.print("weight1: ");
-//      Serial.println(weight);
-//      Serial.print("pump1ml: ");
-//      Serial.println(pump1ml);
       if(pump1ml > 0){
         digitalWrite(in1, HIGH);
         long x = pump1ml*1030L;
-//        Serial.print("x: ");
-//        Serial.println(x);
-        while (scale.read() - weight <= x) {
-//          Serial.println("1111111111111");
-//          Serial.println(scale.read());  
-        }
-//        delay((pump1ml/10)*1500);
+        while (scale.read() - weight <= x) {}
+
         digitalWrite(in1, LOW);
       }
       else{
@@ -252,22 +317,11 @@ void loop() {
       delay(100);
       lcd.clear();
       lcd.print("Pump 2 ON");
-//      Serial.print("weight2: ");
-//      Serial.println(weight);
-//      Serial.print("pump2ml: ");
-//      Serial.println(pump2ml);
       if(pump2ml > 0){
-        digitalWrite(in3, HIGH);
+        digitalWrite(in2, HIGH);
         long y = pump2ml*1030L;
-//        Serial.print("y: ");
-//        Serial.println(y);
-        while (scale.read() - weight <= y) {
-//          Serial.println("222222222222");
-//          Serial.println(scale.read());  
-        }
-      
-//        delay((pump2ml/10)*1500);
-        digitalWrite(in3, LOW);
+        while (scale.read() - weight <= y) {}
+        digitalWrite(in2, LOW);
       }
       else{
         delay(500);
@@ -282,21 +336,11 @@ void loop() {
       delay(100);
       lcd.clear();
       lcd.print("Pump 3 ON");
-//      Serial.print("weight3: ");
-//      Serial.println(weight);
-//      Serial.print("pump3ml: ");
-//      Serial.println(pump3ml);
       if(pump3ml > 0){
-        digitalWrite(in5, HIGH);
+        digitalWrite(in3, HIGH);
         long z = pump3ml*1030L;
-//        Serial.print("z: ");
-//        Serial.println(z);
-        while (scale.read() - weight <= z) {
-//          Serial.println("33333333333");
-//          Serial.println(scale.read());
-        }
-//        delay((pump3ml/10)*1500);
-        digitalWrite(in5, LOW);
+        while (scale.read() - weight <= z) {}
+        digitalWrite(in3, LOW);
       }
       else{
         delay(500);
@@ -304,6 +348,63 @@ void loop() {
 
       lcd.clear();
       lcd.print(pump3ml);
+      lcd.print("ml");
+
+      delay(2000);
+      weight = scale.read();
+      delay(100);
+      lcd.clear();
+      lcd.print("Pump 4 ON");
+      if(pump4ml > 0){
+        digitalWrite(in4, HIGH);
+        long z = pump4ml*1030L;
+        while (scale.read() - weight <= z) {}
+        digitalWrite(in4, LOW);
+      }
+      else{
+        delay(500);
+      }
+
+      lcd.clear();
+      lcd.print(pump4ml);
+      lcd.print("ml");
+
+      delay(2000);
+      weight = scale.read();
+      delay(100);
+      lcd.clear();
+      lcd.print("Pump 5 ON");
+      if(pump5ml > 0){
+        digitalWrite(in5, HIGH);
+        long z = pump5ml*1030L;
+        while (scale.read() - weight <= z) {}
+        digitalWrite(in5, LOW);
+      }
+      else{
+        delay(500);
+      }
+
+      lcd.clear();
+      lcd.print(pump5ml);
+      lcd.print("ml");
+
+      delay(2000);
+      weight = scale.read();
+      delay(100);
+      lcd.clear();
+      lcd.print("Pump 6 ON");
+      if(pump6ml > 0){
+        digitalWrite(in6, HIGH);
+        long z = pump6ml*1030L;
+        while (scale.read() - weight <= z) {}
+        digitalWrite(in6, LOW);
+      }
+      else{
+        delay(500);
+      }
+
+      lcd.clear();
+      lcd.print(pump6ml);
       lcd.print("ml");
       
       delay(2000);
@@ -325,8 +426,8 @@ void loop() {
             doonce = 0;
           }  
         }
-        int hhh = 234;
-        Serial2.println(hhh);
+        int response = 234;
+        Serial2.println(response);
         lcd.clear();
         changestate = 0;
       }
