@@ -39,18 +39,18 @@ bool signupOK = false;
 String stringValue;
 
 void setup() {
-  //Serial.begin(9600);
+//  Serial.begin(9600);
   Serial.begin(115200, SERIAL_8N1, RXp2, TXp2);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.print("Connecting to Wi-Fi");
+//  Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
     //Serial.print(".");
     delay(300);
   }
-  Serial.println();
-  Serial.print("Connected with IP: ");
-  Serial.println(WiFi.localIP());
-  Serial.println();
+//  Serial.println();
+//  Serial.print("Connected with IP: ");
+//  Serial.println(WiFi.localIP());
+//  Serial.println();
 
   /* Assign the api key (required) */
   config.api_key = API_KEY;
