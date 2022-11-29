@@ -48,7 +48,7 @@ public class friendList extends AppCompatActivity {
     private FloatingActionButton add;
     private ImageView back;
     private String uid;
-    private EditText search;
+    //private EditText search;
     private RecyclerView rvFriend;
     private LinearLayoutManager mLayoutManger;
     private FirestoreRecyclerAdapter<Friend, FriendViewHolder> adapter;
@@ -67,7 +67,7 @@ public class friendList extends AppCompatActivity {
         add = findViewById(R.id.fabadd);
         rvFriend = findViewById(R.id.rvFriend);
         back = findViewById(R.id.friendback);
-        search = findViewById(R.id.search);
+        //search = findViewById(R.id.search);
 
         mLayoutManger = new LinearLayoutManager(this);
         mLayoutManger.setReverseLayout(true);

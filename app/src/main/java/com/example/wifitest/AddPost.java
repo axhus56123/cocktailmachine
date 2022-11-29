@@ -3,11 +3,16 @@ package com.example.wifitest;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.ActivityNavigatorDestinationBuilderKt;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,11 +49,16 @@ public class AddPost extends AppCompatActivity {
     private FirebaseAuth auth;
     private String currentUserId;
     private ImageButton addback;
+    private static final int GALLERY_REQUEST = 1;
+
     //private Toolbar postToolbar;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int storge;
+        storge= (int)(Math.random()*6000)+1;
+        String storgeCount = String.valueOf(storge);
         setContentView(R.layout.activity_add_post);
         addback = findViewById(R.id.addblogBack);
         addback.setOnClickListener(new View.OnClickListener() {
@@ -87,13 +97,14 @@ public class AddPost extends AppCompatActivity {
             }
         });
 
+
         mAddPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mProgressBar.setVisibility(View.VISIBLE);
                 String caption = mCaptionText.getText().toString();
                 if (!caption.isEmpty() && postImageUri !=null) {
-                    StorageReference postRef = storageReference.child("post_images").child(FieldValue.serverTimestamp().toString() + ".jpg");
+                    StorageReference postRef = storageReference.child(storgeCount).child(FieldValue.serverTimestamp().toString() + ".jpg");
                     postRef.putFile(postImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
