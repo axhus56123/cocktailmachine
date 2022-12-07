@@ -120,7 +120,7 @@ void loop() {
   }
   
   if (TurnDetected) {
-    delay(200);
+    delay(20);
     doonce = 0;
     if (changestate == 0) {
       if (up) {
@@ -139,18 +139,36 @@ void loop() {
     else {
       if (up) {
         switch (screen) {
-          case 0: pump1ml = pump1ml + 10;
-          break;
-          case 1: pump2ml = pump2ml + 10;
-          break;
-          case 2: pump3ml = pump3ml + 10;
-          break;
-          case 3: pump4ml = pump4ml + 10;
-          break;
-          case 4: pump5ml = pump5ml + 10;
-          break;
-          case 5: pump6ml = pump6ml + 10;
-          break;
+          case 0: 
+            pump1ml = pump1ml + 10;
+            if(pump1ml >= 250)
+              pump1ml = 250;
+            break;
+          case 1: 
+            pump2ml = pump2ml + 10;
+            if(pump2ml >= 250)
+              pump2ml = 250;
+            break;
+          case 2: 
+            pump3ml = pump3ml + 10;
+            if(pump3ml >= 250)
+              pump3ml = 250;
+            break;
+          case 3: 
+            pump4ml = pump4ml + 10;
+            if(pump4ml >= 250)
+              pump4ml = 250;
+            break;
+          case 4: 
+            pump5ml = pump5ml + 10;
+            if(pump5ml >= 250)
+              pump5ml = 250;
+            break;
+          case 5: 
+            pump6ml = pump6ml + 10;
+            if(pump6ml >= 250)
+              pump6ml = 250;
+            break;
         }
       }
       else {
@@ -190,17 +208,16 @@ void loop() {
     }
     TurnDetected = false;
   }
-
-
+  
   if (digitalRead(sw) == LOW) {
-    delay(200);
+    delay(20);
     changestate = !changestate;
     doonce = 0;
   }
 
   if (screen == -1 && doonce == 0){
-    lcd.clear();
     if (changestate == 0) {
+      lcd.clear();
       lcd.print("WASH MODE");
       lcd.setCursor(10, 1);
       lcd.print("START?");
@@ -231,6 +248,7 @@ void loop() {
       digitalWrite(in4, HIGH);
       digitalWrite(in5, HIGH);
       digitalWrite(in6, HIGH);
+      
       while(count >= 1){
         lcd.clear();
         lcd.print("PROCESSING!");
@@ -493,4 +511,5 @@ void loop() {
       }
     }
   }
+  
 }
