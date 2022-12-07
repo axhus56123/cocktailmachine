@@ -131,6 +131,8 @@ void loop() {
             delay(100);
             Serial.println(drink6);
             delay(100);
+
+            Firebase.RTDB.setInt(&fbdo, "count/start", startValue+1);
             
             int statusSerial = 0;
             delay(500);
@@ -159,13 +161,19 @@ void loop() {
           //Serial.println(fbdo.errorReason());
         }
 
+        if (Firebase.RTDB.getInt(&fbdo, "/count/start")) {
+          if (fbdo.dataType() == "int") {
+            startValue = fbdo.intData();
+          }
+        }
+        
         if (Firebase.RTDB.getInt(&fbdo, "/count/end")) {
           if (fbdo.dataType() == "int") {
             endValue = fbdo.intData();
           }
         }
+        
       }
-      Firebase.RTDB.setInt(&fbdo, "count/start", endValue+1);
     }
     else{
       //Serial.println("----------");

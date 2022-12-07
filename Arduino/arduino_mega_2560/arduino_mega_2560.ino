@@ -131,8 +131,8 @@ void loop() {
       }
       else {
         screen = screen - 1;
-        if (screen < 0) {
-          screen = 0;
+        if (screen < -1) {
+          screen = -1;
         }
       }
     }
@@ -198,6 +198,66 @@ void loop() {
     doonce = 0;
   }
 
+  if (screen == -1 && doonce == 0){
+    lcd.clear();
+    if (changestate == 0) {
+      lcd.print("WASH MODE");
+      lcd.setCursor(10, 1);
+      lcd.print("START?");
+      doonce = 1;
+    }
+    else {
+      int count = 20;
+      lcd.clear();
+      lcd.print("PROCESSING!");
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, HIGH);
+      digitalWrite(in3, HIGH);
+
+      while(count >= 11){
+        lcd.setCursor(3, 1);
+        lcd.print("REMAIN");
+        lcd.setCursor(10, 1);
+        lcd.print(count);
+        lcd.setCursor(13, 1);
+        lcd.print("sec");
+        count--;
+        delay(1000);
+      }
+      
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, LOW);
+      digitalWrite(in3, LOW);
+      digitalWrite(in4, HIGH);
+      digitalWrite(in5, HIGH);
+      digitalWrite(in6, HIGH);
+      while(count >= 1){
+        lcd.clear();
+        lcd.print("PROCESSING!");
+        lcd.setCursor(3, 1);
+        lcd.print("REMAIN");
+        
+        if(count == 10)
+          lcd.setCursor(10, 1);
+        else
+          lcd.setCursor(11, 1);
+          
+        lcd.print(count);
+        lcd.setCursor(13, 1);
+        lcd.print("sec");
+        count--;
+        delay(1000);
+      }
+      digitalWrite(in4, LOW);
+      digitalWrite(in5, LOW);
+      digitalWrite(in6, LOW);
+
+      delay(200);
+      changestate = 0;
+      screen = 0;
+    }
+  }
+  
   if (screen == 0 && doonce == 0) {
     lcd.clear();
     lcd.print("pump 1");
