@@ -52,7 +52,7 @@ public class AddPost extends AppCompatActivity {
     private static final int GALLERY_REQUEST = 1;
 
     //private Toolbar postToolbar;
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

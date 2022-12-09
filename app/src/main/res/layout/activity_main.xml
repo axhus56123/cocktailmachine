@@ -67,12 +67,12 @@
         android:layout_width="418dp"
         android:layout_height="389dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button01"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/home_drink" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

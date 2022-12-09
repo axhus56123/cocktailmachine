@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +40,8 @@ public class MainActivity<override> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setSelectedItemId(R.id.bottomHome);
         button01 = findViewById(R.id.button01);
@@ -71,6 +74,10 @@ public class MainActivity<override> extends AppCompatActivity {
         button01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(networkInfo==null||!networkInfo.isConnected()){
+                    notwifi();
+                    return;
+                }
                 if(currentuser == null){
                     notlogin();
                     Intent loginActivityIntent = new Intent(MainActivity.this, Login.class);
@@ -93,19 +100,9 @@ public class MainActivity<override> extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "未登入", Toast.LENGTH_SHORT);
         toast.show();
     }
-
-
-    //右上選單
-
-
-
-
-
-
-
-
-    //操控調飲
-
-
+    private void notwifi(){
+        Toast toast = Toast.makeText(this, "未連接網路", Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
 }

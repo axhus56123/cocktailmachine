@@ -166,7 +166,7 @@ public class friendList extends AppCompatActivity {
                                                 edtid.setError("wrong ID");
                                             }else{
                                                 dialog.cancel();
-                                                checkFriendExist(uidfriend);
+                                                checkFriendExist(uidfriend,iduser);
                                             }
                                         }
                                     }
@@ -206,9 +206,10 @@ public class friendList extends AppCompatActivity {
                 }
             });
         }
+
     }
 
-    private void checkFriendExist(String uidFriend){
+    private void checkFriendExist(String uidFriend,String iduser){
         db.collection("user").document(uid).collection("friend").document().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -218,7 +219,7 @@ public class friendList extends AppCompatActivity {
                         String idChatroom = documentSnapshot.get("idChatroom",String.class);
                         goChatRoom(idChatroom,uidFriend);
                     }else{
-                        createChatRoom(uidFriend);
+                        createChatRoom(uidFriend,iduser);
                     }
                 }
             }
@@ -231,7 +232,7 @@ public class friendList extends AppCompatActivity {
         intent.putExtra("uidFriend",uidFriend);
         startActivity(intent);
     }
-    private void  createChatRoom(String uidFriend){
+    private void  createChatRoom(String uidFriend,String iduser){
         HashMap<String,Object> dataChatRoom = new HashMap<>();
         dataChatRoom.put("dataAdded", FieldValue.serverTimestamp());
         db.collection("chatRoom").document(uid+uidFriend).set(dataChatRoom).addOnSuccessListener(new OnSuccessListener<Void>() {

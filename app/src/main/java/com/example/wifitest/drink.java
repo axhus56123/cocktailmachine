@@ -3,15 +3,23 @@ package com.example.wifitest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -29,9 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.PrintWriter;
-import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,58 +45,41 @@ import java.util.Map;
 
 
 public class drink extends AppCompatActivity {
-
-    Thread Thread1 = null;
     private Context context = this;
     private ImageView back;
     private ListView lv;
     private Button send ,btnconnect,disconnect;
     private SeekBar drinkinput1,drinkinput2,drinkinput3,drinkinput4,drinkinput5,drinkinput6;
-    private TextView ml1,ml2,ml3,tvMessages,ml4,ml5,ml6,ML1,ML2,ML3,ML4,ML5,ML6;
+    private TextView ml1,ml2,ml3,tvMessages,ml4,ml5,ml6,ML1,ML2,ML3,ML4,ML5,ML6,drinkcon;
     private EditText etip,etport;
     private PrintWriter output;
     private BufferedReader input;
-    public Socket socket;
     private FirebaseFirestore db;
     private String x_last="0";
     private String x_select="0";
-    String SERVER_IP;
-    int SERVER_PORT;
     long fireBaseCounter,endcounter;
-    String a;
-    private Thread thread;                //執行緒
-    private BufferedWriter bw;            //取得網路輸出串流
-    private BufferedReader br;            //取得網路輸入串流
-    private String tmp;   //做為接收時的緩存
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
     private FirebaseDatabase ESP32 = FirebaseDatabase.getInstance();
 
-
-
-
-
-
-
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_drink);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         setTitle("調飲");
         send = findViewById(R.id.send);
 
-        //btnconnect = findViewById(R.id.btnconnect);
-        //disconnect = findViewById(R.id.btndisconnect);
         drinkinput1 = findViewById(R.id.drinkinput1);
         drinkinput2 = findViewById(R.id.drinkinput2);
         drinkinput3 = findViewById(R.id.drinkinput3);
         drinkinput4 = findViewById(R.id.drinkinput4);
         drinkinput5 = findViewById(R.id.drinkinput5);
         drinkinput6 = findViewById(R.id.drinkinput6);
-        //tvMessages = findViewById(R.id.tvMessages);
         ml1 = findViewById(R.id.drinkml1);
         ml2 = findViewById(R.id.drinkml2);
         ml3 = findViewById(R.id.drinkml3);
@@ -103,13 +92,19 @@ public class drink extends AppCompatActivity {
         ML4 = findViewById(R.id.ML4);
         ML5 = findViewById(R.id.ML5);
         ML6 = findViewById(R.id.ML6);
-        //etip = findViewById(R.id.ip);
-        //etport = findViewById(R.id.port);
-        back = findViewById(R.id.drinkBack);
+        drinkcon = findViewById(R.id.drinkcont);
+        back = findViewById(R.id.managerBack);
 
         db=FirebaseFirestore.getInstance();
         Manager();
+        drinkcount();
+        Notification();
 
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("Drink Notification","Drink Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
 
         drinkinput1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -222,44 +217,22 @@ public class drink extends AppCompatActivity {
             }
         });
 
-
-
-        /*btnconnect.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                    tvMessages.setText("");
-                    SERVER_IP = etip.getText().toString().trim();
-                    SERVER_PORT = Integer.parseInt(etport.getText().toString().trim());
-                    Thread1 = new Thread(new Thread1());
-                    Thread1.start();
-                }
-
-        });*/
-
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(output==null) {
-                    notFound();
+                if(networkInfo==null||!networkInfo.isConnected()){
+                    notwifi();
                     return;
-                }*/
+                }
+
                 if(drinkinput1.getProgress()==0&&drinkinput2.getProgress()==0&&drinkinput3.getProgress()==0&&drinkinput4.getProgress()==0&&drinkinput5.getProgress()==0&&drinkinput6.getProgress()==0){
                     notinput();
                     return;
                 }
                 Sure();
-
-
+                Notification();
             }
         });
-
-        /*disconnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                disConnect();
-            }
-        });*/
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,23 +244,41 @@ public class drink extends AppCompatActivity {
         });
     }
 
-    /*private void disConnect()  {
-        if (socket == null) return;
-        try{
-            socket.close();
-            socket = null;
-            bw = null;
-            br = null;
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+    private void Notification(){
+        DatabaseReference capacity = Db.getReference("capacity");
+        String Useruid = currentuser.getUid();
+        capacity.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot dataSnapshot = task.getResult();
+                long usedml1 = (long) dataSnapshot.child(Useruid).child("drink1").getValue();
+                long usedml2 = (long) dataSnapshot.child(Useruid).child("drink2").getValue();
+                long usedml3 = (long) dataSnapshot.child(Useruid).child("drink3").getValue();
+                long usedml4 = (long) dataSnapshot.child(Useruid).child("drink4").getValue();
+                long usedml5 = (long) dataSnapshot.child(Useruid).child("drink5").getValue();
+                long usedml6 = (long) dataSnapshot.child(Useruid).child("drink6").getValue();
+                if(usedml1<=150||usedml2<=150||usedml3<=150||usedml4<=150||usedml5<=150||usedml6<=150){
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(drink.this,"Drink Notification");
+                    builder.setContentTitle("飲料即將用盡");
+                    builder.setContentText("偵測到飲料即將用盡，請確認並補充");
+                    builder.setSmallIcon(R.drawable.icon);
+                    builder.setAutoCancel(true);
 
-    }*/
+                    NotificationManagerCompat managerCompat = NotificationManagerCompat.from(drink.this);
+                    managerCompat.notify(1,builder.build());
+                }
+            }
+        });
+
+    }
+
     private  void actSendOrderToFirebse() {
         DatabaseReference count = Db.getReference("count/end");
         DatabaseReference root = Db.getReference("test");
+        DatabaseReference capacity = Db.getReference("capacity");
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String Userid = currentuser.getEmail();
+        String Useruid = currentuser.getUid();
         Boolean state = false;
         int drink1 = drinkinput1.getProgress()/10*10;
         int drink2 = drinkinput2.getProgress()/10*10;
@@ -296,7 +287,6 @@ public class drink extends AppCompatActivity {
         int drink5 = drinkinput5.getProgress()/10*10;
         int drink6 = drinkinput6.getProgress()/10*10;
         String time = nowDate;
-
 
         HashMap<String,Object> order = new HashMap<>();
         order.put("Userid",Userid);
@@ -320,16 +310,39 @@ public class drink extends AppCompatActivity {
             }
 
         });
+        capacity.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot dataSnapshot = task.getResult();
+                long getdataml1 = (long) dataSnapshot.child(Useruid).child("drink1").getValue();
+                long getdataml2 = (long) dataSnapshot.child(Useruid).child("drink2").getValue();
+                long getdataml3 = (long) dataSnapshot.child(Useruid).child("drink3").getValue();
+                long getdataml4 = (long) dataSnapshot.child(Useruid).child("drink4").getValue();
+                long getdataml5 = (long) dataSnapshot.child(Useruid).child("drink5").getValue();
+                long getdataml6 = (long) dataSnapshot.child(Useruid).child("drink6").getValue();
+                int setdataml1 = (int) (getdataml1-drink1);
+                int setdataml2 = (int) (getdataml2-drink2);
+                int setdataml3 = (int) (getdataml3-drink3);
+                int setdataml4 = (int) (getdataml4-drink4);
+                int setdataml5 = (int) (getdataml5-drink5);
+                int setdataml6 = (int) (getdataml6-drink6);
 
-        //count.setValue(endcounter);
+                HashMap<String,Object> ml = new HashMap<>();
+                ml.put("drink1",setdataml1);
+                ml.put("drink2",setdataml2);
+                ml.put("drink3",setdataml3);
+                ml.put("drink4",setdataml4);
+                ml.put("drink5",setdataml5);
+                ml.put("drink6",setdataml6);
+                capacity.child(Useruid).setValue(ml);
+            }
+        });
 
 
 
     }
 
     private  void actSendHistryToFirebse(){
-
-
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         int ml1 =(drinkinput1.getProgress()/10*10);
         int ml2 =(drinkinput2.getProgress()/10*10);
@@ -370,92 +383,8 @@ public class drink extends AppCompatActivity {
                 });*/
 
     }
-    /*private  void notFound(){
-        Toast toast = Toast.makeText(this, "Not device found", Toast.LENGTH_SHORT);
-        toast.show();
-    }*/
 
-
-    /*class Thread1 implements Runnable {
-        public void run() {
-            Socket socket;
-            try {
-                socket = new Socket(SERVER_IP, SERVER_PORT);
-                output = new PrintWriter(socket.getOutputStream());
-                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvMessages.setText("Connected\n");
-                    }
-                });
-                new Thread(new Thread2()).start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-   /* class Thread2 implements Runnable {
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    final String message = input.readLine();
-                    if (message != null) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvMessages.append("server: " + message + "\n");
-                            }
-                        });
-                    } else {
-                        Thread1 = new Thread(new Thread1());
-                        Thread1.start();
-                        return;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }*/
-    /*class Thread3 implements Runnable {
-        private String ml1,ml2,ml3,ml4,ml5;
-
-        Thread3(String ml1) {
-            this.ml1 = ml1;
-            this.ml2 = ml2;
-            this.ml3 = ml3;
-            this.ml4 = ml4;
-            this.ml5 = ml5;
-        }
-        @Override
-        public void run() {
-            output.write(ml1);
-            output.write('\n');
-            //output.write(ml2);
-            //output.write('\n');
-            //output.write(ml3);
-            //output.write('\n');
-            //output.write(ml4);
-            //output.write('\n');
-            //output.write(ml5);
-
-            output.flush();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvMessages.append("client: " + ml1 + "\n");
-                    //tvMessages.append("client: " + ml2 + "\n");
-                    //tvMessages.append("client: " + ml3 + "\n");
-                    //tvMessages.append("client: " + ml4 + "\n");
-                    //tvMessages.append("client: " + ml5 + "\n");
-                }
-            });
-        }
-    }*/
-
-        private void Sure() {
+    private void Sure() {
         int sml1 =(drinkinput1.getProgress()/10*10);
         int sml2 =(drinkinput2.getProgress()/10*10);
         int sml3 =(drinkinput3.getProgress()/10*10);
@@ -465,21 +394,46 @@ public class drink extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("進行調飲?");  //設置標題
         builder.setIcon(R.drawable.icon); //標題前面那個小圖示
-        builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5+"\n"+"飲料6: "+sml6);
-
-
+        DatabaseReference ESP32 = Db.getReference("ESP32");
+        String stringDrink = (String) drinkcon.getText();
+        int drinkcounter = Integer.parseInt(String.valueOf(stringDrink));
+        switch (drinkcounter){
+            case 1:
+                builder.setMessage("飲料1: "+sml1);
+                break;
+            case 2:
+                builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2);
+                break;
+            case 3:
+                builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3);
+                break;
+            case 4:
+                builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4);
+                break;
+            case 5:
+                builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5);
+                break;
+            case 6:
+                builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5+"\n"+"飲料6: "+sml6);
+                break;
+        }
+        //builder.setMessage("飲料1: "+sml1+"\n"+"飲料2: "+sml2+"\n"+"飲料3: "+sml3+"\n"+"飲料4: "+sml4+"\n"+"飲料5: "+sml5+"\n"+"飲料6: "+sml6);
         //確定 取消
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 dialogInterface.dismiss();
             }
         });
         builder.setNegativeButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                if(networkInfo==null||!networkInfo.isConnected()){
+                    notwifi();
+                    return;
+                }
                 //readData();
                 actSendOrderToFirebse();
                 actSendHistryToFirebse();
@@ -515,7 +469,6 @@ public class drink extends AppCompatActivity {
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 dialogInterface.dismiss();
             }
         });
@@ -531,19 +484,31 @@ public class drink extends AppCompatActivity {
     }
     private void notinput(){
         Toast toast = Toast.makeText(this, "未輸入飲料ml", Toast.LENGTH_SHORT);
-
         toast.show();
-
     }
-    private void Manager(){
+    private void notwifi(){
+        Toast toast = Toast.makeText(this, "未連接網路", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+    private void drinkcount(){
         DatabaseReference ESP32 = Db.getReference("ESP32");
-
         ESP32.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 DataSnapshot dataSnapshot = task.getResult();
                 int drinkcounter = (int) dataSnapshot.getChildrenCount();
-
+                String count = Integer.toString(drinkcounter);
+                drinkcon.setText(count);
+            }
+        });
+    }
+    private void Manager(){
+        DatabaseReference ESP32 = Db.getReference("ESP32");
+        ESP32.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot dataSnapshot = task.getResult();
+                int drinkcounter = (int) dataSnapshot.getChildrenCount();
                 switch (drinkcounter){
                     case 1:
                         drinkinput1.setVisibility(View.VISIBLE);

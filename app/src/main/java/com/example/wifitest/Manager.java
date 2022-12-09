@@ -2,12 +2,14 @@ package com.example.wifitest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 
 import com.google.firebase.database.DatabaseReference;
@@ -18,14 +20,17 @@ import java.util.HashMap;
 public class Manager extends AppCompatActivity {
 
     NumberPicker drinkPicker;
+    ImageView back;
     EditText drinkname1,drinkname2,drinkname3,drinkname4,drinkname5,drinkname6;
     Button managerSend,managerSet;
     private FirebaseDatabase Db = FirebaseDatabase.getInstance();
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
+        back = findViewById(R.id.managerBack);
         drinkPicker = findViewById(R.id.drinkpicker);
         drinkPicker.setMaxValue(6);
         drinkPicker.setMinValue(1);
@@ -44,6 +49,14 @@ public class Manager extends AppCompatActivity {
         managerSend = findViewById(R.id.managerSend);
         managerSet = findViewById(R.id.managerSet);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(Manager.this,bottomOption.class);
+                startActivity(intent);
+            }
+        });
         managerSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -67,16 +67,16 @@ public class Register extends AppCompatActivity {
                         if(task.isSuccessful()){
                             FirebaseUser user=auth.getCurrentUser();
                             String uid = user.getUid();
-                            reference = FirebaseDatabase.getInstance().getReference("Users").child(uid);
-                            HashMap<String,String> hashMap = new HashMap<>();
-                            hashMap.put("id",uid);
-                            hashMap.put("username",name);
-                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-
-                                }
-                            });
+                            reference = FirebaseDatabase.getInstance().getReference("capacity");
+                            HashMap<String,Object> ml = new HashMap<>();
+                            int drink1 = 750;
+                            ml.put("drink1",drink1);
+                            ml.put("drink2",drink1);
+                            ml.put("drink3",drink1);
+                            ml.put("drink4",drink1);
+                            ml.put("drink5",drink1);
+                            ml.put("drink6",drink1);
+                            reference.child(uid).setValue(ml);
 
                             HashMap<String,Object> datauser = new HashMap<>();
                             datauser.put("name",name);

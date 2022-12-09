@@ -69,6 +69,12 @@ public class CommentsActivity extends AppCompatActivity {
         mCommentRecyclerView.setHasFixedSize(true);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCommentRecyclerView.setAdapter(adapter);
+        if(auth == null){
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

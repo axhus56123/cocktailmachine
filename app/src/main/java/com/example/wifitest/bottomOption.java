@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,13 +20,15 @@ import com.google.firebase.auth.FirebaseUser;
 public class bottomOption extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    Button btnuser,btnHistory,btnFavorite,btnManager,btnFriend,btnblog;
+    Button btnuser,btnHistory,btnFavorite,btnManager,btnFriend,btnblog,btnCapacity;
 
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         setContentView(R.layout.activity_bottom_option);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -37,6 +42,13 @@ public class bottomOption extends AppCompatActivity {
         btnFriend = findViewById(R.id.btnfriend);
         btnManager.setVisibility(View.GONE);
         btnblog = findViewById(R.id.btnBlog);
+        btnCapacity = findViewById(R.id.btncapacity);
+        if(currentUser == null){
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         String email = currentUser.getEmail();
 
         if(email.equals("system@gmail.com")){
@@ -64,6 +76,12 @@ public class bottomOption extends AppCompatActivity {
         btnuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentUser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(bottomOption.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
                 Intent intent = new Intent(bottomOption.this, Account.class);
                 startActivity(intent);
             }
@@ -71,6 +89,12 @@ public class bottomOption extends AppCompatActivity {
         btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentUser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(bottomOption.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
                 Intent intent = new Intent(bottomOption.this, lovedrink.class);
                 startActivity(intent);
             }
@@ -78,6 +102,12 @@ public class bottomOption extends AppCompatActivity {
         btnHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentUser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(bottomOption.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
                 Intent intent = new Intent(bottomOption.this, history.class);
                 startActivity(intent);
             }
@@ -85,6 +115,12 @@ public class bottomOption extends AppCompatActivity {
         btnManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(currentUser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(bottomOption.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
                 Intent intent = new Intent(bottomOption.this, Manager.class);
                 startActivity(intent);
             }
@@ -92,6 +128,16 @@ public class bottomOption extends AppCompatActivity {
         btnFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(networkInfo==null||!networkInfo.isConnected()){
+                    notwifi();
+                    return;
+                }
+                if(currentUser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(bottomOption.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
                 Intent intent = new Intent(bottomOption.this, friendList.class);
                 startActivity(intent);
             }
@@ -99,9 +145,44 @@ public class bottomOption extends AppCompatActivity {
         btnblog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(networkInfo==null||!networkInfo.isConnected()){
+                    notwifi();
+                    return;
+                }
+                if(currentUser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(bottomOption.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
                 Intent intent = new Intent(bottomOption.this, Blog.class);
                 startActivity(intent);
             }
         });
+        btnCapacity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(networkInfo==null||!networkInfo.isConnected()){
+                    notwifi();
+                    return;
+                }
+                if(currentUser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(bottomOption.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
+                Intent intent = new Intent(bottomOption.this, Capacity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void notwifi(){
+        Toast toast = Toast.makeText(this, "未連接網路", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+    private void notlogin(){
+        Toast toast = Toast.makeText(this, "未登入", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

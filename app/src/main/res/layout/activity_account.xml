@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="-42dp">
 
         <ImageButton
-            android:id="@+id/drinkBack"
+            android:id="@+id/managerBack"
             android:layout_width="38dp"
             android:layout_height="41dp"
             android:background="#00000000"

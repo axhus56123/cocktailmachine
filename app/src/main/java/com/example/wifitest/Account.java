@@ -33,7 +33,7 @@ public class Account extends AppCompatActivity {
         setContentView(R.layout.activity_account);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
-        back = findViewById(R.id.drinkBack);
+        back = findViewById(R.id.managerBack);
         tvname = findViewById(R.id.tvname);
         tvid = findViewById(R.id.tvid);
         mAuth = FirebaseAuth.getInstance();
@@ -91,5 +91,6 @@ public class Account extends AppCompatActivity {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
         finish();
+        return;
     }
 }
