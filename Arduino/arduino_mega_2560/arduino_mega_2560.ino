@@ -377,16 +377,16 @@ void loop() {
       lcd.print("Pump 1 ON");
       if(pump1ml > 0){
         digitalWrite(in1, HIGH);
-        long x = pump1ml*1030L;
+        long x = pump1ml*950L;
         while (scale.read() - weight <= x) {
-          int nowValue = (scale.read() - weight)/1000;
+          int nowValue = (scale.read() - weight)/950;
           if(nowValue<0){
             lcd.clear();
             lcd.print("Pump 1 ON");
           }
           
           lcd.setCursor(4, 1);
-          lcd.print("NOW:  ");
+          lcd.print("Now:  ");
           if(nowValue < 10){
             lcd.setCursor(10, 1);
             lcd.print("  ");
@@ -422,16 +422,16 @@ void loop() {
       lcd.print("Pump 2 ON");
       if(pump2ml > 0){
         digitalWrite(in2, HIGH);
-        long y = pump2ml*1030L;
+        long y = pump2ml*950L;
         while (scale.read() - weight <= y) {
-          int nowValue = (scale.read() - weight)/1000 + pump1ml;
+          int nowValue = (scale.read() - weight)/950 + pump1ml;
           if(nowValue<0){
             lcd.clear();
             lcd.print("Pump 2 ON");
           }
           
           lcd.setCursor(4, 1);
-          lcd.print("NOW:  ");
+          lcd.print("Now:  ");
           if(nowValue < 10){
             lcd.setCursor(10, 1);
             lcd.print("  ");
@@ -466,16 +466,16 @@ void loop() {
       lcd.print("Pump 3 ON");
       if(pump3ml > 0){
         digitalWrite(in3, HIGH);
-        long z = pump3ml*1030L;
+        long z = pump3ml*950L;
         while (scale.read() - weight <= z) {
-          int nowValue = (scale.read() - weight)/1000 + pump1ml + pump2ml;
+          int nowValue = (scale.read() - weight)/950 + pump1ml + pump2ml;
           if(nowValue<0){
             lcd.clear();
             lcd.print("Pump 3 ON");
           }
           
           lcd.setCursor(4, 1);
-          lcd.print("NOW:  ");
+          lcd.print("Now:  ");
           if(nowValue < 10){
             lcd.setCursor(10, 1);
             lcd.print("  ");
@@ -510,16 +510,16 @@ void loop() {
       lcd.print("Pump 4 ON");
       if(pump4ml > 0){
         digitalWrite(in4, HIGH);
-        long z = pump4ml*1030L;
+        long z = pump4ml*950L;
         while (scale.read() - weight <= z) {
-          int nowValue = (scale.read() - weight)/1000 + pump1ml + pump2ml + pump3ml;
+          int nowValue = (scale.read() - weight)/950 + pump1ml + pump2ml + pump3ml;
           if(nowValue<0){
             lcd.clear();
             lcd.print("Pump 4 ON");
           }
           
           lcd.setCursor(4, 1);
-          lcd.print("NOW:  ");
+          lcd.print("Now:  ");
           if(nowValue < 10){
             lcd.setCursor(10, 1);
             lcd.print("  ");
@@ -554,16 +554,16 @@ void loop() {
       lcd.print("Pump 5 ON");
       if(pump5ml > 0){
         digitalWrite(in5, HIGH);
-        long z = pump5ml*1030L;
+        long z = pump5ml*950L;
         while (scale.read() - weight <= z) {
-          int nowValue = (scale.read() - weight)/1000 + pump1ml + pump2ml + pump3ml + pump4ml;
+          int nowValue = (scale.read() - weight)/950 + pump1ml + pump2ml + pump3ml + pump4ml;
           if(nowValue<0){
             lcd.clear();
             lcd.print("Pump 5 ON");
           }
           
           lcd.setCursor(4, 1);
-          lcd.print("NOW:  ");
+          lcd.print("Now:  ");
           if(nowValue < 10){
             lcd.setCursor(10, 1);
             lcd.print("  ");
@@ -598,16 +598,16 @@ void loop() {
       lcd.print("Pump 6 ON");
       if(pump6ml > 0){
         digitalWrite(in6, HIGH);
-        long z = pump6ml*1030L;
+        long z = pump6ml*950L;
         while (scale.read() - weight <= z) {
-          int nowValue = (scale.read() - weight)/1000 + pump1ml + pump2ml + pump3ml + pump4ml + pump5ml;
+          int nowValue = (scale.read() - weight)/950 + pump1ml + pump2ml + pump3ml + pump4ml + pump5ml;
           if(nowValue<0){
             lcd.clear();
             lcd.print("Pump 6 ON");
           }
           
           lcd.setCursor(4, 1);
-          lcd.print("NOW:  ");
+          lcd.print("Now:  ");
           if(nowValue < 10){
             lcd.setCursor(10, 1);
             lcd.print("  ");
@@ -658,6 +658,7 @@ void loop() {
         while(changestate != 1){
           if (digitalRead(sw) == LOW) {
             delay(200);
+            changestate = !changestate;
             doonce = 0;
           }  
         }
@@ -674,6 +675,7 @@ void loop() {
         while(changestate != 1){
           if (digitalRead(sw) == LOW) {
             delay(200);
+            changestate = !changestate;
             doonce = 0;
           }  
         }
