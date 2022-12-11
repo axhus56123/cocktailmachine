@@ -58,12 +58,12 @@ public class Capacity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 DataSnapshot dataSnapshot = task.getResult();
-                long usedml1 = (long) dataSnapshot.child(Useruid).child("drink1").getValue();
-                long usedml2 = (long) dataSnapshot.child(Useruid).child("drink2").getValue();
-                long usedml3 = (long) dataSnapshot.child(Useruid).child("drink3").getValue();
-                long usedml4 = (long) dataSnapshot.child(Useruid).child("drink4").getValue();
-                long usedml5 = (long) dataSnapshot.child(Useruid).child("drink5").getValue();
-                long usedml6 = (long) dataSnapshot.child(Useruid).child("drink6").getValue();
+                long usedml1 = (long) dataSnapshot.child("drink1").getValue();
+                long usedml2 = (long) dataSnapshot.child("drink2").getValue();
+                long usedml3 = (long) dataSnapshot.child("drink3").getValue();
+                long usedml4 = (long) dataSnapshot.child("drink4").getValue();
+                long usedml5 = (long) dataSnapshot.child("drink5").getValue();
+                long usedml6 = (long) dataSnapshot.child("drink6").getValue();
                 capacity1.setProgress((int) usedml1);
                 capacity2.setProgress((int) usedml2);
                 capacity3.setProgress((int) usedml3);

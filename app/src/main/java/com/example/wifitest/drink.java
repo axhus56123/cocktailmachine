@@ -245,31 +245,34 @@ public class drink extends AppCompatActivity {
     }
 
     private void Notification(){
-        DatabaseReference capacity = Db.getReference("capacity");
-        String Useruid = currentuser.getUid();
-        capacity.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                DataSnapshot dataSnapshot = task.getResult();
-                long usedml1 = (long) dataSnapshot.child(Useruid).child("drink1").getValue();
-                long usedml2 = (long) dataSnapshot.child(Useruid).child("drink2").getValue();
-                long usedml3 = (long) dataSnapshot.child(Useruid).child("drink3").getValue();
-                long usedml4 = (long) dataSnapshot.child(Useruid).child("drink4").getValue();
-                long usedml5 = (long) dataSnapshot.child(Useruid).child("drink5").getValue();
-                long usedml6 = (long) dataSnapshot.child(Useruid).child("drink6").getValue();
-                if(usedml1<=150||usedml2<=150||usedml3<=150||usedml4<=150||usedml5<=150||usedml6<=150){
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(drink.this,"Drink Notification");
-                    builder.setContentTitle("飲料即將用盡");
-                    builder.setContentText("偵測到飲料即將用盡，請確認並補充");
-                    builder.setSmallIcon(R.drawable.icon);
-                    builder.setAutoCancel(true);
+        String email = currentuser.getEmail();
 
-                    NotificationManagerCompat managerCompat = NotificationManagerCompat.from(drink.this);
-                    managerCompat.notify(1,builder.build());
+        if(email.equals("system@gmail.com")){
+            DatabaseReference capacity = Db.getReference("capacity");
+            String Useruid = currentuser.getUid();
+            capacity.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    DataSnapshot dataSnapshot = task.getResult();
+                    long usedml1 = (long) dataSnapshot.child("drink1").getValue();
+                    long usedml2 = (long) dataSnapshot.child("drink2").getValue();
+                    long usedml3 = (long) dataSnapshot.child("drink3").getValue();
+                    long usedml4 = (long) dataSnapshot.child("drink4").getValue();
+                    long usedml5 = (long) dataSnapshot.child("drink5").getValue();
+                    long usedml6 = (long) dataSnapshot.child("drink6").getValue();
+                    if(usedml1<=150||usedml2<=150||usedml3<=150||usedml4<=150||usedml5<=150||usedml6<=150){
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(drink.this,"Drink Notification");
+                        builder.setContentTitle("飲料即將用盡");
+                        builder.setContentText("偵測到飲料即將用盡，請確認並補充");
+                        builder.setSmallIcon(R.drawable.icon);
+                        builder.setAutoCancel(true);
+
+                        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(drink.this);
+                        managerCompat.notify(1,builder.build());
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
     private  void actSendOrderToFirebse() {
@@ -314,12 +317,12 @@ public class drink extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 DataSnapshot dataSnapshot = task.getResult();
-                long getdataml1 = (long) dataSnapshot.child(Useruid).child("drink1").getValue();
-                long getdataml2 = (long) dataSnapshot.child(Useruid).child("drink2").getValue();
-                long getdataml3 = (long) dataSnapshot.child(Useruid).child("drink3").getValue();
-                long getdataml4 = (long) dataSnapshot.child(Useruid).child("drink4").getValue();
-                long getdataml5 = (long) dataSnapshot.child(Useruid).child("drink5").getValue();
-                long getdataml6 = (long) dataSnapshot.child(Useruid).child("drink6").getValue();
+                long getdataml1 = (long) dataSnapshot.child("drink1").getValue();
+                long getdataml2 = (long) dataSnapshot.child("drink2").getValue();
+                long getdataml3 = (long) dataSnapshot.child("drink3").getValue();
+                long getdataml4 = (long) dataSnapshot.child("drink4").getValue();
+                long getdataml5 = (long) dataSnapshot.child("drink5").getValue();
+                long getdataml6 = (long) dataSnapshot.child("drink6").getValue();
                 int setdataml1 = (int) (getdataml1-drink1);
                 int setdataml2 = (int) (getdataml2-drink2);
                 int setdataml3 = (int) (getdataml3-drink3);
@@ -334,7 +337,7 @@ public class drink extends AppCompatActivity {
                 ml.put("drink4",setdataml4);
                 ml.put("drink5",setdataml5);
                 ml.put("drink6",setdataml6);
-                capacity.child(Useruid).setValue(ml);
+                capacity.setValue(ml);
             }
         });
 
