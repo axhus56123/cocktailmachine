@@ -61,9 +61,26 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/fixName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="修改名子"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            />
+
+        <Button
+            android:id="@+id/btnFix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="確認修改" />
+
         <Space
             android:layout_width="match_parent"
-            android:layout_height="509dp" />
+            android:layout_height="350dp" />
 
         <Button
             android:id="@+id/btnlogout"

@@ -78,8 +78,6 @@ public class Register extends AppCompatActivity {
 
                                 }
                             });
-
-
                             tv8.setText("結果:"+user.getEmail()+"註冊成功");
                         }else{
                             tv8.setText("結果:註冊失敗"+task.getException());
