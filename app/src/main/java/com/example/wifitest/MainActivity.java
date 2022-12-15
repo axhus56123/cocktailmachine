@@ -3,6 +3,7 @@ package com.example.wifitest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -29,13 +30,14 @@ import java.io.IOException;
 
 public class MainActivity<override> extends AppCompatActivity {
 
-    private Button button01;
+    private Button button01,recommend;
 
     private FirebaseAuth.AuthStateListener authStateListener;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
     BottomNavigationView bottomNavigationView;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class MainActivity<override> extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setSelectedItemId(R.id.bottomHome);
         button01 = findViewById(R.id.button01);
+        recommend = findViewById(R.id.btnrecommend);
 
         if(currentuser == null){
             Intent intent = new Intent(this, Login.class);
@@ -85,6 +88,23 @@ public class MainActivity<override> extends AppCompatActivity {
                     return;
                 }
                 Intent main2ActivityIntent = new Intent(MainActivity.this, drink.class);
+                startActivity(main2ActivityIntent);
+            }
+        });
+        recommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(networkInfo==null||!networkInfo.isConnected()){
+                    notwifi();
+                    return;
+                }
+                if(currentuser == null){
+                    notlogin();
+                    Intent loginActivityIntent = new Intent(MainActivity.this, Login.class);
+                    startActivity(loginActivityIntent);
+                    return;
+                }
+                Intent main2ActivityIntent = new Intent(MainActivity.this, recommend.class);
                 startActivity(main2ActivityIntent);
             }
         });

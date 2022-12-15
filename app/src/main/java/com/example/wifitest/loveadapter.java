@@ -26,12 +26,12 @@ public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.l
     @Override
     protected void onBindViewHolder(@NonNull loveholder holder, int position, @NonNull loveuser model) {
         holder.lovename.setText(model.getLovename());
-        holder.lovedrink1.setText(model.getLovedrink1()+":");
-        holder.lovedrink2.setText(model.getLovedrink2()+":");
-        holder.lovedrink3.setText(model.getLovedrink3()+":");
-        holder.lovedrink4.setText(model.getLovedrink4()+":");
-        holder.lovedrink5.setText(model.getLovedrink5()+":");
-        holder.lovedrink6.setText(model.getLovedrink6()+":");
+        holder.lovedrink1.setText(model.getLovedrink1()+"");
+        holder.lovedrink2.setText(model.getLovedrink2()+"");
+        holder.lovedrink3.setText(model.getLovedrink3()+"");
+        holder.lovedrink4.setText(model.getLovedrink4()+"");
+        holder.lovedrink5.setText(model.getLovedrink5()+"");
+        holder.lovedrink6.setText(model.getLovedrink6()+"");
         holder.lovedrink1ml.setText(model.getLovedrink1ml()+"ml");
         holder.lovedrink2ml.setText(model.getLovedrink2ml()+"ml");
         holder.lovedrink3ml.setText(model.getLovedrink3ml()+"ml");

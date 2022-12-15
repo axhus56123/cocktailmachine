@@ -80,7 +80,6 @@ public class PostAdpter extends RecyclerView.Adapter<PostAdpter.PostViewHolder> 
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     String username = task.getResult().getString("name");
-
                     holder.setPostUsername(username);
                 }else{
                     Toast.makeText(context,task.getException().toString(),Toast.LENGTH_SHORT).show();

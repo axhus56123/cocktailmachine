@@ -6,52 +6,75 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
-public class newlove extends AppCompatActivity {
-    private EditText newlovename,newlove1,newlove2,newlove3,newlove4,newlove5,newlove6;
-    private SeekBar newlove1ml,newlove2ml,newlove3ml,newlove4ml,newlove5ml,newlove6ml;
+import java.util.HashMap;
+
+public class addRecommend extends AppCompatActivity {
+    private EditText newrename,newre1,newre2,newre3,newre4,newre5,newre6;
+    private SeekBar newre1ml,newre2ml,newre3ml,newre4ml,newre5ml,newre6ml;
     private TextView newml1,newml2,newml3,newml4,newml5,newml6;
+    private StorageReference storageReference;
+    private FirebaseFirestore firestore;
+    private ImageView mReImage;
+    private Uri postImageUri = null;
 
     private ImageButton back,save;
+
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser currentuser = auth.getCurrentUser();
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newlove);
-        back = findViewById(R.id.nLback);
-        save = findViewById(R.id.newsave);
+        setContentView(R.layout.activity_add_recommend);
 
-        newlovename = findViewById(R.id.newlovename);
-        newlove1 = findViewById(R.id.newlove1);
-        newlove2 = findViewById(R.id.newlove2);
-        newlove3 = findViewById(R.id.newlove3);
-        newlove4 = findViewById(R.id.newlove4);
-        newlove5 = findViewById(R.id.newlove5);
-        newlove6 = findViewById(R.id.newlove6);
-        newlove1ml = findViewById(R.id.newlove1ml);
-        newlove2ml = findViewById(R.id.newlove2ml);
-        newlove3ml = findViewById(R.id.newlove3ml);
-        newlove4ml = findViewById(R.id.newlove4ml);
-        newlove5ml = findViewById(R.id.newlove5ml);
-        newlove6ml = findViewById(R.id.newlove6ml);
+        int storge;
+        storge= (int)(Math.random()*6000)+1;
+        String storgeCount = String.valueOf(storge);
+
+        back = findViewById(R.id.addreBack);
+        save = findViewById(R.id.newsave);
+        firestore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        newrename = findViewById(R.id.newrename);
+        newre1 = findViewById(R.id.newre1);
+        newre2 = findViewById(R.id.newre2);
+        newre3 = findViewById(R.id.newre3);
+        newre4 = findViewById(R.id.newre4);
+        newre5 = findViewById(R.id.newre5);
+        newre6 = findViewById(R.id.newre6);
+        newre1ml = findViewById(R.id.newre1ml);
+        newre2ml = findViewById(R.id.newre2ml);
+        newre3ml = findViewById(R.id.newre3ml);
+        newre4ml = findViewById(R.id.newre4ml);
+        newre5ml = findViewById(R.id.newre5ml);
+        newre6ml = findViewById(R.id.newre6ml);
         newml1 = findViewById(R.id.newText1);
         newml2 = findViewById(R.id.newText2);
         newml3 = findViewById(R.id.newText3);
@@ -59,7 +82,8 @@ public class newlove extends AppCompatActivity {
         newml5 = findViewById(R.id.newText5);
         newml6 = findViewById(R.id.newText6);
 
-        newlove1ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+        newre1ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -78,7 +102,7 @@ public class newlove extends AppCompatActivity {
             }
         });
 
-        newlove2ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        newre2ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -97,7 +121,7 @@ public class newlove extends AppCompatActivity {
             }
         });
 
-        newlove3ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        newre3ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -115,7 +139,7 @@ public class newlove extends AppCompatActivity {
 
             }
         });
-        newlove4ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        newre4ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -133,7 +157,7 @@ public class newlove extends AppCompatActivity {
 
             }
         });
-        newlove5ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        newre5ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -151,7 +175,7 @@ public class newlove extends AppCompatActivity {
 
             }
         });
-        newlove6ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        newre6ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress / 10;
@@ -174,38 +198,45 @@ public class newlove extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(newlove.this,lovedrink.class);
+                intent.setClass(addRecommend.this,recommend.class);
                 startActivity(intent);
             }
         });
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savelove();
+                String lovename = newrename.getText().toString();
+                String lovedrink1 = newre1.getText().toString();
+                String lovedrink2 = newre2.getText().toString();
+                String lovedrink3 = newre3.getText().toString();
+                String lovedrink4 = newre4.getText().toString();
+                String lovedrink5 = newre5.getText().toString();
+                String lovedrink6 = newre6.getText().toString();
+                String lovedrink1ml = String.valueOf(newre1ml.getProgress()/10*10);
+                String lovedrink2ml = String.valueOf(newre2ml.getProgress()/10*10);
+                String lovedrink3ml = String.valueOf(newre3ml.getProgress()/10*10);
+                String lovedrink4ml = String.valueOf(newre4ml.getProgress()/10*10);
+                String lovedrink5ml = String.valueOf(newre5ml.getProgress()/10*10);
+                String lovedrink6ml = String.valueOf(newre6ml.getProgress()/10*10);
+                HashMap<String, Object> reMap = new HashMap<>();
+
+                reMap.put("Rename", lovename);
+                reMap.put("Redrink1", lovedrink1);
+                reMap.put("Redrink1ml", lovedrink1ml);
+                reMap.put("Redrink2", lovedrink2);
+                reMap.put("Redrink2ml", lovedrink2ml);
+                reMap.put("Redrink3", lovedrink3);
+                reMap.put("Redrink3ml", lovedrink3ml);
+                reMap.put("Redrink4", lovedrink4);
+                reMap.put("Redrink4ml", lovedrink4ml);
+                reMap.put("Redrink5", lovedrink5);
+                reMap.put("Redrink5ml", lovedrink5ml);
+                reMap.put("Redrink6", lovedrink6);
+                reMap.put("Redrink6ml", lovedrink6ml);
+                firestore.collection("Recommend").add(reMap);
+                startActivity(new Intent(addRecommend.this,recommend.class));
             }
         });
-    }
-
-    private void savelove() {
-        String lovename = newlovename.getText().toString();
-        String lovedrink1 = newlove1.getText().toString();
-        String lovedrink2 = newlove2.getText().toString();
-        String lovedrink3 = newlove3.getText().toString();
-        String lovedrink4 = newlove4.getText().toString();
-        String lovedrink5 = newlove5.getText().toString();
-        String lovedrink6 = newlove6.getText().toString();
-        String lovedrink1ml = String.valueOf(newlove1ml.getProgress()/10*10);
-        String lovedrink2ml = String.valueOf(newlove2ml.getProgress()/10*10);
-        String lovedrink3ml = String.valueOf(newlove3ml.getProgress()/10*10);
-        String lovedrink4ml = String.valueOf(newlove4ml.getProgress()/10*10);
-        String lovedrink5ml = String.valueOf(newlove5ml.getProgress()/10*10);
-        String lovedrink6ml = String.valueOf(newlove6ml.getProgress()/10*10);
-
-        CollectionReference love = FirebaseFirestore.getInstance()
-                .collection("love:" + currentuser.getEmail());
-        love.add(new loveuser(lovename, lovedrink1, lovedrink2, lovedrink3,lovedrink4 ,lovedrink5,lovedrink6, lovedrink1ml, lovedrink2ml, lovedrink3ml,lovedrink4ml,lovedrink5ml,lovedrink6ml));
-
-        startActivity(new Intent(newlove.this,lovedrink.class));
     }
 
 }
