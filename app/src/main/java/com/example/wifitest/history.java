@@ -2,6 +2,7 @@ package com.example.wifitest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,6 +68,10 @@ public class history extends AppCompatActivity {
                 return new ProductsViewHolder(view);
             }
 
+            public void deleteitem(int position){
+                getSnapshots().getSnapshot(position).getReference().delete();
+            }
+
             @Override
             protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull hisuser model) {
                 holder.hisdrink1.setText(model.getHisdrink1()+"");
@@ -78,6 +83,7 @@ public class history extends AppCompatActivity {
                 holder.time.setText(model.getTime()+"");
 
             }
+
         };
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(hrecyclerView.VERTICAL);
