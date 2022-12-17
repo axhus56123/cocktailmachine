@@ -1,5 +1,6 @@
 package com.example.wifitest;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,8 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
 
     private static android.content.Context reHolder;
 
+    private Activity context;
+
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
@@ -62,7 +65,8 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
         holder.Redrink5ml.setText(model.getRedrink5ml());
         holder.Redrink6ml.setText(model.getRedrink6ml());
 
-        holder.Image.setImageURI(model.getImage());
+        //holder.Image.setImageURI(model.getImage());
+        Glide.with(holder.itemView.getContext()).load(model.getImage()).into(holder.Image);
 
         holder.cup.setOnClickListener(new View.OnClickListener() {
             @Override
