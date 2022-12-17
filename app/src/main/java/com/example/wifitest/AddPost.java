@@ -123,7 +123,7 @@ public class AddPost extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                                 if (task.isSuccessful()) {
                                                     mProgressBar.setVisibility(View.INVISIBLE);
-                                                    Toast.makeText(AddPost.this, "Post Added Successfully !!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(AddPost.this, "貼文上傳成功 !!!", Toast.LENGTH_SHORT).show();
                                                     startActivity(new Intent(AddPost.this, Blog.class));
                                                     finish();
                                                 } else {
@@ -143,7 +143,7 @@ public class AddPost extends AppCompatActivity {
                     });
                 }else{
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(AddPost.this, "Please Add Image and Write Your caption", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddPost.this, "請上傳圖片和輸入貼文內容", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -185,11 +185,7 @@ public class PostAdpter extends RecyclerView.Adapter<PostAdpter.PostViewHolder> 
                 }
             });
         }
-
     }
-
-
-
 
     @Override
     public int getItemCount() {

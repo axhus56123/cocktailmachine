@@ -3,6 +3,7 @@ package com.example.wifitest;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,6 +61,9 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
         holder.Redrink4ml.setText(model.getRedrink4ml());
         holder.Redrink5ml.setText(model.getRedrink5ml());
         holder.Redrink6ml.setText(model.getRedrink6ml());
+
+        holder.Image.setImageURI(model.getImage());
+
         holder.cup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +175,7 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
         TextView Redrink1,Redrink2,Redrink3,Redrink4,Redrink5,Redrink6;
         TextView Redrink1ml,Redrink2ml,Redrink3ml,Redrink4ml,Redrink5ml,Redrink6ml;
         TextView Rename;
-        ImageView cup;
+        ImageView cup, Image;
 
         public reHolder(@NonNull View itemView) {
             super(itemView);
@@ -187,8 +192,8 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
             Redrink5ml = itemView.findViewById(R.id.redrinkml5);
             Redrink6ml = itemView.findViewById(R.id.redrinkml6);
             Rename = itemView.findViewById(R.id.redrinkname);
+            Image = itemView.findViewById(R.id.image);
             cup = itemView.findViewById(R.id.cup);
         }
-
     }
 }

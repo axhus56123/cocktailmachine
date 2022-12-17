@@ -1,15 +1,18 @@
 package com.example.wifitest;
 
+import android.net.Uri;
+
 public class reuser {
     private String Redrink1,Redrink2,Redrink3,Redrink4,Redrink5,Redrink6;
     private String Redrink1ml,Redrink2ml,Redrink3ml,Redrink4ml,Redrink5ml,Redrink6ml;
     private String Rename;
+    private Uri Image;
 
     public reuser(){
 
     }
 
-    public reuser(String redrink1, String redrink2, String redrink3, String redrink4, String redrink5, String redrink6, String redrink1ml, String redrink2ml, String redrink3ml, String redrink4ml, String redrink5ml, String redrink6ml, String rename) {
+    public reuser(String redrink1, String redrink2, String redrink3, String redrink4, String redrink5, String redrink6, String redrink1ml, String redrink2ml, String redrink3ml, String redrink4ml, String redrink5ml, String redrink6ml, String rename, Uri image) {
         this.Redrink1 = redrink1;
         this.Redrink2 = redrink2;
         this.Redrink3 = redrink3;
@@ -23,6 +26,7 @@ public class reuser {
         this.Redrink5ml = redrink5ml;
         this.Redrink6ml = redrink6ml;
         this.Rename = rename;
+        this.Image = image;
     }
 
     public String getRedrink1() {
@@ -76,4 +80,6 @@ public class reuser {
     public String getRename() {
         return Rename;
     }
+
+    public Uri getImage() { return Image; }
 }

@@ -37,6 +37,7 @@ public class addRecommend extends AppCompatActivity {
     private EditText newrename,newre1,newre2,newre3,newre4,newre5,newre6;
     private SeekBar newre1ml,newre2ml,newre3ml,newre4ml,newre5ml,newre6ml;
     private TextView newml1,newml2,newml3,newml4,newml5,newml6;
+    private ImageView mPostImage;
     private StorageReference storageReference;
     private FirebaseFirestore firestore;
     private ImageView mReImage;
@@ -81,6 +82,8 @@ public class addRecommend extends AppCompatActivity {
         newml4 = findViewById(R.id.newText4);
         newml5 = findViewById(R.id.newText5);
         newml6 = findViewById(R.id.newText6);
+
+        mPostImage = findViewById(R.id.post_image);
 
 
         newre1ml.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -202,6 +205,18 @@ public class addRecommend extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mPostImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(3,2)
+                        .setMinCropResultSize(512,512)
+                        .start(addRecommend.this);
+            }
+        });
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,10 +248,46 @@ public class addRecommend extends AppCompatActivity {
                 reMap.put("Redrink5ml", lovedrink5ml);
                 reMap.put("Redrink6", lovedrink6);
                 reMap.put("Redrink6ml", lovedrink6ml);
-                firestore.collection("Recommend").add(reMap);
-                startActivity(new Intent(addRecommend.this,recommend.class));
+
+                StorageReference postRef = storageReference.child(storgeCount).child(FieldValue.serverTimestamp().toString() + ".jpg");
+                postRef.putFile(postImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            postRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    reMap.put("Image", uri.toString());
+                                    reMap.put("time", FieldValue.serverTimestamp());
+
+                                    firestore.collection("Recommend").add(reMap);
+                                    startActivity(new Intent(addRecommend.this,recommend.class));
+                                }
+                            });
+
+                        }
+                    }
+                });
+
+
+                //firestore.collection("Recommend").add(reMap);
+                //startActivity(new Intent(addRecommend.this,recommend.class));
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK){
+
+                postImageUri = result.getUri();
+                mPostImage.setImageURI(postImageUri);
+            }else if(resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Toast.makeText(this, result.getError().toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

@@ -3,6 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_account.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_add_post.xml" value="0.2" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_add_recommend.xml" value="0.2" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_capacity.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_drink.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_friend_list.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_lovedrink.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_manager.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_newlove.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_recommend.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/activity_register.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/bar_layout.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/crop_image_activity.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/crop_image_view.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/dialog_add.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/each_comment.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/each_post.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/item.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/list_friend.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/list_message.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/love_item.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/azrxxxc/Downloads/cocktailmachine/app/src/main/res/layout/rece_item.xml" value="0.25364583333333335" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_drink.xml" value="0.358695652173913" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_favorite.xml" value="0.3515625" />
         <entry key="..\:/pccu app/wifitest/app/src/main/res/layout/activity_history.xml" value="0.36614583333333334" />
