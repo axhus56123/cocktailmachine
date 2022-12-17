@@ -1,12 +1,17 @@
 package com.example.wifitest;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -26,7 +31,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.grpc.Context;
+
 public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.loveholder> {
+    private Activity context;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -144,7 +152,6 @@ public class loveadapter extends FirestoreRecyclerAdapter<loveuser,loveadapter.l
                         capacity.setValue(ml);
                     }
                 });
-
             }
         });
     }

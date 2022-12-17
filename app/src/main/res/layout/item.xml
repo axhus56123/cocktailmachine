@@ -183,6 +183,12 @@
                 android:textSize="20dp" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/cup"
+            android:layout_width="41dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/cup" />
+
     </LinearLayout>
 
 

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -152,7 +153,12 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
                         ml.put("drink4",setdataml4);
                         ml.put("drink5",setdataml5);
                         ml.put("drink6",setdataml6);
-                        capacity.setValue(ml);
+                        capacity.setValue(ml).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+
+                            }
+                        });
                     }
                 });
 
