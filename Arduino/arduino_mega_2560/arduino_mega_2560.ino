@@ -120,16 +120,18 @@ void loop() {
   }
   
   if (TurnDetected) {
-    delay(20);
+    delay(100);
     doonce = 0;
     if (changestate == 0) {
       if (up) {
+        delay(50);
         screen++;
         if (screen > 6) {
           screen = 6;
         }
       }
       else {
+        delay(50);
         screen = screen - 1;
         if (screen < -1) {
           screen = -1;
@@ -139,6 +141,7 @@ void loop() {
     else {
       if (up) {
         switch (screen) {
+          delay(50);
           case 0: 
             pump1ml = pump1ml + 10;
             if(pump1ml >= 100)
@@ -173,6 +176,7 @@ void loop() {
       }
       else {
         switch (screen) {
+          delay(50);
           case 0:
             pump1ml = pump1ml - 10;
             if(pump1ml <= 0)
@@ -207,15 +211,17 @@ void loop() {
       }
     }
     TurnDetected = false;
+    delay(50);
   }
   
   if (digitalRead(sw) == LOW) {
-    delay(20);
+    delay(100);
     changestate = !changestate;
     doonce = 0;
   }
 
   if (screen == -1 && doonce == 0){
+    delay(100);
     if (changestate == 0) {
       lcd.clear();
       lcd.print("WASH MODE");
@@ -277,6 +283,7 @@ void loop() {
   }
   
   if (screen == 0 && doonce == 0) {
+    delay(100);
     lcd.clear();
     lcd.print("pump 1");
     lcd.setCursor(0, 1);
@@ -291,6 +298,7 @@ void loop() {
   }
 
   if (screen == 1 && doonce == 0) {
+    delay(100);
     lcd.clear();
     lcd.print("pump 2");
     lcd.setCursor(0, 1);
@@ -305,6 +313,7 @@ void loop() {
   }
 
   if (screen == 2 && doonce == 0) {
+    delay(100);
     lcd.clear();
     lcd.print("pump 3");
     lcd.setCursor(0, 1);
@@ -319,6 +328,7 @@ void loop() {
   }
 
   if (screen == 3 && doonce == 0) {
+    delay(100);
     lcd.clear();
     lcd.print("pump 4");
     lcd.setCursor(0, 1);
@@ -333,6 +343,7 @@ void loop() {
   }
 
   if (screen == 4 && doonce == 0) {
+    delay(100);
     lcd.clear();
     lcd.print("pump 5");
     lcd.setCursor(0, 1);
@@ -347,6 +358,7 @@ void loop() {
   }
 
   if (screen == 5 && doonce == 0) {
+    delay(100);
     lcd.clear();
     lcd.print("pump 6");
     lcd.setCursor(0, 1);
@@ -361,6 +373,7 @@ void loop() {
   }
 
   if (screen == 6 && doonce == 0) {
+    delay(100);
     lcd.clear();
     if (changestate == 0) {
       lcd.print("Start?");
