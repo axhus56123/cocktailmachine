@@ -6,8 +6,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,100 +103,122 @@ public class history extends AppCompatActivity {
                 holder.cup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                        FirebaseFirestore db;
-                        FirebaseDatabase Db = FirebaseDatabase.getInstance();
-                        DatabaseReference count = Db.getReference("count/end");
-                        DatabaseReference root = Db.getReference("test");
-                        DatabaseReference capacity = Db.getReference("capacity");
-                        Boolean state = false;
-                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                        FirebaseUser currentuser = auth.getCurrentUser();
-                        String Userid = currentuser.getEmail();
-                        db=FirebaseFirestore.getInstance();
-
+                        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                        if(networkInfo==null||!networkInfo.isConnected()){
+                            Toast toast = Toast.makeText(history.this, "未連接網路", Toast.LENGTH_SHORT);
+                            toast.show();
+                            return;
+                        }
                         int drink1 = Integer.valueOf((int) model.getHisdrink1());
                         int drink2 = Integer.valueOf((int) model.getHisdrink2());
                         int drink3 = Integer.valueOf((int) model.getHisdrink3());
                         int drink4 = Integer.valueOf((int) model.getHisdrink4());
                         int drink5 = Integer.valueOf((int) model.getHisdrink5());
                         int drink6 = Integer.valueOf((int) model.getHisdrink6());
-                        String time = nowDate;
-
-                        HashMap<String,Object> order = new HashMap<>();
-                        order.put("Userid",Userid);
-                        order.put("state",state);
-                        order.put("drink1",drink1);
-                        order.put("drink2",drink2);
-                        order.put("drink3",drink3);
-                        order.put("drink4",drink4);
-                        order.put("drink5",drink5);
-                        order.put("drink6",drink6);
-                        order.put("time",time);
-                        count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                DataSnapshot dataSnapshot = task.getResult();
-                                long fireBaseCounter;
-                                long endcounter = (long) dataSnapshot.getValue();
-                                endcounter+=1;
-                                count.setValue(endcounter);
-                                fireBaseCounter = (long) dataSnapshot.getValue()+1;
-                                root.child("schedule_"+fireBaseCounter).setValue(order);
-                            }
-
-                        });
-
-
-                        Map<String,Object> history_data= new HashMap<>();
-                        history_data.put("hisdrink1",drink1);
-                        history_data.put("hisdrink2",drink2);
-                        history_data.put("hisdrink3",drink3);
-                        history_data.put("hisdrink4",drink4);
-                        history_data.put("hisdrink5",drink5);
-                        history_data.put("hisdrink6",drink6);
-                        history_data.put("time",nowDate);
-
-                        db.collection("history:"+currentuser.getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                int hiscounter = task.getResult().size();
-                                db.collection("history:"+currentuser.getEmail()).document(String.valueOf(hiscounter)).set(history_data);
-                            }
-                        });
-                        capacity.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                DataSnapshot dataSnapshot = task.getResult();
-                                long getdataml1 = (long) dataSnapshot.child("drink1").getValue();
-                                long getdataml2 = (long) dataSnapshot.child("drink2").getValue();
-                                long getdataml3 = (long) dataSnapshot.child("drink3").getValue();
-                                long getdataml4 = (long) dataSnapshot.child("drink4").getValue();
-                                long getdataml5 = (long) dataSnapshot.child("drink5").getValue();
-                                long getdataml6 = (long) dataSnapshot.child("drink6").getValue();
-                                int setdataml1 = (int) (getdataml1-drink1);
-                                int setdataml2 = (int) (getdataml2-drink2);
-                                int setdataml3 = (int) (getdataml3-drink3);
-                                int setdataml4 = (int) (getdataml4-drink4);
-                                int setdataml5 = (int) (getdataml5-drink5);
-                                int setdataml6 = (int) (getdataml6-drink6);
-
-                                HashMap<String,Object> ml = new HashMap<>();
-                                ml.put("drink1",setdataml1);
-                                ml.put("drink2",setdataml2);
-                                ml.put("drink3",setdataml3);
-                                ml.put("drink4",setdataml4);
-                                ml.put("drink5",setdataml5);
-                                ml.put("drink6",setdataml6);
-                                capacity.setValue(ml).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(history.this);
+                        alert.setTitle("製作飲料")
+                                .setMessage("飲料1: "+drink1+"\n"+"飲料2: "+drink2+"\n"+"飲料3: "+drink3+"\n"+"飲料4: "+drink4+"\n"+"飲料5: "+drink5+"\n"+"飲料6: "+drink6)
+                                .setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast toast = Toast.makeText(history.this, "輸入成功", Toast.LENGTH_SHORT);
-                                        toast.show();
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                                        FirebaseFirestore db;
+                                        FirebaseDatabase Db = FirebaseDatabase.getInstance();
+                                        DatabaseReference count = Db.getReference("count/end");
+                                        DatabaseReference root = Db.getReference("test");
+                                        DatabaseReference capacity = Db.getReference("capacity");
+                                        Boolean state = false;
+                                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                                        FirebaseUser currentuser = auth.getCurrentUser();
+                                        String Userid = currentuser.getEmail();
+                                        db=FirebaseFirestore.getInstance();
+
+
+                                        String time = nowDate;
+
+                                        HashMap<String,Object> order = new HashMap<>();
+                                        order.put("Userid",Userid);
+                                        order.put("state",state);
+                                        order.put("drink1",drink1);
+                                        order.put("drink2",drink2);
+                                        order.put("drink3",drink3);
+                                        order.put("drink4",drink4);
+                                        order.put("drink5",drink5);
+                                        order.put("drink6",drink6);
+                                        order.put("time",time);
+                                        count.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                DataSnapshot dataSnapshot = task.getResult();
+                                                long fireBaseCounter;
+                                                long endcounter = (long) dataSnapshot.getValue();
+                                                endcounter+=1;
+                                                count.setValue(endcounter);
+                                                fireBaseCounter = (long) dataSnapshot.getValue()+1;
+                                                root.child("schedule_"+fireBaseCounter).setValue(order);
+                                            }
+
+                                        });
+
+
+                                        Map<String,Object> history_data= new HashMap<>();
+                                        history_data.put("hisdrink1",drink1);
+                                        history_data.put("hisdrink2",drink2);
+                                        history_data.put("hisdrink3",drink3);
+                                        history_data.put("hisdrink4",drink4);
+                                        history_data.put("hisdrink5",drink5);
+                                        history_data.put("hisdrink6",drink6);
+                                        history_data.put("time",nowDate);
+
+                                        db.collection("history:"+currentuser.getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                int hiscounter = task.getResult().size();
+                                                db.collection("history:"+currentuser.getEmail()).document(String.valueOf(hiscounter)).set(history_data);
+                                            }
+                                        });
+                                        capacity.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                DataSnapshot dataSnapshot = task.getResult();
+                                                long getdataml1 = (long) dataSnapshot.child("drink1").getValue();
+                                                long getdataml2 = (long) dataSnapshot.child("drink2").getValue();
+                                                long getdataml3 = (long) dataSnapshot.child("drink3").getValue();
+                                                long getdataml4 = (long) dataSnapshot.child("drink4").getValue();
+                                                long getdataml5 = (long) dataSnapshot.child("drink5").getValue();
+                                                long getdataml6 = (long) dataSnapshot.child("drink6").getValue();
+                                                int setdataml1 = (int) (getdataml1-drink1);
+                                                int setdataml2 = (int) (getdataml2-drink2);
+                                                int setdataml3 = (int) (getdataml3-drink3);
+                                                int setdataml4 = (int) (getdataml4-drink4);
+                                                int setdataml5 = (int) (getdataml5-drink5);
+                                                int setdataml6 = (int) (getdataml6-drink6);
+
+                                                HashMap<String,Object> ml = new HashMap<>();
+                                                ml.put("drink1",setdataml1);
+                                                ml.put("drink2",setdataml2);
+                                                ml.put("drink3",setdataml3);
+                                                ml.put("drink4",setdataml4);
+                                                ml.put("drink5",setdataml5);
+                                                ml.put("drink6",setdataml6);
+                                                capacity.setValue(ml).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        Toast toast = Toast.makeText(history.this, "輸入成功", Toast.LENGTH_SHORT);
+                                                        toast.show();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                        sure2();
                                     }
                                 });
-                            }
-                        });
+                        alert.setIcon(R.drawable.icon);
+                        alert.setNegativeButton("取消" , null);
+                        alert.show();
+
+
                     }
                 });
 
@@ -238,6 +264,29 @@ public class history extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         adapter.startListening();
+    }
+
+    public void sure2(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(history.this);
+        builder.setTitle("上傳成功");  //設置標題
+        builder.setIcon(R.drawable.icon); //標題前面那個小圖示
+        builder.setMessage("是否前往首頁");
+        //確定 取消
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent();
+                intent.setClass(history.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.create().show();
     }
 
 }
