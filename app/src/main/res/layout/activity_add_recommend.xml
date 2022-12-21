@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/post_image"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_width="415dp"
+        android:layout_height="204dp"
         android:background="@drawable/add"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
         app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.644" />
+        app:layout_constraintVertical_bias="0.562" />
 
     <EditText
         android:id="@+id/newrename"
@@ -55,7 +55,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.37"
         tools:ignore="TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
 
     <TextView
@@ -69,7 +69,7 @@
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.823" />
+        app:layout_constraintVertical_bias="0.735" />
 
     <SeekBar
         android:id="@+id/newre4ml"
@@ -81,7 +81,7 @@
         app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.715" />
+        app:layout_constraintVertical_bias="0.63" />
 
     <TextView
         android:id="@+id/newText1"
@@ -94,7 +94,7 @@
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.539" />
+        app:layout_constraintVertical_bias="0.458" />
 
     <TextView
         android:id="@+id/newText4"
@@ -107,7 +107,7 @@
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.752" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <EditText
         android:id="@+id/newre5"
@@ -121,7 +121,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.817"
+        app:layout_constraintVertical_bias="0.737"
         tools:ignore="TouchTargetSizeCheck" />
 
     <SeekBar
@@ -134,7 +134,7 @@
         app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.787" />
+        app:layout_constraintVertical_bias="0.699" />
 
     <EditText
         android:id="@+id/newre6"
@@ -148,7 +148,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.891"
+        app:layout_constraintVertical_bias="0.81"
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
@@ -162,7 +162,7 @@
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61" />
+        app:layout_constraintVertical_bias="0.528" />
 
     <SeekBar
         android:id="@+id/newre6ml"
@@ -174,7 +174,7 @@
         app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.856" />
+        app:layout_constraintVertical_bias="0.768" />
 
     <EditText
         android:id="@+id/newre2"
@@ -188,7 +188,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.597"
+        app:layout_constraintVertical_bias="0.516"
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
@@ -203,7 +203,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.671"
+        app:layout_constraintVertical_bias="0.59"
         tools:ignore="TouchTargetSizeCheck" />
 
     <SeekBar
@@ -216,7 +216,7 @@
         app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.574" />
+        app:layout_constraintVertical_bias="0.493" />
 
     <EditText
         android:id="@+id/newre1"
@@ -230,7 +230,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.524"
+        app:layout_constraintVertical_bias="0.443"
         tools:ignore="TouchTargetSizeCheck" />
 
     <SeekBar
@@ -243,7 +243,7 @@
         app:layout_constraintHorizontal_bias="0.915"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.503" />
+        app:layout_constraintVertical_bias="0.425" />
 
     <TextView
         android:id="@+id/newText6"
@@ -256,7 +256,7 @@
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.894" />
+        app:layout_constraintVertical_bias="0.805" />
 
     <EditText
         android:id="@+id/newre4"
@@ -270,7 +270,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.744"
+        app:layout_constraintVertical_bias="0.663"
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
@@ -284,7 +284,7 @@
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.681" />
+        app:layout_constraintVertical_bias="0.596" />
 
     <ImageButton
         android:id="@+id/newsave"
@@ -298,6 +298,23 @@
         app:layout_constraintVertical_bias="0.005"
         app:srcCompat="@drawable/ic_baseline_save_24"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/edtbackground"
+        android:hint="介紹"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.974"
+        tools:ignore="TouchTargetSizeCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

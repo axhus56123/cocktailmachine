@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.format.DateFormat;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -197,6 +198,7 @@ public class PostAdpter extends RecyclerView.Adapter<PostAdpter.PostViewHolder> 
         TextView postUsername , postDate , postCaption , postLikes;
         ImageButton deleteBtn;
         View mView;
+
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
@@ -223,6 +225,7 @@ public class PostAdpter extends RecyclerView.Adapter<PostAdpter.PostViewHolder> 
         public void setPostCaption(String caption){
             postCaption = mView.findViewById(R.id.caption);
             postCaption.setText(caption);
+            postCaption.setMovementMethod(new ScrollingMovementMethod());
         }
 
     }

@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,7 +85,7 @@ public class AddPost extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         currentUserId = auth.getCurrentUser().getUid();
-
+        mCaptionText.setMovementMethod(new ScrollingMovementMethod());
 
         mPostImage.setOnClickListener(new View.OnClickListener() {
             @Override

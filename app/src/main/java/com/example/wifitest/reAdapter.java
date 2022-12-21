@@ -69,6 +69,7 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
         holder.Redrink4.setText(model.getRedrink4());
         holder.Redrink5.setText(model.getRedrink5());
         holder.Redrink6.setText(model.getRedrink6());
+        holder.about.setText(model.getAbout());
         holder.Redrink1ml.setText(model.getRedrink1ml());
         holder.Redrink2ml.setText(model.getRedrink2ml());
         holder.Redrink3ml.setText(model.getRedrink3ml());
@@ -233,7 +234,7 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
 
     class reHolder extends RecyclerView.ViewHolder {
 
-        TextView Redrink1,Redrink2,Redrink3,Redrink4,Redrink5,Redrink6;
+        TextView Redrink1,Redrink2,Redrink3,Redrink4,Redrink5,Redrink6,about;
         TextView Redrink1ml,Redrink2ml,Redrink3ml,Redrink4ml,Redrink5ml,Redrink6ml;
         TextView Rename;
         ImageView cup, Image;
@@ -246,6 +247,7 @@ public class reAdapter extends FirestoreRecyclerAdapter<reuser,reAdapter.reHolde
             Redrink4 = itemView.findViewById(R.id.redrink4);
             Redrink5 = itemView.findViewById(R.id.redrink5);
             Redrink6 = itemView.findViewById(R.id.redrink6);
+            about = itemView.findViewById(R.id.about);
             Redrink1ml = itemView.findViewById(R.id.redrinkml1);
             Redrink2ml = itemView.findViewById(R.id.redrinkml2);
             Redrink3ml = itemView.findViewById(R.id.redrinkml3);

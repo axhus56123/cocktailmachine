@@ -34,7 +34,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.util.HashMap;
 
 public class addRecommend extends AppCompatActivity {
-    private EditText newrename,newre1,newre2,newre3,newre4,newre5,newre6;
+    private EditText newrename,newre1,newre2,newre3,newre4,newre5,newre6,about;
     private SeekBar newre1ml,newre2ml,newre3ml,newre4ml,newre5ml,newre6ml;
     private TextView newml1,newml2,newml3,newml4,newml5,newml6;
     private ImageView mPostImage;
@@ -70,6 +70,7 @@ public class addRecommend extends AppCompatActivity {
         newre4 = findViewById(R.id.newre4);
         newre5 = findViewById(R.id.newre5);
         newre6 = findViewById(R.id.newre6);
+        about = findViewById(R.id.about);
         newre1ml = findViewById(R.id.newre1ml);
         newre2ml = findViewById(R.id.newre2ml);
         newre3ml = findViewById(R.id.newre3ml);
@@ -227,6 +228,7 @@ public class addRecommend extends AppCompatActivity {
                 String lovedrink4 = newre4.getText().toString();
                 String lovedrink5 = newre5.getText().toString();
                 String lovedrink6 = newre6.getText().toString();
+                String reabout = about.getText().toString();
                 String lovedrink1ml = String.valueOf(newre1ml.getProgress()/10*10);
                 String lovedrink2ml = String.valueOf(newre2ml.getProgress()/10*10);
                 String lovedrink3ml = String.valueOf(newre3ml.getProgress()/10*10);
@@ -236,6 +238,7 @@ public class addRecommend extends AppCompatActivity {
                 HashMap<String, Object> reMap = new HashMap<>();
 
                 reMap.put("Rename", lovename);
+                reMap.put("About",reabout);
                 reMap.put("Redrink1", lovedrink1);
                 reMap.put("Redrink1ml", lovedrink1ml);
                 reMap.put("Redrink2", lovedrink2);
