@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="帳號資訊"
-            android:textColor="#3F51B5"
+            android:textColor="#FFEB3B"
             android:textSize="34sp"
             android:textStyle="bold" />
 
@@ -65,18 +65,20 @@
             android:id="@+id/fixName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edtbackground"
             android:ems="10"
             android:hint="修改名子"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            />
+            android:textColorHint="@color/black" />
 
         <Button
             android:id="@+id/btnFix"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="確認修改" />
+            android:background="@drawable/btn_ori"
+            android:text="確認修改"
+            android:textSize="18sp" />
 
         <Space
             android:layout_width="match_parent"
@@ -86,8 +88,9 @@
             android:id="@+id/btnlogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple_200"
-            android:text="登出" />
+            android:background="@drawable/btnpur"
+            android:text="登出"
+            android:textSize="18sp" />
 
 
     </LinearLayout>

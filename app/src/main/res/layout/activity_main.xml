@@ -13,19 +13,21 @@
         android:id="@+id/button01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="576dp"
         android:background="@drawable/btnpink"
         android:text="Drink"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.168" />
 
     <TextView
         android:id="@+id/text247"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="135dp"
+        android:fontFamily="sans-serif"
         android:text="主頁"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
@@ -83,6 +85,7 @@
         android:layout_width="195dp"
         android:layout_height="60dp"
         android:background="@drawable/button_rounde"
+        android:drawableLeft="@drawable/ic_baseline_menu_book_24"
         android:text="推薦飲料"
         android:textColor="#000000"
         android:textSize="24sp"

@@ -5,7 +5,7 @@
     android:id="@+id/User"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/bg3"
     tools:context=".bottomOption">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="選項"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +68,7 @@
         android:layout_width="195dp"
         android:layout_height="60dp"
         android:background="@drawable/button_rounde"
+        android:drawableLeft="@drawable/ic_baseline_search_24"
         android:text="好友"
         android:textColor="#000000"
         android:textSize="24sp"
@@ -82,6 +83,7 @@
         android:layout_width="195dp"
         android:layout_height="60dp"
         android:background="@drawable/button_rounde"
+        android:drawableLeft="@drawable/ic_baseline_post_add_24"
         android:text="論壇"
         android:textColor="#000000"
         android:textSize="24sp"
@@ -110,6 +112,7 @@
         android:layout_width="195dp"
         android:layout_height="60dp"
         android:background="@drawable/button_rounde"
+        android:drawableLeft="@drawable/ic_baseline_build_24"
         android:text="使用情況"
         android:textColor="#000000"
         android:textSize="24sp"

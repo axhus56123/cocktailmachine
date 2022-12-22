@@ -3,6 +3,7 @@ package com.example.wifitest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
 
     FirebaseAuth mAuth;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +37,10 @@ public class Login extends AppCompatActivity {
         loacc = findViewById(R.id.etRegisterEmail);
         lopass = findViewById(R.id.etRegisterpass);
         create = findViewById(R.id.textViewlogin);
-
-
         tv8 = findViewById(R.id.tv8);
+
+
+
 
         mAuth = FirebaseAuth.getInstance();
 
