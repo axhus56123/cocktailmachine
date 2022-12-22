@@ -65,7 +65,7 @@
             android:id="@+id/fixName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edtbackground"
+            android:background="@drawable/edtbackground2"
             android:ems="10"
             android:hint="修改名子"
             android:inputType="textPersonName"
