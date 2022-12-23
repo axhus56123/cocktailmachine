@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background2"
+    android:background="@drawable/bg5"
     tools:context=".drink">
 
  "<!--"<EditText
@@ -226,20 +226,20 @@
 
     <TextView
         android:id="@+id/text247"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="製作飲料"
-        android:textColor="#FFEB3B"
+        android:text="開始調飲"
+        android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.059" />
+        app:layout_constraintVertical_bias="0.004" />
 
-   <SeekBar
+    <SeekBar
        android:id="@+id/drinkinput4"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
