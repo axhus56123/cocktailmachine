@@ -84,7 +84,7 @@
         android:background="@drawable/round_border"
         android:drawableStart="@drawable/ic_baseline_drive_file_rename_outline_24"
         android:ems="10"
-        android:hint="名字"
+        android:hint="名稱"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

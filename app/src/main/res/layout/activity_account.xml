@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edtbackground2"
             android:ems="10"
-            android:hint="修改名子"
+            android:hint="修改名稱"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColorHint="@color/black" />
