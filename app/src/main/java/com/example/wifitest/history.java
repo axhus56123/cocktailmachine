@@ -134,7 +134,6 @@ public class history extends AppCompatActivity {
                                         String Userid = currentuser.getEmail();
                                         db=FirebaseFirestore.getInstance();
 
-
                                         String time = nowDate;
 
                                         HashMap<String,Object> order = new HashMap<>();
