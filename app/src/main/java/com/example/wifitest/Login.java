@@ -53,18 +53,21 @@ public class Login extends AppCompatActivity {
                 if(email.isEmpty()||password.isEmpty()){
                     outNull();
                 }
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(context, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Intent intent = new Intent();
-                            intent.setClass(Login.this,MainActivity.class);
-                            startActivity(intent);
-                        }else{
-                            tv8.setText("登入失敗"+task.getException());
+                else{
+                    mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(context, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Intent intent = new Intent();
+                                intent.setClass(Login.this,MainActivity.class);
+                                startActivity(intent);
+                            }else{
+                                tv8.setText("登入失敗"+task.getException());
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
             }
         });
         create.setOnClickListener(new View.OnClickListener() {
